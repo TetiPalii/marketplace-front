@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  backend:
+    image: andriiiiiko/marketplace-backend:latest
+    container_name: backend
+    ports:
+      - "9999:80"
+    env_file:
+      - variables.env
+  
+  postgres:
+    image: 'postgres:15-alpine'
+    container_name: database
+    env_file:
+      - variables.env
+    ports:
+      - '5432:5432'
