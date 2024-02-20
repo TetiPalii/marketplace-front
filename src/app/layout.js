@@ -15,7 +15,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-gradient-to-r from-gradientPink to-gradientPink2 ...">
         <Header/>
+    <main>
         {children}
+</main>
+        <Footer/>
+
       </body>
       
     </html>
