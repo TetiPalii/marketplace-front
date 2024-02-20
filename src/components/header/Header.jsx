@@ -1,3 +1,3 @@
 export const Header = () => {
-    return <p className="flex bg-slate-500">Header</p>
+    return <header className="bg-darkBlue text-lightPink"> Header </header>;
 }
