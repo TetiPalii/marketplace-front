@@ -12,6 +12,11 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      screens: {
+        mobile: "320px",
+        tablet: "768px",
+        deskttop: "1440px", // => @media (min-width: 1440px) { ... }
+      },
     },
     colors: {
       darkBlue: "#161C2A",
@@ -29,11 +34,6 @@ module.exports = {
       gradientBlue: "#8A97FF",
       gradientBlue2: "#66FFFF",
       gradientBlue3: "#171BB5",
-    },
-    screens: {
-      mobile: "320px",
-      tablet: "768px",
-      deskttop: "1440px", // => @media (min-width: 1440px) { ... }
     },
   },
   plugins: [],
