@@ -7,7 +7,6 @@ import Image from "next/image";
 import { FlexContainer } from "../FlexContainer/FlexContainer";
 import CartIcon from "../../../public/icons/CartIcon";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
-import { set } from "react-hook-form";
 import { MobileMenu } from "../mobileMenu/MobileMenu";
 
 export const Header = () => {
