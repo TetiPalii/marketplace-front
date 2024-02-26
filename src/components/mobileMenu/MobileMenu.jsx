@@ -1,5 +1,5 @@
-'use client'
-import React, { useState } from "react";
+"use client";
+import React from "react";
 import Image from "next/image";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
 import CloseIcon from "../../../public/icons/CloseIcon";
@@ -7,10 +7,8 @@ import { MaxWidthWrapper } from "../MaxWidthWrapperr/MaxWidthWrapper";
 import { FlexContainer } from "../FlexContainer/FlexContainer";
 import Link from "next/link";
 import rocket from "../../../public/images/rocket-iso-color.png";
-import { RegisterModal } from "../RegisterModal/RegisterModal";
 
 export const MobileMenu = ({ setMenuOpen }) => {
-    const [isModalOpen, setModalOpen] = useState(false);
   return (
     <div className="w-full top-0 left-0 md:hidden fixed h-screen z-[300] bg-darkBlue text-[#fff] transition duration-150 easy-in-out ">
       <MaxWidthWrapper>
@@ -41,19 +39,13 @@ export const MobileMenu = ({ setMenuOpen }) => {
         }
       >
         <Image src={rocket} alt="rocket" width="40" height="40" />
-        <Link href="#" className="text-base">
+        <Link href="/login/?modal=true" className="text-base">
           Увійти
         </Link>
-        <Link href="#" className="text-base"  onClick={() => setModalOpen(true)}>
+        <Link href="/register/?modal=true" className="text-base">
           Зареєструватись
         </Link>
       </FlexContainer>
-      {isModalOpen && (
-        <RegisterModal
-          onShow={() => setModalOpen(true)}
-          onClose={() => setModalOpen(false)}
-        />
-      )}
     </div>
   );
 };
