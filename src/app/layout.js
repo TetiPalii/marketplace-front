@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Header } from "@/components/Header/Header";
+import { Header } from "@/components/header/Header.jsx";
 
 export const metadata = {
   title: {
