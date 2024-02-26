@@ -7,11 +7,10 @@ import Image from "next/image";
 import { FlexContainer } from "../FlexContainer/FlexContainer";
 import CartIcon from "../../../public/icons/CartIcon";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
-import { set } from "react-hook-form";
 import { MobileMenu } from "../mobileMenu/MobileMenu";
+// import { set } from "react-hook-form";
 
-
-export const Header = () => {
+export default function Header () {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -49,8 +48,4 @@ export const Header = () => {
     </>
   );
 };
-
-//
-
-// <button onClick={() => setModalOpen(true)}>Open</button>
 
