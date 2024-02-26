@@ -7,9 +7,8 @@ import Image from "next/image";
 import { FlexContainer } from "../FlexContainer/FlexContainer";
 import CartIcon from "../../../public/icons/CartIcon";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
-import { set } from "react-hook-form";
+// import { set } from "react-hook-form";
 import { MobileMenu } from "../mobileMenu/MobileMenu";
-
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,13 +38,17 @@ export const Header = () => {
               src="/images/Logo-moile-sm.png"
               alt="Logo"
             />
-            {!menuOpen &&
-              <CartIcon width="24" height="24" fill="#fff" />
-            }
+            {!menuOpen && <CartIcon width="24" height="24" fill="#fff" />}
           </FlexContainer>
         </MaxWidthWrapper>
       </header>
-          {menuOpen && <MobileMenu setMenuOpen={ ()=>{setMenuOpen(false)}} />}
+      {menuOpen && (
+        <MobileMenu
+          setMenuOpen={() => {
+            setMenuOpen(false);
+          }}
+        />
+      )}
     </>
   );
 };
@@ -53,4 +56,3 @@ export const Header = () => {
 //
 
 // <button onClick={() => setModalOpen(true)}>Open</button>
-

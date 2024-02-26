@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { ReactPortal } from "./ReactPortal/ReactPortal";
 
 export const BaseModal = ({ onShow = true, children, onClose }) => {
   const modalContainerRef = useRef(null);
@@ -32,12 +33,18 @@ export const BaseModal = ({ onShow = true, children, onClose }) => {
   }, [onShow, onClose]);
 
   return (
-    <>
-      <div onClick={onClose} ref={backdropRef}>
-        <div onClick={(e) => e.stopPropagation()} ref={modalContainerRef}>
-          {children}
+    <ReactPortal wrapperId="react-portal-modal-container">
+      <>
+        <div
+          onClick={onClose}
+          ref={backdropRef}
+          className="fixed top-0 left-0 z-[1200]"
+        >
+          <div onClick={(e) => e.stopPropagation()} ref={modalContainerRef}>
+            {children}
+          </div>
         </div>
-      </div>
-    </>
+      </>
+    </ReactPortal>
   );
 };
