@@ -18,7 +18,7 @@ export const MobileMenu = ({ setMenuOpen }) => {
           <Image
             width="125"
             height="24"
-            src="/images/Logo-moile-sm.png"
+            src="/images/logoMobile1.png"
             alt="Logo"
           />
           <IconWrapper
