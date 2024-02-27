@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
@@ -10,7 +10,7 @@ import rocket from "../../../public/images/rocket-iso-color.png";
 import { RegisterModal } from "../RegisterModal/RegisterModal";
 
 export const MobileMenu = ({ setMenuOpen }) => {
-    const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   return (
     <div className="w-full top-0 left-0 md:hidden fixed h-screen z-[300] bg-darkBlue text-[#fff] transition duration-150 easy-in-out ">
       <MaxWidthWrapper>
@@ -44,7 +44,7 @@ export const MobileMenu = ({ setMenuOpen }) => {
         <Link href="#" className="text-base">
           Увійти
         </Link>
-        <Link href="#" className="text-base"  onClick={() => setModalOpen(true)}>
+        <Link href="#" className="text-base" onClick={() => setModalOpen(true)}>
           Зареєструватись
         </Link>
       </FlexContainer>

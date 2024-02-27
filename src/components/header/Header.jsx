@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState } from "react";
 import { MaxWidthWrapper } from "../MaxWidthWrapperr/MaxWidthWrapper";
@@ -8,6 +8,8 @@ import { FlexContainer } from "../FlexContainer/FlexContainer";
 import CartIcon from "../../../public/icons/CartIcon";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
 import { MobileMenu } from "../mobileMenu/MobileMenu";
+import CabinetIcon from "../../../public/icons/CabinetIcon";
+import LikeIcon from "../../../public/icons/LikeIcon";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,10 +36,40 @@ export const Header = () => {
             <Image
               width="125"
               height="24"
-              src="/images/Logo-moile-sm.png"
+              src="/images/logoMobile1.png"
               alt="Logo"
+              className="block md:hidden "
             />
-            {!menuOpen && <CartIcon width="24" height="24" fill="#fff" />}
+            <Image
+              width="243"
+              height="46"
+              src="/images/logoDesktop1.png"
+              alt="logo"
+              className="hidden md:block "
+            />
+            <FlexContainer>
+              <IconWrapper className="md:mr-11">
+                <CabinetIcon
+                  width="24"
+                  height="24"
+                  fill="#fff"
+                  className="hidden md:block"
+                />
+              </IconWrapper>
+              {!menuOpen && (
+                <IconWrapper className="md:mr-6">
+                  <CartIcon width="24" height="24" fill="#fff" />
+                </IconWrapper>
+              )}
+              <IconWrapper>
+                <LikeIcon
+                  width="24"
+                  height="24"
+                  fill="#fff"
+                  className="hidden md:block"
+                />
+              </IconWrapper>
+            </FlexContainer>
           </FlexContainer>
         </MaxWidthWrapper>
       </header>
@@ -51,3 +83,4 @@ export const Header = () => {
     </>
   );
 };
+
