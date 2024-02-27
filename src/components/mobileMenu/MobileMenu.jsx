@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import Image from "next/image";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
 import CloseIcon from "../../../public/icons/CloseIcon";
