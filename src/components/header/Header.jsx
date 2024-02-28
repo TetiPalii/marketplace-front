@@ -1,24 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import { MaxWidthWrapper } from "../MaxWidthWrapperr/MaxWidthWrapper";
 import BurgerIcon from "../../../public/icons/BurgerIcon";
-import Image from "next/image";
 import { FlexContainer } from "../FlexContainer/FlexContainer";
 import CartIcon from "../../../public/icons/CartIcon";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
 import { MobileMenu } from "../mobileMenu/MobileMenu";
 import CabinetIcon from "../../../public/icons/CabinetIcon";
 import LikeIcon from "../../../public/icons/LikeIcon";
+import LogoMobile from "../../../public/icons/LogoMobile";
+import LogoDesktop from "../../../public/icons/LogoDesktop";
+import Link from "next/link";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
-      <header className="w-full bg-darkBlue text-lightPink ">
-        <MaxWidthWrapper>
-          <FlexContainer>
+      <header className="w-full bg-darkBlue text-lightPink px-6 py-4 md:py-3">
+        <div className="mx-auto w-full">
+          <FlexContainer className={"justify-center"}>
             {!menuOpen && (
               <IconWrapper
                 setMenuOpen={() => {
@@ -33,20 +34,12 @@ export const Header = () => {
                 />
               </IconWrapper>
             )}
-            <Image
-              width="125"
-              height="24"
-              src="/images/logoMobile1.png"
-              alt="Logo"
-              className="block md:hidden "
-            />
-            <Image
-              width="243"
-              height="46"
-              src="/images/logoDesktop1.png"
-              alt="logo"
-              className="hidden md:block "
-            />
+            <Link href={"/"} className="mx-auto md:mx-0 ">
+              <LogoMobile className={"md:hidden"} />
+            </Link>
+            <Link href={"/"}>
+              <LogoDesktop className={"hidden md:block"} />
+            </Link>
             <FlexContainer>
               <IconWrapper className="md:mr-11">
                 <CabinetIcon
@@ -71,7 +64,7 @@ export const Header = () => {
               </IconWrapper>
             </FlexContainer>
           </FlexContainer>
-        </MaxWidthWrapper>
+        </div>
       </header>
       {menuOpen && (
         <MobileMenu
@@ -83,5 +76,3 @@ export const Header = () => {
     </>
   );
 };
-
-
