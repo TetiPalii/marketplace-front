@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import CloseIcon from "../../../public/icons/CloseIcon";
 import { ReactPortal } from "./ReactPortal/ReactPortal";
 
 export const BaseModal = ({ onShow = true, children }) => {
@@ -40,11 +41,19 @@ export const BaseModal = ({ onShow = true, children }) => {
         <div
           onClick={router.back}
           ref={backdropRef}
-          className="absolute top-0 left-0 z-[1200]"
+          className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1000]"
         >
-          <div onClick={(e) => e.stopPropagation()} ref={modalContainerRef}>
-            <button type="button" onClick={router.back}>
-              Close
+          <div
+            onClick={(e) => e.stopPropagation()}
+            ref={modalContainerRef}
+            className="absolute top-1/2 left-1/2 sm:min-w-[379px] w-full max-h-[90vh] overflow-y-scroll translate-x-[-50%] translate-y-[-50%] pt-[30px] px-[30px] pb-[108px] bg-darkBlue rounded-[28px]"
+          >
+            <button
+              type="button"
+              onClick={router.back}
+              className="absolute top-[28px] right-[28px] w-[24px] h-[24px] p-0 bg-[transparent]"
+            >
+              <CloseIcon className="w-[100%] h-[100%] fill-[#fff]" />
             </button>
             {children}
           </div>
