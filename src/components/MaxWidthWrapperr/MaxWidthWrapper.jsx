@@ -4,7 +4,7 @@ export const MaxWidthWrapper = ({ className, children }) => {
   return (
     <div
       className={cn(
-        "mx-auto w-full px-6  py-2 md:px-72",
+        "w-full px-6 py-4 md:py-3", //padding x md ??
         className
       )}
     >

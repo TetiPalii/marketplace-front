@@ -5,10 +5,10 @@ import rocket from "../../../public/images/rocket-iso-color.png";
 import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 
-export const CodeModal = ({ onClose, onShow }) => {
+export const CodeModal = ({ onShow }) => {
   return (
     <>
-      <BaseModal onClose={onClose} onShow={onShow}>
+      <BaseModal onShow={onShow}>
         <div>
           <LogoIcon />
           <Image

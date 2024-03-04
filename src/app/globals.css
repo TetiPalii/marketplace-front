@@ -40,6 +40,8 @@ color: red;
         color: black;
 
     }
-   
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+        }
 }
-

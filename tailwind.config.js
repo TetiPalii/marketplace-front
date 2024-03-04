@@ -11,6 +11,7 @@ module.exports = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradientBorder": "linear-gradient(from #161C2A via #990078 to #161C2A ",
       },
       screens: {
         mobile: "320px",
