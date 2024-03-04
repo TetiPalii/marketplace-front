@@ -7,6 +7,7 @@ import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import { useForm } from "react-hook-form";
 import CloseIcon from "../../../public/icons/CloseIcon";
+import Link from "next/link";
 
 export const RegisterModal = ({ onShow }) => {
   const { register, handleSubmit } = useForm({
@@ -15,12 +16,17 @@ export const RegisterModal = ({ onShow }) => {
       phone: "",
     },
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    window.location.href = "/verification/?modal=true";
+  };
 
   return (
     <>
       <BaseModal onShow={onShow}>
-        <LogoIcon className="w-[291px] h-[72px] mt-[12px] mb-[40px] mx-auto" />
+        <Link href="/" className="flex justify-center">
+          <LogoIcon className="w-[291px] h-[72px] mt-[12px] mb-[40px]" />
+        </Link>
         <ul className="flex gap-[17px] justify-center items-center mb-[16px]">
           <li>
             <Image
@@ -36,8 +42,11 @@ export const RegisterModal = ({ onShow }) => {
           </li>
         </ul>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative flex flex-col gap-[8px] mb-[24px]">
-            <label htmlFor="user-name" className="text-[12px] text-[#fff]">
+          <div className="relative mb-[24px]">
+            <label
+              htmlFor="user-name"
+              className="block mb-[8px] text-[12px] text-[#fff]"
+            >
               Ім’я
             </label>
             <input
