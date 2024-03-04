@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import ViberIcon from "../../../public/icons/ViberIcon";
-import InstagramIcon from "../../../public/icons/InstagramIcon";
-import FacebookIcon from "../../../public/icons/FacebookIcon";
-import TelegramIcon from "../../../public/icons/TelegramIcon";
+import Image from "next/image";
+import facebook from "../../../public/images/facebook.png";
+import instagram from "../../../public/images/instagram.png";
+import viber from "../../../public/images/viber.png";
+import telegram from "../../../public/images/telegram.png";
 
 export const Footer = () => {
   return (
@@ -52,24 +53,41 @@ export const Footer = () => {
         <h2 className="text-[#656E81] text-xs mb-7">Ми у соціальних мережах</h2>
           <div className="flex justify-between ">
             <ul className=" list-none"></ul>
-             <li className="list-none mr-7">
+            <li className="list-none mr-7">
                <a href="">
-                 <TelegramIcon/>
+               <Image
+                 src={telegram}
+                 width={40}
+                 height={40}
+                 alt="Picture of the telegram"/>
                </a>
               </li>
               <li className="list-none mr-7">
                  <a href="">
-                   <FacebookIcon/>
+                 <Image
+                 src={facebook}
+                 width={40}
+                 height={40}
+                 alt="Picture of the facebook"/>
                  </a>
               </li>
               <li className="list-none mr-7">
                  <a href="">
-                   <InstagramIcon/>
+                   <Image
+                    src={instagram}
+                    width={40}
+                    height={40}
+                    alt="Picture of the instagram"/>
+                   
                  </a>
               </li>
                <li className="list-none ">
                   <a href="">
-                    <ViberIcon/>
+                  <Image
+                 src={viber}
+                 width={40}
+                 height={40}
+                 alt="Picture of the viber"/>
                  </a>
                </li>
           </div>
