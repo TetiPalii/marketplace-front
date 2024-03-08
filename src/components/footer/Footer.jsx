@@ -6,16 +6,12 @@ import instagram from "../../../public/images/instagram.png";
 import viber from "../../../public/images/viber.png";
 import telegram from "../../../public/images/telegram.png";
 
-
-
-
-
 export const Footer = () => {
   return (
-    <div className=" w-1920 h-624  pt-16  pb-14 bg-darkBlue ">
-    <div className="container flex mx-auto  w-1440 h-624  columns-3 justify-between mb-20 ">
+    <div className=" w-1920 h-624  pt-16  pb-14 pl-20 pr-15 bg-darkBlue">
+    <div className="container flex w-1448 h-624  columns-3 justify-between mb-20 ">
      <div className="flex-basis: 20rem gap-y-12">
-      <ul className="text-[#FFF] text-xl list-none mb-12">Інформація про компанію</ul>
+      <ul className="text-[#FFF] text-xl list-none mb-12 border-b-[radial-gradient] from-purple-600 via-pink-600 to-blue-600">Інформація про компанію</ul>
       <li className="text-[#FFF] text-base list-none mb-12">
         <a href="">Умови використання сайту</a>
       </li>
@@ -30,7 +26,7 @@ export const Footer = () => {
       </li>
       </div>
       <div className="flex-basis: 14rem">
-      <ul className="text-[#FFF] text-xl list-none mb-12">Допомога</ul>
+      <ul className="text-[#FFF] text-xl list-none mb-12 border-b-indigo-500">Допомога</ul>
       <li className="text-[#FFF] text-base list-none mb-12">
         <a href="">Доставка та оплата</a>
       </li>
@@ -39,7 +35,7 @@ export const Footer = () => {
       </li>
       </div>
       <div className="flex-basis: 14rem">
-      <ul className="text-[#FFF] text-xl list-none list-none mb-12">Партнерам</ul>
+      <ul className="text-[#FFF] text-xl list-none  mb-12 border-b-indigo-500">Партнерам</ul>
       <li className="text-[#FFF] text-base list-none mb-12">
         <a href="">Продавати на Нечупарі</a>
       </li>
@@ -52,7 +48,7 @@ export const Footer = () => {
       </div>
       
     </div>
-    <div className="flex justify-between">
+    <div className="flex justify-between w-1448 ">
       <div className="w-298 h-118">
         <h2 className="text-[#656E81] text-base mb-7">Ми у соціальних мережах</h2>
           <div className="flex justify-between ">
@@ -97,8 +93,7 @@ export const Footer = () => {
           </div>
         </div>
       <div>
-      <button class="button" className="text-[#656E81] text-base" >Вийти із аккаунта</button>
-      </div>
+      <button className="button text-[#656E81] text-base">Вийти з аккаунта</button>      </div>
     </div>
     </div>
   );
