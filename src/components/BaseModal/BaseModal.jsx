@@ -41,7 +41,7 @@ export const BaseModal = ({ onShow = true, children }) => {
         <div
           onClick={router.back}
           ref={backdropRef}
-          className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1000]"
+          className="fixed top-0 left-0 w-[95%] h-screen flex justify-center items-center z-[1000]"
         >
           <div
             onClick={(e) => e.stopPropagation()}
