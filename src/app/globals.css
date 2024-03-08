@@ -1,20 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-start-rgb: 0, 0, 0;
-        --background-end-rgb: 0, 0, 0;
-    }
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
 }
 
 /* 
@@ -29,19 +29,84 @@ color: red;
 } */
 
 @layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
 @layer base {
-    body {
-        font-family: "Montserrat", sans-serif;
-        color: black;
+  body {
+    font-family: "Montserrat", sans-serif;
+    color: black;
+  }
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+  }
 
-    }
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-        }
+  .auth-input {
+    border: 1px solid #a9a9a9;
+    border-radius: 16px;
+    width: 100%;
+    height: 44px;
+    background-color: transparent;
+    outline: none;
+    font-size: 12px;
+    color: #a9a9a9;
+    padding: 14px 15px;
+
+    transition: border-color 250ms cubic-bezier(0.165, 0.84, 0.44, 1.03);
+  }
+
+  .auth-input:is(:hover, :focus) {
+    border-color: #fff;
+  }
+
+  .submit-btn {
+    display: block;
+    margin-bottom: 192px;
+    border-radius: 12px;
+    border: none;
+    width: 100%;
+    padding: 16px 36px;
+    height: 52px;
+    font-size: 16px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    background-color: #990078;
+
+    font-size: 16px;
+    color: #fff;
+    transition: background 300ms cubic-bezier(0.165, 0.84, 0.44, 1.03);
+  }
+
+  .submit-btn:is(:hover, :focus) {
+    background: radial-gradient(at center, #ff678b, #990078);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 16px;
+    color: #fff;
+  }
+
+  .checkbox-label svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+  }
 }
