@@ -1,5 +1,5 @@
-import "./globals.css";
-import { Header } from "@/components/header/Header.jsx";
+import "../styles/globals.css";
+import { Header} from "@/components/header/Header.jsx";
 
 export const metadata = {
   title: {
@@ -12,12 +12,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-gradient-to-r from-[#24c6dc] to-[#514a9d] ...">
+      <body >
         <Header />
         <main>{children}</main>
         {/* <Footer/> */}
       </body>
     </html>
   );
-  //from-[#80abf0] via-[#7a678675] via-90% to-[#d5c7e3] ...">
+
 }
+//className="bg-gradient-to-r from-[#24c6dc] to-[#514a9d] ..."
+  //from-[#80abf0] via-[#7a678675] via-90% to-[#d5c7e3] ...">
