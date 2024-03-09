@@ -7,13 +7,33 @@ import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import QuestionIcon from "../../../public/icons/QuestionIcon";
+import clsx from "clsx";
+
+const varificationSchema = z
+  .object({
+    code: z
+      .string()
+      .min(4, { message: "Код має містити мінімум 4 цифри" })
+      .max(4, { message: "Код має містити максимум 4 цифри" })
+      .regex(/^\d+$/, { message: "Код має містити тільки цифри" }),
+  })
+  .required();
 
 export const CodeModal = ({ onShow }) => {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       code: "",
     },
+    resolver: zodResolver(varificationSchema),
   });
+
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -39,7 +59,7 @@ export const CodeModal = ({ onShow }) => {
             </li>
           </ul>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-[56px]">
+            <div className="mb-[56px] h-[84px]">
               <label
                 htmlFor="user-code"
                 className="block mb-[8px] text-[12px] text-[#fff]"
@@ -50,10 +70,30 @@ export const CodeModal = ({ onShow }) => {
                 type="text"
                 id="user-code"
                 {...register("code")}
-                className="auth-input"
+                className={clsx("auth-input", {
+                  ["auth-input-error"]: errors.phone,
+                })}
               />
+              {errors.code?.message && (
+                <p className="auth-error-message">
+                  <span>
+                    <QuestionIcon
+                      width={8}
+                      height={8}
+                      className="fill-[#fff]"
+                    />
+                  </span>
+                  {errors.code?.message}
+                </p>
+              )}
             </div>
-            <button type="submit" className="submit-btn mb-[88px]">
+            <button
+              type="submit"
+              className={clsx(
+                "submit-btn mb-[88px]",
+                errors && "submit-btn-disabled"
+              )}
+            >
               Увійти
             </button>
           </form>

@@ -11,13 +11,31 @@ import { useState } from "react";
 import CheckedCheckboxIcon from "../../../public/icons/CheckedCheckboxIcon";
 import Link from "next/link";
 import { useInputMask } from "@code-forge/react-input-mask";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import QuestionIcon from "../../../public/icons/QuestionIcon";
+import clsx from "clsx";
+
+const loginSchema = z
+  .object({
+    phone: z.string().regex(/^\+38 \(0\d{2}\)\d{3}-\d{2}-\d{2}$/, {
+      message: "Телефон може містити лише цифри",
+    }),
+  })
+  .required();
 
 export const LoginModal = ({ onShow }) => {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       phone: "",
     },
+    resolver: zodResolver(loginSchema),
   });
+
   const onSubmit = (data) => {
     console.log(data);
     window.location.href = "/verification/?modal=true";
@@ -51,7 +69,7 @@ export const LoginModal = ({ onShow }) => {
           </li>
         </ul>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-[56px]">
+          <div className="mb-[56px] h-[84px]">
             <label
               htmlFor="user-phone"
               className="block mb-[8px] text-[12px] text-[#fff]"
@@ -64,10 +82,26 @@ export const LoginModal = ({ onShow }) => {
               placeholder="+38 (0__)___-__-__"
               {...register("phone")}
               {...getInputProps()}
-              className="auth-input"
+              className={clsx("auth-input", {
+                ["auth-input-error"]: errors.phone,
+              })}
             />
+            {errors.phone?.message && (
+              <p className="auth-error-message">
+                <span>
+                  <QuestionIcon width={8} height={8} className="fill-[#fff]" />
+                </span>
+                {errors.phone?.message}
+              </p>
+            )}
           </div>
-          <button type="submit" className="submit-btn mb-[32px]">
+          <button
+            type="submit"
+            className={clsx(
+              "submit-btn mb-[32px]",
+              errors && "submit-btn-disabled"
+            )}
+          >
             Далі
           </button>
           <div className="mb-[136px]">
