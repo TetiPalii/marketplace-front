@@ -57,12 +57,11 @@ color: red;
     color: #a9a9a9;
     padding: 14px 15px;
 
-    transition: border-color color 250ms cubic-bezier(0.165, 0.84, 0.44, 1.03);
+    transition: border-color 250ms cubic-bezier(0.165, 0.84, 0.44, 1.03);
   }
 
   .auth-input:is(:hover, :focus) {
     border-color: #fff;
-    color: #fff;
   }
 
   .submit-btn {
@@ -79,6 +78,38 @@ color: red;
 
     font-size: 16px;
     color: #fff;
+    transition: background 300ms cubic-bezier(0.165, 0.84, 0.44, 1.03);
+  }
+
+  .submit-btn:is(:hover, :focus) {
+    background: radial-gradient(at center, #ff678b, #990078);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 16px;
+    color: #fff;
+  }
+
+  .checkbox-label svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
   }
 
   .element{
