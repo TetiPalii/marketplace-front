@@ -6,7 +6,6 @@ import rocket from "../../../public/images/rocket-iso-color.png";
 import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import Link from "next/link";
-import CloseIcon from "../../../public/icons/CloseIcon";
 import { useForm } from "react-hook-form";
 
 export const CodeModal = ({ onShow }) => {
@@ -40,7 +39,7 @@ export const CodeModal = ({ onShow }) => {
             </li>
           </ul>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="relative mb-[56px]">
+            <div className="mb-[56px]">
               <label
                 htmlFor="user-code"
                 className="block mb-[8px] text-[12px] text-[#fff]"
@@ -53,12 +52,6 @@ export const CodeModal = ({ onShow }) => {
                 {...register("code")}
                 className="auth-input"
               />
-              <button
-                type="button"
-                className="absolute top-[10px] right-[10px] translate-y-[100%] w-[24px] h-[24px] p-0 bg-[transparent]"
-              >
-                <CloseIcon className="w-[100%] h-[100%] fill-[#fff]" />
-              </button>
             </div>
             <button type="submit" className="submit-btn mb-[88px]">
               Увійти

@@ -6,11 +6,11 @@ import rocket from "../../../public/images/rocket-iso-color.png";
 import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import { useForm } from "react-hook-form";
-import CloseIcon from "../../../public/icons/CloseIcon";
 import EmptyCheckboxIcon from "../../../public/icons/EmptyCheckboxIcon";
 import { useState } from "react";
 import CheckedCheckboxIcon from "../../../public/icons/CheckedCheckboxIcon";
 import Link from "next/link";
+import { useInputMask } from "@code-forge/react-input-mask";
 
 export const LoginModal = ({ onShow }) => {
   const { register, handleSubmit } = useForm({
@@ -27,6 +27,8 @@ export const LoginModal = ({ onShow }) => {
   const handleCheckox = () => {
     setChecked(!checked);
   };
+
+  const { getInputProps } = useInputMask({ mask: "+38 (0**)***-**-**" });
 
   return (
     <>
@@ -49,7 +51,7 @@ export const LoginModal = ({ onShow }) => {
           </li>
         </ul>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative mb-[56px]">
+          <div className="mb-[56px]">
             <label
               htmlFor="user-phone"
               className="block mb-[8px] text-[12px] text-[#fff]"
@@ -59,15 +61,11 @@ export const LoginModal = ({ onShow }) => {
             <input
               type="text"
               id="user-phone"
+              placeholder="+38 (0__)___-__-__"
               {...register("phone")}
+              {...getInputProps()}
               className="auth-input"
             />
-            <button
-              type="button"
-              className="absolute top-[10px] right-[10px] translate-y-[100%] w-[24px] h-[24px] p-0 bg-[transparent]"
-            >
-              <CloseIcon className="w-[100%] h-[100%] fill-[#fff]" />
-            </button>
           </div>
           <button type="submit" className="submit-btn mb-[32px]">
             Далі

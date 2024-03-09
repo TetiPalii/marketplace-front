@@ -62,6 +62,19 @@ color: red;
     border-color: #fff;
   }
 
+  .auth-input::placeholder {
+    font-size: 12px;
+    color: #a9a9a9;
+  }
+
+  .auth-input-error {
+    border-color: #ff003d;
+  }
+
+  .auth-input-error:is(:hover, :focus) {
+    border-color: #ff003d;
+  }
+
   .submit-btn {
     display: block;
     margin-bottom: 192px;
@@ -81,6 +94,18 @@ color: red;
 
   .submit-btn:is(:hover, :focus) {
     background: radial-gradient(at center, #ff678b, #990078);
+  }
+
+  .submit-btn-disabled {
+    cursor: auto;
+    backdrop-filter: blur(50px);
+    opacity: 0.5;
+  }
+
+  .submit-btn-disabled:is(:hover, :focus) {
+    backdrop-filter: blur(50px);
+    opacity: 0.5;
+    background: #990078;
   }
 
   .visually-hidden {
@@ -108,5 +133,14 @@ color: red;
     width: 24px;
     height: 24px;
     fill: #fff;
+  }
+
+  .auth-error-message {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 8px;
+    color: #ff003d;
   }
 }
