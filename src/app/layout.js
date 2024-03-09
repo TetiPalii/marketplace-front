@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Header } from "@/components/header/Header.jsx";
 
-import { Footer } from "@/components/Footer/footer";
+import { FooterDesctop } from "@/components/FooterDesctop/FooterDesctop";
 
 export const metadata = {
   title: {
@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
       <body className="bg-gradient-to-r from-gradientPink to-gradientPink2 ...">
         <Header />
         <main>{children}</main>
-        <Footer />
+        <FooterDesctop />
       </body>
     </html>
   );
