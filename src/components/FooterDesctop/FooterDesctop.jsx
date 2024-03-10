@@ -6,7 +6,7 @@ import instagram from "../../../public/images/instagram.png";
 import viber from "../../../public/images/viber.png";
 import telegram from "../../../public/images/telegram.png";
 
-export const Footer = () => {
+export const FooterDesctop = () => {
   return (
     <div className=" w-1920 h-624  pt-16  pb-14 pl-20 pr-15 bg-darkBlue">
     <div className="container flex w-1448 h-624  columns-3 justify-between mb-20 ">

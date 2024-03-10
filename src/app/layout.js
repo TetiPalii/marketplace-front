@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import { Header} from "@/components/header/Header.jsx";
 
+import { FooterDesctop } from "@/components/FooterDesctop/FooterDesctop";
+
 export const metadata = {
   title: {
     default: "Нечупара- магазин дитячих товарів",
@@ -15,7 +17,7 @@ export default function RootLayout({ children }) {
       <body >
         <Header />
         <main>{children}</main>
-        {/* <Footer/> */}
+        <FooterDesctop />
       </body>
     </html>
   );
