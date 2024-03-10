@@ -93,7 +93,7 @@ export const Footer = () => {
           </div>
         </div>
       <div>
-      <button class="button" className="text-[#fff] text-base" >Вийти із аккаунта</button>
+      <button type="button" className="text-[#fff] text-base" >Вийти із аккаунта</button>
       </div>
     </div>
     </div>

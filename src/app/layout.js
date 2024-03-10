@@ -1,6 +1,5 @@
 import "../styles/globals.css";
-import { Header} from "@/components/header/Header.jsx";
-
+import { Header } from "@/sections/Header/Header";
 import { FooterDesctop } from "@/components/FooterDesctop/FooterDesctop";
 
 export const metadata = {
@@ -14,14 +13,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body >
+      <body>
         <Header />
         <main>{children}</main>
         <FooterDesctop />
       </body>
     </html>
   );
-
 }
 //className="bg-gradient-to-r from-[#24c6dc] to-[#514a9d] ..."
-  //from-[#80abf0] via-[#7a678675] via-90% to-[#d5c7e3] ...">
+//from-[#80abf0] via-[#7a678675] via-90% to-[#d5c7e3] ...">

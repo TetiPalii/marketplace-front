@@ -1,47 +1,35 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { IconWrapper } from "../IconWrapper/IconWrapper";
 import CloseIcon from "../../../public/icons/CloseIcon";
 import { FlexContainer } from "../FlexContainer/FlexContainer";
 import Link from "next/link";
 import LogoMobile from "../../../public/icons/LogoMobile";
 import Rocket from "../../../public/icons/Rocket";
-import CartIcon from "../../../public/icons/CartIcon";
-import LikeIcon from "../../../public/icons/LikeIcon";
-import BurgerIcon from "../../../public/icons/BurgerIcon";
-import CatalogIcon from "../../../public/icons/CatalogIcon";
-const navLinks = [
-  {
-    name: "Каталог",
-    href: "/catalog",
-    icon: <CatalogIcon />,
-  },
-  {
-    name: "Корзина",
-    href: "/cart",
-    icon: <CartIcon />,
-  },
-  ,
-  {
-    name: "Улюбленні товари",
-    href: "/whishlist",
-    icon: <LikeIcon />,
-  },
-];
+import { Footer } from "../FooterMobile/FooterMobile";
+import { navLinks } from "@/data/navLinks";
 
-export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
+export const NavBar = ({ menuOpen, setMenuOpen }) => {
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      return;
+    }
+  }, [menuOpen]);
+
   return (
     <div
       className={
         menuOpen
-          ? "sm:hidden top-0 left-0 fixed w-screen h-screen bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-300"
-          : "fixed left-[-100%] top-0 ease-in duration-300 sm:hidden"
+          ? "sm:hidden top-0 left-0 fixed w-screen h-screen bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-500 overflow-auto text-lightPink"
+          : "fixed left-[-100%] top-0 ease-in duration-500 sm:hidden"
       }
     >
       <div
         className={
           menuOpen
-            ? " w-[88%] h-screen fixed top-0 left-0 sm:hidden  z-[300] bg-darkBlue pt-6"
+            ? "w-[88%] h-screen fixed top-0 left-0 sm:hidden  z-[300] bg-darkBlue pt-6"
             : "fixed left-[-100%] top-0 ease-in duration-300"
         }
       >
@@ -66,7 +54,10 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
         >
           <Rocket />
 
-          <Link href="/login/?modal=true" className="text-[16px] leading-[1.2] ml-5 mr-4">
+          <Link
+            href="/login/?modal=true"
+            className="text-[16px] leading-[1.2] ml-5 mr-4"
+          >
             Увійти
           </Link>
           <div className="h-[56px] w-[1.5px] bg-white mr-4 element"></div>
@@ -108,6 +99,7 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }) => {
             </label>
           </li>
         </ul>
+        <Footer />
       </div>
     </div>
   );
