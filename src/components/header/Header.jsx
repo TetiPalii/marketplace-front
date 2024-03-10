@@ -17,62 +17,38 @@ export const Header = () => {
 
   return (
     <>
-      <header className="w-full bg-darkBlue text-lightPink px-6 py-4 md:py-3">
-        <div className="mx-auto w-full">
-          <FlexContainer className={"justify-center"}>
-            {!menuOpen && (
-              <IconWrapper
-                setMenuOpen={() => {
-                  setMenuOpen(true);
-                }}
-              >
-                <BurgerIcon
-                  width="24"
-                  height="24"
-                  fill="#ffffff"
-                  className="block md:hidden"
-                />
-              </IconWrapper>
-            )}
-            <Link href={"/"} className="mx-auto md:mx-0 ">
-              <LogoMobile className={"md:hidden"} />
-            </Link>
-            <Link href={"/"}>
-              <LogoDesktop className={"hidden md:block"} />
-            </Link>
-            <FlexContainer>
-              <IconWrapper className="md:mr-11">
-                <CabinetIcon
-                  width="24"
-                  height="24"
-                  fill="#fff"
-                  className="hidden md:block"
-                />
-              </IconWrapper>
-              {!menuOpen && (
-                <IconWrapper className="md:mr-6">
-                  <CartIcon width="24" height="24" fill="#fff" />
-                </IconWrapper>
-              )}
-              <IconWrapper>
-                <LikeIcon
-                  width="24"
-                  height="24"
-                  fill="#fff"
-                  className="hidden md:block"
-                />
-              </IconWrapper>
-            </FlexContainer>
+      <header className="fixed w-full bg-darkBlue text-lightPink px-4 py-4">
+        <nav className="flex justify-between h-full items-center">
+          <IconWrapper
+            setMenuOpen={() => {
+              setMenuOpen(!menuOpen);
+            }}
+            className={"sm:hidden"}
+          >
+            <BurgerIcon width="24" height="24" fill="#fff" />
+          </IconWrapper>
+
+          <Link href="/" className="mx-auto md:hidden">
+            <LogoMobile />
+          </Link>
+          <Link href="/" className="hidden md:block">
+            <LogoDesktop />
+          </Link>
+
+          <FlexContainer className={"justify-around"}>
+            <IconWrapper className="hidden md:block">
+              <CabinetIcon />
+            </IconWrapper>
+            <IconWrapper>
+              <CartIcon />
+            </IconWrapper>
+            <IconWrapper className="hidden md:block">
+              <LikeIcon />
+            </IconWrapper>
           </FlexContainer>
-        </div>
+          <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+        </nav>
       </header>
-      {menuOpen && (
-        <MobileMenu
-          setMenuOpen={() => {
-            setMenuOpen(false);
-          }}
-        />
-      )}
     </>
   );
 };
