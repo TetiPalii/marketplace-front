@@ -6,18 +6,36 @@ import rocket from "../../../public/images/rocket-iso-color.png";
 import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import { useForm } from "react-hook-form";
-import CloseIcon from "../../../public/icons/CloseIcon";
 import EmptyCheckboxIcon from "../../../public/icons/EmptyCheckboxIcon";
 import { useState } from "react";
 import CheckedCheckboxIcon from "../../../public/icons/CheckedCheckboxIcon";
 import Link from "next/link";
+import { useInputMask } from "@code-forge/react-input-mask";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import QuestionIcon from "../../../public/icons/QuestionIcon";
+import clsx from "clsx";
+
+const loginSchema = z
+  .object({
+    phone: z.string().regex(/^\+38 \(0\d{2}\)\d{3}-\d{2}-\d{2}$/, {
+      message: "Телефон може містити лише цифри",
+    }),
+  })
+  .required();
 
 export const LoginModal = ({ onShow }) => {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty, isValid },
+  } = useForm({
     defaultValues: {
       phone: "",
     },
+    resolver: zodResolver(loginSchema),
   });
+
   const onSubmit = (data) => {
     console.log(data);
     window.location.href = "/verification/?modal=true";
@@ -27,6 +45,8 @@ export const LoginModal = ({ onShow }) => {
   const handleCheckox = () => {
     setChecked(!checked);
   };
+
+  const { getInputProps } = useInputMask({ mask: "+38 (0**)***-**-**" });
 
   return (
     <>
@@ -49,7 +69,7 @@ export const LoginModal = ({ onShow }) => {
           </li>
         </ul>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative mb-[56px]">
+          <div className="mb-[56px] h-[84px]">
             <label
               htmlFor="user-phone"
               className="block mb-[8px] text-[12px] text-[#fff]"
@@ -59,17 +79,30 @@ export const LoginModal = ({ onShow }) => {
             <input
               type="text"
               id="user-phone"
+              placeholder="+38 (0__)___-__-__"
               {...register("phone")}
-              className="auth-input"
+              {...getInputProps()}
+              className={clsx("auth-input", {
+                ["auth-input-error"]: errors.phone,
+              })}
             />
-            <button
-              type="button"
-              className="absolute top-[10px] right-[10px] translate-y-[100%] w-[24px] h-[24px] p-0 bg-[transparent]"
-            >
-              <CloseIcon className="w-[100%] h-[100%] fill-[#fff]" />
-            </button>
+            {errors.phone?.message && (
+              <p className="auth-error-message">
+                <span>
+                  <QuestionIcon width={8} height={8} className="fill-[#fff]" />
+                </span>
+                {errors.phone?.message}
+              </p>
+            )}
           </div>
-          <button type="submit" className="submit-btn mb-[32px]">
+          <button
+            type="submit"
+            disabled={!isDirty || !isValid}
+            className={clsx(
+              "submit-btn mb-[32px]",
+              (!isDirty || !isValid) && "submit-btn-disabled"
+            )}
+          >
             Далі
           </button>
           <div className="mb-[136px]">

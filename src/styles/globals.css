@@ -39,7 +39,12 @@ color: red;
     font-family: "Montserrat", sans-serif;
     color: black;
     background-color: rgba(124, 174, 232, 1);
-      background-image: linear-gradient(301deg, rgba(124, 174, 232, 1) 0%, rgba(238, 224, 250, 1) 0%, rgba(124, 174, 232, 1) 100%);
+    background-image: linear-gradient(
+      301deg,
+      rgba(124, 174, 232, 1) 0%,
+      rgba(238, 224, 250, 1) 0%,
+      rgba(124, 174, 232, 1) 100%
+    );
   }
   .header-container {
     display: flex;
@@ -64,6 +69,14 @@ color: red;
     border-color: #fff;
   }
 
+  .auth-input-error {
+    border-color: #ff003d;
+  }
+
+  .auth-input-error:is(:hover, :focus) {
+    border-color: #ff003d;
+  }
+
   .submit-btn {
     display: block;
     margin-bottom: 192px;
@@ -83,6 +96,27 @@ color: red;
 
   .submit-btn:is(:hover, :focus) {
     background: radial-gradient(at center, #ff678b, #990078);
+  }
+
+  .submit-btn-disabled {
+    cursor: auto;
+    backdrop-filter: blur(50px);
+    opacity: 0.5;
+  }
+
+  .submit-btn-disabled:is(:hover, :focus) {
+    backdrop-filter: blur(50px);
+    opacity: 0.5;
+    background: #990078;
+  }
+
+  .auth-error-message {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 8px;
+    color: #ff003d;
   }
 
   .visually-hidden {
@@ -112,10 +146,9 @@ color: red;
     fill: #fff;
   }
 
-  .element{
+  .element {
     -webkit-box-shadow: -8px 7px 102px -3px rgba(255, 255, 255, 0.48);
-      -moz-box-shadow: -8px 7px 102px -3px rgba(255, 255, 255, 0.48);
-      box-shadow: -1px 0px 40px 9px rgba(255, 255, 255, 0.17);
+    -moz-box-shadow: -8px 7px 102px -3px rgba(255, 255, 255, 0.48);
+    box-shadow: -1px 0px 40px 9px rgba(255, 255, 255, 0.17);
   }
-
 }
