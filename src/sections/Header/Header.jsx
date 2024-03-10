@@ -2,15 +2,15 @@
 
 import React, { useState } from "react";
 import BurgerIcon from "../../../public/icons/BurgerIcon";
-import { FlexContainer } from "../FlexContainer/FlexContainer";
+import { FlexContainer } from "../../components/FlexContainer/FlexContainer";
 import CartIcon from "../../../public/icons/CartIcon";
-import { IconWrapper } from "../IconWrapper/IconWrapper";
-import { MobileMenu } from "../mobileMenu/MobileMenu";
+import { IconWrapper } from "../../components/IconWrapper/IconWrapper";
 import CabinetIcon from "../../../public/icons/CabinetIcon";
 import LikeIcon from "../../../public/icons/LikeIcon";
 import LogoMobile from "../../../public/icons/LogoMobile";
 import LogoDesktop from "../../../public/icons/LogoDesktop";
 import Link from "next/link";
+import { NavBar } from "@/components/NavBar/NavBar";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,7 +46,7 @@ export const Header = () => {
               <LikeIcon />
             </IconWrapper>
           </FlexContainer>
-          <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+          <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
         </nav>
       </header>
     </>
