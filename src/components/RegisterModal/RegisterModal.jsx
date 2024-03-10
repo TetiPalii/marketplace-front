@@ -6,20 +6,50 @@ import rocket from "../../../public/images/rocket-iso-color.png";
 import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import { useForm } from "react-hook-form";
-import CloseIcon from "../../../public/icons/CloseIcon";
 import Link from "next/link";
+import { useInputMask } from "@code-forge/react-input-mask";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import QuestionIcon from "../../../public/icons/QuestionIcon";
+import clsx from "clsx";
+
+const registerSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(2, { message: "Ім'я має містити мінімум 2 літери" })
+      .max(15, { message: "Ім'я має містити максимум 15 літер" })
+      .regex(/^[a-zA-Zа-яА-Я]+$/, {
+        message: "Ім'я може містити лише літери",
+      }),
+    phone: z.string().regex(/^\+38 \(0\d{2}\)\d{3}-\d{2}-\d{2}$/, {
+      message: "Телефон може містити лише цифри",
+    }),
+  })
+  .required();
 
 export const RegisterModal = ({ onShow }) => {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty, isValid },
+  } = useForm({
     defaultValues: {
       name: "",
       phone: "",
     },
+    resolver: zodResolver(registerSchema),
   });
+
   const onSubmit = (data) => {
     console.log(data);
     window.location.href = "/verification/?modal=true";
   };
+
+  const { getInputProps } = useInputMask({
+    mask: "+38 (0**)***-**-**",
+  });
 
   return (
     <>
@@ -42,7 +72,7 @@ export const RegisterModal = ({ onShow }) => {
           </li>
         </ul>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative mb-[24px]">
+          <div className="mb-[24px] h-[84px]">
             <label
               htmlFor="user-name"
               className="block mb-[8px] text-[12px] text-[#fff]"
@@ -53,33 +83,53 @@ export const RegisterModal = ({ onShow }) => {
               type="text"
               id="user-name"
               {...register("name")}
-              className="auth-input"
+              className={clsx("auth-input", {
+                ["auth-input-error"]: errors.name,
+              })}
             />
-            <button
-              type="button"
-              className="absolute top-[10px] right-[10px] translate-y-[100%] w-[24px] h-[24px] p-0 bg-[transparent]"
-            >
-              <CloseIcon className="w-[100%] h-[100%] fill-[#fff]" />
-            </button>
+            {errors.name?.message && (
+              <p className="auth-error-message">
+                <span>
+                  <QuestionIcon width={8} height={8} className="fill-[#fff]" />
+                </span>
+                {errors.name?.message}
+              </p>
+            )}
           </div>
-          <div className="relative flex flex-col gap-[8px] mb-[31px]">
-            <label htmlFor="user-phone" className="text-[12px] text-[#fff]">
+          <div className="mb-[31px] h-[84px]">
+            <label
+              htmlFor="user-phone"
+              className="block mb-[8px] text-[12px] text-[#fff]"
+            >
               Телефон
             </label>
             <input
               type="text"
               id="user-phone"
+              placeholder="+38 (0)___-__-__"
               {...register("phone")}
-              className="auth-input"
+              {...getInputProps()}
+              className={clsx("auth-input", {
+                ["auth-input-error"]: errors.phone,
+              })}
             />
-            <button
-              type="button"
-              className="absolute top-[10px] right-[10px] translate-y-[100%] w-[24px] h-[24px] p-0 bg-[transparent]"
-            >
-              <CloseIcon className="w-[100%] h-[100%] fill-[#fff]" />
-            </button>
+            {errors.phone?.message && (
+              <p className="auth-error-message">
+                <span>
+                  <QuestionIcon width={8} height={8} className="fill-[#fff]" />
+                </span>
+                {errors.phone?.message}
+              </p>
+            )}
           </div>
-          <button type="submit" className="submit-btn">
+          <button
+            type="submit"
+            disabled={!isDirty || !isValid}
+            className={clsx(
+              "submit-btn",
+              (!isDirty || !isValid) && "submit-btn-disabled"
+            )}
+          >
             Зареєструватись
           </button>
         </form>
