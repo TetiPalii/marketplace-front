@@ -35,7 +35,7 @@ export const Footer = () => {
       </li>
       </div>
       <div className="flex-basis: 14rem">
-      <ul className="text-[#FFF] text-base list-none list-none mb-12">Партнерам</ul>
+      <ul className="text-[#FFF] text-base list-none  mb-12">Партнерам</ul>
       <li className="text-[#FFF] text-xs list-none mb-12">
         <a href="">Продавати на Нечупарі</a>
       </li>
