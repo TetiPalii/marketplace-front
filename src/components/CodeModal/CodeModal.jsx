@@ -26,7 +26,7 @@ export const CodeModal = ({ onShow }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isDirty },
   } = useForm({
     defaultValues: {
       code: "",
@@ -89,10 +89,10 @@ export const CodeModal = ({ onShow }) => {
             </div>
             <button
               type="submit"
-              disabled={!isDirty || !isValid}
+              disabled={!isDirty}
               className={clsx(
                 "submit-btn mb-[88px]",
-                (!isDirty || !isValid) && "submit-btn-disabled"
+                !isDirty && "submit-btn-disabled"
               )}
             >
               Увійти
