@@ -6,7 +6,6 @@ import { FlexContainer } from "../FlexContainer/FlexContainer";
 import Link from "next/link";
 import LogoMobile from "../../../public/icons/LogoMobile";
 import Rocket from "../../../public/icons/Rocket";
-import { Footer } from "../FooterMobile/FooterMobile";
 import { Navigation } from "./Navigation";
 import { NavLoggedIn } from "./NavLoggedIn";
 import { UserInfo } from "../UserInfo/UserInfo";
