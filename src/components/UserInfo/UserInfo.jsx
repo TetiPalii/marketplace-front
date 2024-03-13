@@ -4,9 +4,9 @@ import ProfileIcon from "../../../public/icons/ProfileIcon";
 
 export const UserInfo = () => {
   return (
-    <FlexContainer className={"pl-[30px] py-5 mb-4 bg-[#9843BD0D] max-w-full items-start gap-4"}>
+     <FlexContainer className={"pl-[30px] py-5 mb-4 bg-[#9843BD0D] max-w-full items-start gap-4"}>
       {/* <Image
-        src="/public/images/facebook.png"
+        src={"/public/images/defaultUser.png"}
         alt={"user profile image"}
         width={72}
         height={72}
