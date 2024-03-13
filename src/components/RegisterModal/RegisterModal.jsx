@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
+import { useEffect } from "react";
 
 const registerSchema = z
   .object({
@@ -23,9 +24,11 @@ const registerSchema = z
       .regex(/^[a-zA-Zа-яА-Я]+$/, {
         message: "Ім'я може містити лише літери",
       }),
-    phone: z.string().regex(/^\+38 \(0\d{2}\)\d{3}-\d{2}-\d{2}$/, {
-      message: "Телефон може містити лише цифри",
-    }),
+    phone: z
+      .string()
+      .refine((value) => value.replace(/\D/g, "").length === 10, {
+        message: "Телефон повинен містити 10 цифр",
+      }),
   })
   .required();
 
@@ -33,7 +36,8 @@ export const RegisterModal = ({ onShow }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isDirty },
+    trigger,
   } = useForm({
     defaultValues: {
       name: "",
@@ -46,6 +50,10 @@ export const RegisterModal = ({ onShow }) => {
     console.log(data);
     window.location.href = "/verification/?modal=true";
   };
+
+  useEffect(() => {
+    trigger("phone");
+  }, [trigger, errors.phone]);
 
   const { getInputProps } = useInputMask({
     mask: "+38 (0**)***-**-**",
@@ -124,11 +132,8 @@ export const RegisterModal = ({ onShow }) => {
           </div>
           <button
             type="submit"
-            disabled={!isDirty || !isValid}
-            className={clsx(
-              "submit-btn",
-              (!isDirty || !isValid) && "submit-btn-disabled"
-            )}
+            disabled={!isDirty}
+            className={clsx("submit-btn", !isDirty && "submit-btn-disabled")}
           >
             Зареєструватись
           </button>
