@@ -9,6 +9,7 @@ import Rocket from "../../../public/icons/Rocket";
 import { Navigation } from "./Navigation";
 import { NavLoggedIn } from "./NavLoggedIn";
 import { UserInfo } from "../UserInfo/UserInfo";
+import { FooterNav } from "./FooterNav";
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,14 +26,14 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
     <div
       className={
         menuOpen
-          ? "md:hidden top-0 left-0 fixed w-screen h-screen bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-500 overflow-auto text-lightPink"
+          ? "md:hidden top-0 left-0 fixed w-screen h-full bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-500 overflow-auto text-lightPink"
           : "fixed left-[-150%] top-0 ease-in duration-500 md:hidden"
       }
     >
       <div
         className={
           menuOpen
-            ? "w-[88%] h-screen fixed top-0 left-0 md:hidden  z-[300] bg-darkBlue pt-6"
+            ? "w-[88%]  fixed top-0 left-0 md:hidden  z-[300] bg-darkBlue py-6"
             : "fixed left-[-200%] top-0 ease-in duration-300"
         }
       >
@@ -71,6 +72,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
           </FlexContainer>
         )}
         {isLoggedIn ? <NavLoggedIn /> : <Navigation />}
+        <FooterNav />
        
       </div>
     </div>

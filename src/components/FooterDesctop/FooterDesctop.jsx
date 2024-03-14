@@ -8,7 +8,7 @@ import telegram from "../../../public/images/telegram.png";
 
 export const FooterDesctop = () => {
   return (
-    <div className=" w-1920 h-624  pt-16  pb-14 pl-20 pr-15 bg-darkBlue">
+    <div className=" w-1920 h-624  pt-16  pb-14 pl-20 pr-15 bg-darkBlue hidden md:block">
       <div className="container flex w-1448 h-624  columns-3 justify-between mb-20 ">
         <div className="flex-basis: 20rem gap-y-12">
           <ul className="text-[#FFF] text-xl list-none mb-12 border-b-[radial-gradient] from-purple-600 via-pink-600 to-blue-600">
