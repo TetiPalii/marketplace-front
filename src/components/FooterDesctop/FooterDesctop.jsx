@@ -30,18 +30,7 @@ export const FooterDesctop = () => {
               </li>
             ))}
           </ul>
-          {/* <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Умови використання сайту</a>
-          </li>
-          <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Про нас </a>
-          </li>
-          <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Контакти</a>
-          </li>
-          <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Усі категорії</a>
-          </li> */}
+          
         </div>
         <div className="flex-basis: 14rem">
           <h2 className="text-[#FFF] text-xl list-none mb-9">Допомога</h2>
@@ -52,12 +41,7 @@ export const FooterDesctop = () => {
               </li>
             ))}
           </ul>
-          {/* <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Доставка та оплата</a>
-          </li>
-          <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Гарантія</a>
-          </li> */}
+          
         </div>
         <div className="flex-basis: 14rem">
           <h2 className="text-[#FFF] text-xl list-none  mb-9">Партнерам</h2>
@@ -68,15 +52,7 @@ export const FooterDesctop = () => {
               </li>
             ))}
           </ul>
-          {/* <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Продавати на Нечупарі</a>
-          </li>
-          <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Співпраця з нами</a>
-          </li>
-          <li className="text-[#FFF] text-base list-none mb-12">
-            <a href="">Франчайзинг</a>
-          </li> */}
+          
         </div>
       </div>
       <div className="flex justify-between pr-12">
