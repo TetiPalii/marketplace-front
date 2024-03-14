@@ -1,12 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   color: black;
-  background-color: rgba(124, 174, 232, 1);
+  background-color: #7CAEE8;
   background-image: linear-gradient(
     301deg,
     rgba(124, 174, 232, 1) 0%,
@@ -18,7 +34,6 @@ body {
 html {
   scroll-behavior: smooth;
 }
-
 
 @layer utilities {
   .text-balance {
@@ -132,8 +147,10 @@ html {
     -moz-box-shadow: -8px 7px 102px -3px rgba(255, 255, 255, 0.48);
     box-shadow: -1px 0px 40px 9px rgba(255, 255, 255, 0.17);
   }
+  .padding {
+    padding: 16px;
+  }
 }
-
 
 /* :root {
   --foreground-rgb: 0, 0, 0;

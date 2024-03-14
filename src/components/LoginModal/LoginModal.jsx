@@ -18,9 +18,11 @@ import clsx from "clsx";
 
 const loginSchema = z
   .object({
-    phone: z.string().regex(/^\+38 \(0\d{2}\)\d{3}-\d{2}-\d{2}$/, {
-      message: "Телефон може містити лише цифри",
-    }),
+    phone: z
+      .string()
+      .refine((value) => value.replace(/\D/g, "").length === 10, {
+        message: "Телефон повинен містити 10 цифр",
+      }),
   })
   .required();
 
@@ -28,7 +30,8 @@ export const LoginModal = ({ onShow }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isDirty },
+    trigger,
   } = useForm({
     defaultValues: {
       phone: "",
@@ -40,6 +43,11 @@ export const LoginModal = ({ onShow }) => {
     console.log(data);
     window.location.href = "/verification/?modal=true";
   };
+
+  useEffect(() => {
+    trigger("phone");
+  }, [trigger, errors.phone]);
+
   const [checked, setChecked] = useState(false);
 
   const handleCheckox = () => {
@@ -97,10 +105,10 @@ export const LoginModal = ({ onShow }) => {
           </div>
           <button
             type="submit"
-            disabled={!isDirty || !isValid}
+            disabled={!isDirty}
             className={clsx(
               "submit-btn mb-[32px]",
-              (!isDirty || !isValid) && "submit-btn-disabled"
+              !isDirty && "submit-btn-disabled"
             )}
           >
             Далі
