@@ -33,7 +33,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
       <div
         className={
           menuOpen
-            ? "w-[88%]  fixed top-0 left-0 md:hidden  z-[300] bg-darkBlue py-6"
+            ? "w-[88%]  fixed top-0 left-0 md:hidden  z-[999] bg-darkBlue py-6"
             : "fixed left-[-200%] top-0 ease-in duration-300"
         }
       >
