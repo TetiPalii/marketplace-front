@@ -1,8 +1,9 @@
 // import { Header } from "@/components/header/Header";
 import {Header} from "@/sections/Header/Header"
 import "./globals.css";
+import { Footer } from "@/sections/Footer/Footer";
 
-import { FooterDesctop } from "@/components/FooterDesctop/FooterDesctop";
+// import { FooterDesctop } from "@/components/FooterDesctop/FooterDesctop";
 
 export const metadata = {
   title: {
@@ -16,10 +17,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {/* <Header /> */}
-        <Header/>
-        <main>{children}</main>
-        <FooterDesctop />
+        <Header />
+        <main className="pt-[80px] md:pt-[80px] px-2 mx-auto">{children}</main>
+        <Footer/>
+        {/* <FooterDesctop /> */}
       </body>
     </html>
   );

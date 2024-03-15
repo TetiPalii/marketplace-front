@@ -17,7 +17,7 @@ import { ServiceData } from '../Content';
 export default function Baner() {
   return (
     <>
-    <div className='flex items-center justify-center flex-col h-[176px]'>
+    <div className='flex items-center mx-auto flex-col h-[176px]'>
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
