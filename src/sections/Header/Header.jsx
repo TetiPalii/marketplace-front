@@ -17,7 +17,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="fixed w-full bg-darkBlue text-lightPink py-4 px-36">
+      <header className="fixed w-full bg-darkBlue text-lightPink p-4 md:py-4 md:px-36">
         <nav className="flex justify-between h-full items-center">
           <IconWrapper
             setMenuOpen={() => {
