@@ -17,7 +17,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="fixed w-full bg-darkBlue text-lightPink p-4">
+      <header className="fixed w-full bg-darkBlue text-lightPink py-4 px-36">
         <nav className="flex justify-between h-full items-center">
           <IconWrapper
             setMenuOpen={() => {
@@ -28,13 +28,13 @@ export const Header = () => {
             <BurgerIcon width="24" height="24" fill="#fff" />
           </IconWrapper>
 
-            <Link href="/" className="md:hidden">
-              <LogoMobile />
-            </Link>
-       
-            <Link href="/" className={"hidden md:block"}>
-              <LogoDesktop />
-            </Link>
+          <Link href="/" className="md:hidden">
+            <LogoMobile />
+          </Link>
+
+          <Link href="/" className={"hidden md:block"}>
+            <LogoDesktop />
+          </Link>
 
           <FlexContainer className={"justify-around"}>
             <IconWrapper className=" hidden md:block">

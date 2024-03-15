@@ -1,3 +1,8 @@
+import facebook from "../../public/images/facebook2x.png";
+import instagram from "../../public/images/insta2x.png";
+import viber from "../../public/images/viber2x.png";
+import telegram from "../../public/images/telegram2x.png";
+
 export const about = [
   {
     name: "Умови використання сайту",
@@ -37,4 +42,11 @@ export const forPartners = [
     name: "Франчайзинг",
     href: "/franchising",
   },
+];
+
+export const socialmediaIcons = [
+  { id: 1, icon: facebook },
+  { id: 2, icon: instagram },
+  { id: 3, icon: viber },
+  { id: 4, icon: telegram },
 ];
