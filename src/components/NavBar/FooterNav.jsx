@@ -1,17 +1,10 @@
-import { about, forPartners, help } from "@/data/footerNav";
+import { about, forPartners, help, socialmediaIcons } from "@/data/footerNav";
 import Link from "next/link";
 import Image from "next/image";
-import facebook from "../../../public/images/facebook.png";
-import instagram from "../../../public/images/instagram.png";
-import viber from "../../../public/images/viber.png";
-import telegram from "../../../public/images/telegram.png";
 
-const socialmediaIcons = [
-  { id: 1, icon: facebook },
-  { id: 2, icon: instagram },
-  { id: 3, icon: viber },
-  { id: 4, icon: telegram },
-];
+
+
+
 
 export const FooterNav = () => {
   return (
@@ -72,7 +65,7 @@ export const FooterNav = () => {
           ))}
         </ul>
       </div>
-      <Link href={"/"} className="text-xs">Вийти із аккаунта</Link>
+      <button className="text-xs">Вийти із аккаунта</button>
     </div>
   );
 };
