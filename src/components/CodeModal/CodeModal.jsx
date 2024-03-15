@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
+import verificationAction from "./verificationAction";
 
 const varificationSchema = z
   .object({
@@ -29,13 +30,14 @@ export const CodeModal = ({ onShow }) => {
     formState: { errors, isDirty },
   } = useForm({
     defaultValues: {
-      code: "",
+      inputCode: "",
     },
     resolver: zodResolver(varificationSchema),
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    //
+    verificationAction(data);
   };
   return (
     <>
@@ -69,12 +71,12 @@ export const CodeModal = ({ onShow }) => {
               <input
                 type="text"
                 id="user-code"
-                {...register("code")}
+                {...register("inputCode")}
                 className={clsx("auth-input", {
                   ["auth-input-error"]: errors.phone,
                 })}
               />
-              {errors.code?.message && (
+              {errors.inputCode?.message && (
                 <p className="auth-error-message">
                   <span>
                     <QuestionIcon
@@ -83,7 +85,7 @@ export const CodeModal = ({ onShow }) => {
                       className="fill-[#fff]"
                     />
                   </span>
-                  {errors.code?.message}
+                  {errors.inputCode?.message}
                 </p>
               )}
             </div>

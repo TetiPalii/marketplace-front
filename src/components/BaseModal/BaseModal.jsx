@@ -45,12 +45,12 @@ export const BaseModal = ({ onShow = true, children }) => {
         <div
           onClick={closeModal}
           ref={backdropRef}
-          className="fixed top-0 left-0 w-[95%] h-screen flex justify-center items-center z-[1000]"
+          className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1000]"
         >
           <div
             onClick={(e) => e.stopPropagation()}
             ref={modalContainerRef}
-            className="absolute top-1/2 left-0 mobile:w-[100%] secondMobile:w-[65vh] max-h-[90vh] overflow-y-scroll translate-y-[-50%] pt-[30px] px-[30px] pb-[108px] bg-darkBlue rounded-[28px]"
+            className="absolute top-1/2 left-0 mobile:w-[100%] secondMobile:w-[90%] max-h-[90vh] overflow-y-scroll translate-y-[-50%] pt-[30px] px-[30px] pb-[108px] bg-darkBlue rounded-[28px]"
           >
             <button
               type="button"

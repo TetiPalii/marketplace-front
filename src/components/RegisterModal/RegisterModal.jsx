@@ -12,11 +12,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
-import { useEffect } from "react";
+import registerAction from "./registerAction";
 
 const registerSchema = z
   .object({
-    name: z
+    firstName: z
       .string()
       .trim()
       .min(2, { message: "Ім'я має містити мінімум 2 літери" })
@@ -24,11 +24,7 @@ const registerSchema = z
       .regex(/^[a-zA-Zа-яА-Я]+$/, {
         message: "Ім'я може містити лише літери",
       }),
-    phone: z
-      .string()
-      .refine((value) => value.replace(/\D/g, "").length === 10, {
-        message: "Телефон повинен містити 10 цифр",
-      }),
+    phoneNumber: z.string(),
   })
   .required();
 
@@ -37,26 +33,34 @@ export const RegisterModal = ({ onShow }) => {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-    trigger,
   } = useForm({
     defaultValues: {
-      name: "",
-      phone: "",
+      firstName: "",
+      phoneNumber: "",
     },
     resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = (data) => {
-    console.log(data);
-    window.location.href = "/verification/?modal=true";
+    // console.log(data);
+    // window.location.href = "/verification/?modal=true";
+    // try {
+    //   await fetch(
+    //     "https://marketplace-5ihn.onrender.com/api/v1/auth/registration",
+    //     {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(data),
+    //     }
+    //   );
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    registerAction(data);
   };
 
-  useEffect(() => {
-    trigger("phone");
-  }, [trigger, errors.phone]);
-
   const { getInputProps } = useInputMask({
-    mask: "+38 (0**)***-**-**",
+    mask: "+380*********",
   });
 
   return (
@@ -90,17 +94,17 @@ export const RegisterModal = ({ onShow }) => {
             <input
               type="text"
               id="user-name"
-              {...register("name")}
+              {...register("firstName")}
               className={clsx("auth-input", {
                 ["auth-input-error"]: errors.name,
               })}
             />
-            {errors.name?.message && (
+            {errors.firstName?.message && (
               <p className="auth-error-message">
                 <span>
                   <QuestionIcon width={8} height={8} className="fill-[#fff]" />
                 </span>
-                {errors.name?.message}
+                {errors.firstName?.message}
               </p>
             )}
           </div>
@@ -114,19 +118,19 @@ export const RegisterModal = ({ onShow }) => {
             <input
               type="text"
               id="user-phone"
-              placeholder="+38 (0)___-__-__"
-              {...register("phone")}
+              placeholder="+380"
+              {...register("phoneNumber")}
               {...getInputProps()}
               className={clsx("auth-input", {
                 ["auth-input-error"]: errors.phone,
               })}
             />
-            {errors.phone?.message && (
+            {errors.phoneNumber?.message && (
               <p className="auth-error-message">
                 <span>
                   <QuestionIcon width={8} height={8} className="fill-[#fff]" />
                 </span>
-                {errors.phone?.message}
+                {errors.phoneNumber?.message}
               </p>
             )}
           </div>

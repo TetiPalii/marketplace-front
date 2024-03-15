@@ -15,14 +15,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
+import loginAction from "./loginAction";
 
 const loginSchema = z
   .object({
-    phone: z
-      .string()
-      .refine((value) => value.replace(/\D/g, "").length === 10, {
-        message: "Телефон повинен містити 10 цифр",
-      }),
+    phoneNumber: z.string(),
   })
   .required();
 
@@ -31,22 +28,27 @@ export const LoginModal = ({ onShow }) => {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-    trigger,
   } = useForm({
     defaultValues: {
-      phone: "",
+      phoneNumber: "",
     },
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    window.location.href = "/verification/?modal=true";
+  const onSubmit = async (data) => {
+    // console.log(data);
+    // window.location.href = "/verification/?modal=true";
+    // try {
+    //   await fetch("https://marketplace-5ihn.onrender.com/api/v1/auth/login", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(data),
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    loginAction(data);
   };
-
-  useEffect(() => {
-    trigger("phone");
-  }, [trigger, errors.phone]);
 
   const [checked, setChecked] = useState(false);
 
@@ -54,7 +56,7 @@ export const LoginModal = ({ onShow }) => {
     setChecked(!checked);
   };
 
-  const { getInputProps } = useInputMask({ mask: "+38 (0**)***-**-**" });
+  const { getInputProps } = useInputMask({ mask: "+380*********" });
 
   return (
     <>
@@ -87,7 +89,7 @@ export const LoginModal = ({ onShow }) => {
             <input
               type="text"
               id="user-phone"
-              placeholder="+38 (0__)___-__-__"
+              placeholder="+380"
               {...register("phone")}
               {...getInputProps()}
               className={clsx("auth-input", {
