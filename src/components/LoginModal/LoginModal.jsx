@@ -24,6 +24,7 @@ const loginSchema = z
   .required();
 
 export const LoginModal = ({ onShow }) => {
+  const [serverResponse, setServerResponse] = useState(null);
   const {
     register,
     handleSubmit,
@@ -35,20 +36,17 @@ export const LoginModal = ({ onShow }) => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data) => {
-    // console.log(data);
-    // window.location.href = "/verification/?modal=true";
-    // try {
-    //   await fetch("https://marketplace-5ihn.onrender.com/api/v1/auth/login", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(data),
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    loginAction(data);
-  };
+  const action = handleSubmit(async (data) => {
+    try {
+      const response = await loginAction(data);
+      if (response && response.phoneNumber) {
+        setServerResponse(response);
+        localStorage.setItem("phone", JSON.stringify(response.phoneNumber));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   const [checked, setChecked] = useState(false);
 
@@ -78,7 +76,7 @@ export const LoginModal = ({ onShow }) => {
             <p className="text-[16px] text-[#fff]">Увійти</p>
           </li>
         </ul>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action={action}>
           <div className="mb-[56px] h-[84px]">
             <label
               htmlFor="user-phone"
@@ -90,18 +88,18 @@ export const LoginModal = ({ onShow }) => {
               type="text"
               id="user-phone"
               placeholder="+380"
-              {...register("phone")}
+              {...register("phoneNumber")}
               {...getInputProps()}
               className={clsx("auth-input", {
-                ["auth-input-error"]: errors.phone,
+                ["auth-input-error"]: errors.phoneNumber,
               })}
             />
-            {errors.phone?.message && (
+            {errors.phoneNumber?.message && (
               <p className="auth-error-message">
                 <span>
                   <QuestionIcon width={8} height={8} className="fill-[#fff]" />
                 </span>
-                {errors.phone?.message}
+                {errors.phoneNumber?.message}
               </p>
             )}
           </div>
@@ -129,6 +127,7 @@ export const LoginModal = ({ onShow }) => {
             </label>
           </div>
         </form>
+        Server response: {serverResponse}
         <ul className="flex gap-[48px] justify-center">
           <li>
             <button type="button">

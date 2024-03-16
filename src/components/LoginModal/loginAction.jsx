@@ -12,10 +12,11 @@ export default async function loginAction(data) {
   );
 
   const json = await res.json();
+  console.log(json);
 
   if (res.ok) {
     redirect("/verification/?modal=true");
   } else {
-    console.log(json.error);
+    return json.error;
   }
 }

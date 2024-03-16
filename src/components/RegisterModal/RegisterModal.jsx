@@ -13,6 +13,7 @@ import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
 import registerAction from "./registerAction";
+import { useState } from "react";
 
 const registerSchema = z
   .object({
@@ -29,6 +30,7 @@ const registerSchema = z
   .required();
 
 export const RegisterModal = ({ onShow }) => {
+  const [serverResponse, setServerResponse] = useState(null);
   const {
     register,
     handleSubmit,
@@ -41,23 +43,17 @@ export const RegisterModal = ({ onShow }) => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data) => {
-    // console.log(data);
-    // window.location.href = "/verification/?modal=true";
-    // try {
-    //   await fetch(
-    //     "https://marketplace-5ihn.onrender.com/api/v1/auth/registration",
-    //     {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify(data),
-    //     }
-    //   );
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    registerAction(data);
-  };
+  const action = handleSubmit(async (data) => {
+    try {
+      const response = await registerAction(data);
+      if (response && response.phoneNumber) {
+        setServerResponse(response);
+        localStorage.setItem("phone", JSON.stringify(response.phoneNumber));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   const { getInputProps } = useInputMask({
     mask: "+380*********",
@@ -83,7 +79,7 @@ export const RegisterModal = ({ onShow }) => {
             <p className="text-[16px] text-[#fff]">Зареєструватись</p>
           </li>
         </ul>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action={action}>
           <div className="mb-[24px] h-[84px]">
             <label
               htmlFor="user-name"
@@ -96,7 +92,7 @@ export const RegisterModal = ({ onShow }) => {
               id="user-name"
               {...register("firstName")}
               className={clsx("auth-input", {
-                ["auth-input-error"]: errors.name,
+                ["auth-input-error"]: errors.firstName,
               })}
             />
             {errors.firstName?.message && (
@@ -122,7 +118,7 @@ export const RegisterModal = ({ onShow }) => {
               {...register("phoneNumber")}
               {...getInputProps()}
               className={clsx("auth-input", {
-                ["auth-input-error"]: errors.phone,
+                ["auth-input-error"]: errors.phoneNumber,
               })}
             />
             {errors.phoneNumber?.message && (
@@ -142,6 +138,7 @@ export const RegisterModal = ({ onShow }) => {
             Зареєструватись
           </button>
         </form>
+        Server response: {serverResponse}
         <ul className="flex gap-[48px] justify-center">
           <li>
             <button type="button">

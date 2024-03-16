@@ -27,6 +27,9 @@ const nextConfig = {
 
     return config;
   },
+  experimental: {
+    serverActions: true,
+  },
 };
 
 export default nextConfig;

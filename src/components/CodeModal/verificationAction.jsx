@@ -2,17 +2,18 @@
 import { redirect } from "next/dist/server/api-utils";
 import { cookies } from "next/headers";
 
-export default async function verificationAction(data) {
+export default async function verificationAction(fulfilledData) {
   const res = await fetch(
     "https://marketplace-5ihn.onrender.com/api/v1/auth/login/code",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(fulfilledData),
     }
   );
 
   const json = await res.json();
+  console.log(json);
 
   cookies().set("Authorization", json.token, {
     secure: true,
@@ -25,6 +26,6 @@ export default async function verificationAction(data) {
   if (res.ok) {
     redirect("/");
   } else {
-    console.log(json.error);
+    return json.error;
   }
 }
