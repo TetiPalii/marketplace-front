@@ -15,38 +15,38 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
+import loginAction from "./loginAction";
 
 const loginSchema = z
   .object({
-    phone: z
-      .string()
-      .refine((value) => value.replace(/\D/g, "").length === 10, {
-        message: "Телефон повинен містити 10 цифр",
-      }),
+    phoneNumber: z.string(),
   })
   .required();
 
 export const LoginModal = ({ onShow }) => {
+  const [serverResponse, setServerResponse] = useState(null);
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-    trigger,
   } = useForm({
     defaultValues: {
-      phone: "",
+      phoneNumber: "",
     },
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    window.location.href = "/verification/?modal=true";
-  };
-
-  useEffect(() => {
-    trigger("phone");
-  }, [trigger, errors.phone]);
+  const action = handleSubmit(async (data) => {
+    try {
+      const response = await loginAction(data);
+      if (response && response.phoneNumber) {
+        setServerResponse(response);
+        localStorage.setItem("phone", JSON.stringify(response.phoneNumber));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   const [checked, setChecked] = useState(false);
 
@@ -54,7 +54,7 @@ export const LoginModal = ({ onShow }) => {
     setChecked(!checked);
   };
 
-  const { getInputProps } = useInputMask({ mask: "+38 (0**)***-**-**" });
+  const { getInputProps } = useInputMask({ mask: "+380*********" });
 
   return (
     <>
@@ -76,7 +76,7 @@ export const LoginModal = ({ onShow }) => {
             <p className="text-[16px] text-[#fff]">Увійти</p>
           </li>
         </ul>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action={action}>
           <div className="mb-[56px] h-[84px]">
             <label
               htmlFor="user-phone"
@@ -87,19 +87,19 @@ export const LoginModal = ({ onShow }) => {
             <input
               type="text"
               id="user-phone"
-              placeholder="+38 (0__)___-__-__"
-              {...register("phone")}
+              placeholder="+380"
+              {...register("phoneNumber")}
               {...getInputProps()}
               className={clsx("auth-input", {
-                ["auth-input-error"]: errors.phone,
+                ["auth-input-error"]: errors.phoneNumber,
               })}
             />
-            {errors.phone?.message && (
+            {errors.phoneNumber?.message && (
               <p className="auth-error-message">
                 <span>
                   <QuestionIcon width={8} height={8} className="fill-[#fff]" />
                 </span>
-                {errors.phone?.message}
+                {errors.phoneNumber?.message}
               </p>
             )}
           </div>
@@ -127,6 +127,7 @@ export const LoginModal = ({ onShow }) => {
             </label>
           </div>
         </form>
+        Server response: {serverResponse}
         <ul className="flex gap-[48px] justify-center">
           <li>
             <button type="button">

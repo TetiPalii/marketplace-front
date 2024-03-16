@@ -11,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
+import verificationAction from "./verificationAction";
+import { useState } from "react";
 
 const varificationSchema = z
   .object({
@@ -23,20 +25,35 @@ const varificationSchema = z
   .required();
 
 export const CodeModal = ({ onShow }) => {
+  const [serverResponse, setServerResponse] = useState(null);
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm({
     defaultValues: {
-      code: "",
+      inputCode: "",
     },
     resolver: zodResolver(varificationSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const action = handleSubmit(async (data) => {
+    try {
+      // const phoneNumber = localStorage.getItem("phone")
+      //   ? JSON.parse(localStorage.getItem("phone"))
+      //   : "";
+      // console.log(phoneNumber);
+      const fulfilledData = {
+        ...data,
+        phoneNumber: "+380584525619",
+      };
+      console.log("code", fulfilledData);
+      const response = await verificationAction(fulfilledData);
+      setServerResponse(response);
+    } catch (error) {
+      console.log(error);
+    }
+  });
   return (
     <>
       <BaseModal onShow={onShow}>
@@ -58,7 +75,7 @@ export const CodeModal = ({ onShow }) => {
               <p className="text-[16px] text-[#fff]">Увійти</p>
             </li>
           </ul>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form action={action}>
             <div className="mb-[56px] h-[84px]">
               <label
                 htmlFor="user-code"
@@ -69,12 +86,12 @@ export const CodeModal = ({ onShow }) => {
               <input
                 type="text"
                 id="user-code"
-                {...register("code")}
+                {...register("inputCode")}
                 className={clsx("auth-input", {
-                  ["auth-input-error"]: errors.phone,
+                  ["auth-input-error"]: errors.inputCode,
                 })}
               />
-              {errors.code?.message && (
+              {errors.inputCode?.message && (
                 <p className="auth-error-message">
                   <span>
                     <QuestionIcon
@@ -83,7 +100,7 @@ export const CodeModal = ({ onShow }) => {
                       className="fill-[#fff]"
                     />
                   </span>
-                  {errors.code?.message}
+                  {errors.inputCode?.message}
                 </p>
               )}
             </div>
@@ -98,6 +115,7 @@ export const CodeModal = ({ onShow }) => {
               Увійти
             </button>
           </form>
+          Server response: {serverResponse}
           <button
             type="button"
             className="block p-0 mb-[24px] mx-auto border-none bg-[transparent] text-[16px] text-[#fff]"

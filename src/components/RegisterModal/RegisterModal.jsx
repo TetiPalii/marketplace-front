@@ -12,11 +12,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
-import { useEffect } from "react";
+import registerAction from "./registerAction";
+import { useState } from "react";
 
 const registerSchema = z
   .object({
-    name: z
+    firstName: z
       .string()
       .trim()
       .min(2, { message: "Ім'я має містити мінімум 2 літери" })
@@ -24,39 +25,38 @@ const registerSchema = z
       .regex(/^[a-zA-Zа-яА-Я]+$/, {
         message: "Ім'я може містити лише літери",
       }),
-    phone: z
-      .string()
-      .refine((value) => value.replace(/\D/g, "").length === 10, {
-        message: "Телефон повинен містити 10 цифр",
-      }),
+    phoneNumber: z.string(),
   })
   .required();
 
 export const RegisterModal = ({ onShow }) => {
+  const [serverResponse, setServerResponse] = useState(null);
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-    trigger,
   } = useForm({
     defaultValues: {
-      name: "",
-      phone: "",
+      firstName: "",
+      phoneNumber: "",
     },
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    window.location.href = "/verification/?modal=true";
-  };
-
-  useEffect(() => {
-    trigger("phone");
-  }, [trigger, errors.phone]);
+  const action = handleSubmit(async (data) => {
+    try {
+      const response = await registerAction(data);
+      if (response && response.phoneNumber) {
+        setServerResponse(response);
+        localStorage.setItem("phone", JSON.stringify(response.phoneNumber));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   const { getInputProps } = useInputMask({
-    mask: "+38 (0**)***-**-**",
+    mask: "+380*********",
   });
 
   return (
@@ -79,7 +79,7 @@ export const RegisterModal = ({ onShow }) => {
             <p className="text-[16px] text-[#fff]">Зареєструватись</p>
           </li>
         </ul>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action={action}>
           <div className="mb-[24px] h-[84px]">
             <label
               htmlFor="user-name"
@@ -90,17 +90,17 @@ export const RegisterModal = ({ onShow }) => {
             <input
               type="text"
               id="user-name"
-              {...register("name")}
+              {...register("firstName")}
               className={clsx("auth-input", {
-                ["auth-input-error"]: errors.name,
+                ["auth-input-error"]: errors.firstName,
               })}
             />
-            {errors.name?.message && (
+            {errors.firstName?.message && (
               <p className="auth-error-message">
                 <span>
                   <QuestionIcon width={8} height={8} className="fill-[#fff]" />
                 </span>
-                {errors.name?.message}
+                {errors.firstName?.message}
               </p>
             )}
           </div>
@@ -114,19 +114,19 @@ export const RegisterModal = ({ onShow }) => {
             <input
               type="text"
               id="user-phone"
-              placeholder="+38 (0)___-__-__"
-              {...register("phone")}
+              placeholder="+380"
+              {...register("phoneNumber")}
               {...getInputProps()}
               className={clsx("auth-input", {
-                ["auth-input-error"]: errors.phone,
+                ["auth-input-error"]: errors.phoneNumber,
               })}
             />
-            {errors.phone?.message && (
+            {errors.phoneNumber?.message && (
               <p className="auth-error-message">
                 <span>
                   <QuestionIcon width={8} height={8} className="fill-[#fff]" />
                 </span>
-                {errors.phone?.message}
+                {errors.phoneNumber?.message}
               </p>
             )}
           </div>
@@ -138,6 +138,7 @@ export const RegisterModal = ({ onShow }) => {
             Зареєструватись
           </button>
         </form>
+        Server response: {serverResponse}
         <ul className="flex gap-[48px] justify-center">
           <li>
             <button type="button">
