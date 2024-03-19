@@ -7,7 +7,7 @@ import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import { useForm } from "react-hook-form";
 import EmptyCheckboxIcon from "../../../public/icons/EmptyCheckboxIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckedCheckboxIcon from "../../../public/icons/CheckedCheckboxIcon";
 import Link from "next/link";
 import { useInputMask } from "@code-forge/react-input-mask";
@@ -16,6 +16,7 @@ import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
 import loginAction from "./loginAction";
+import { useDispatch, useSelector, useStore } from "react-redux";
 
 const loginSchema = z
   .object({
@@ -25,6 +26,10 @@ const loginSchema = z
 
 export const LoginModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
+  const dispatch = useDispatch();
+  const store = useStore();
+  const phoneNumber = useSelector((state) => state.phoneNumber.phoneNumber);
+
   const {
     register,
     handleSubmit,

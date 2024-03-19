@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import CloseIcon from "../../../public/icons/CloseIcon";
 import { ReactPortal } from "./ReactPortal/ReactPortal";
+import StoreProvider from "@/app/StoreProvider";
 
 export const BaseModal = ({ onShow = true, children }) => {
   const router = useRouter();
