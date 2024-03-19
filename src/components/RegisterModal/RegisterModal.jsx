@@ -13,7 +13,9 @@ import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
 import registerAction from "./registerAction";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { savePhoneNumber } from "@/store/features/user/userSlice";
 
 const registerSchema = z
   .object({
@@ -25,15 +27,20 @@ const registerSchema = z
       .regex(/^[a-zA-Zа-яА-Я]+$/, {
         message: "Ім'я може містити лише літери",
       }),
-    phoneNumber: z.string(),
+    phoneNumber: z.string().regex(/^\+?\d+$/, {
+      message: "Телефон може містити лише цифри",
+    }),
   })
   .required();
 
 export const RegisterModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
+  const dispatch = useDispatch();
   const {
     register,
+    watch,
     handleSubmit,
+    clearErrors,
     formState: { errors, isDirty },
   } = useForm({
     defaultValues: {
@@ -46,10 +53,8 @@ export const RegisterModal = ({ onShow }) => {
   const action = handleSubmit(async (data) => {
     try {
       const response = await registerAction(data);
-      if (response && response.phoneNumber) {
-        setServerResponse(response);
-        localStorage.setItem("phone", JSON.stringify(response.phoneNumber));
-      }
+      setServerResponse(response);
+      dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
       console.log(error);
     }
@@ -58,6 +63,21 @@ export const RegisterModal = ({ onShow }) => {
   const { getInputProps } = useInputMask({
     mask: "+380*********",
   });
+
+  useEffect(() => {
+    // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
+    // console.log("errors.phoneNumber:", errors.phoneNumber);
+    // console.log("watch('phoneNumber'):", watch("phoneNumber"));
+    if (
+      !errors.phoneNumber &&
+      watch("phoneNumber") &&
+      watch("phoneNumber").match(/^\+?\d+$/)
+    ) {
+      // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
+      // console.log("error is cleared");
+      clearErrors("phoneNumber"); // Функція clearErrors видаляє помилку для конкретного поля
+    }
+  }, [errors.phoneNumber, watch("phoneNumber"), clearErrors]);
 
   return (
     <>
@@ -138,7 +158,6 @@ export const RegisterModal = ({ onShow }) => {
             Зареєструватись
           </button>
         </form>
-        Server response: {serverResponse}
         <ul className="flex gap-[48px] justify-center">
           <li>
             <button type="button">

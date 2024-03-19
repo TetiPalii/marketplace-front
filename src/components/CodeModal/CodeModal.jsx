@@ -13,10 +13,12 @@ import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
 import verificationAction from "./verificationAction";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectPhoneNumber } from "@/store/features/user/selectors";
 
 const varificationSchema = z
   .object({
-    code: z
+    inputCode: z
       .string()
       .min(4, { message: "Код має містити мінімум 4 цифри" })
       .max(4, { message: "Код має містити максимум 4 цифри" })
@@ -26,6 +28,8 @@ const varificationSchema = z
 
 export const CodeModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
+  const phoneNumber = useSelector(selectPhoneNumber);
+  console.log(phoneNumber);
   const {
     register,
     handleSubmit,
@@ -39,13 +43,9 @@ export const CodeModal = ({ onShow }) => {
 
   const action = handleSubmit(async (data) => {
     try {
-      // const phoneNumber = localStorage.getItem("phone")
-      //   ? JSON.parse(localStorage.getItem("phone"))
-      //   : "";
-      // console.log(phoneNumber);
       const fulfilledData = {
         ...data,
-        phoneNumber: "+380584525619",
+        phoneNumber: phoneNumber,
       };
       console.log("code", fulfilledData);
       const response = await verificationAction(fulfilledData);
@@ -115,9 +115,9 @@ export const CodeModal = ({ onShow }) => {
               Увійти
             </button>
           </form>
-          Server response: {serverResponse}
           <button
             type="button"
+            onClick={action}
             className="block p-0 mb-[24px] mx-auto border-none bg-[transparent] text-[16px] text-[#fff]"
           >
             Вислати код ще раз

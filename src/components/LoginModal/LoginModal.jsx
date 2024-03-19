@@ -16,18 +16,24 @@ import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
 import loginAction from "./loginAction";
-
+import { useDispatch } from "react-redux";
+import { savePhoneNumber } from "@/store/features/user/userSlice";
 
 const loginSchema = z
   .object({
-    phoneNumber: z.string(),
+    phoneNumber: z.string().regex(/^\+?\d+$/, {
+      message: "Телефон може містити лише цифри",
+    }),
   })
   .required();
 
 export const LoginModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
+  const dispatch = useDispatch();
   const {
     register,
+    watch,
+    clearErrors,
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm({
@@ -40,10 +46,8 @@ export const LoginModal = ({ onShow }) => {
   const action = handleSubmit(async (data) => {
     try {
       const response = await loginAction(data);
-      if (response && response.phoneNumber) {
-        setServerResponse(response);
-        localStorage.setItem("phone", JSON.stringify(response.phoneNumber));
-      }
+      setServerResponse(response);
+      dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
       console.log(error);
     }
@@ -56,6 +60,21 @@ export const LoginModal = ({ onShow }) => {
   };
 
   const { getInputProps } = useInputMask({ mask: "+380*********" });
+
+  useEffect(() => {
+    // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
+    console.log("errors.phoneNumber:", errors.phoneNumber);
+    console.log("watch('phoneNumber'):", watch("phoneNumber"));
+    if (
+      !errors.phoneNumber &&
+      watch("phoneNumber") &&
+      watch("phoneNumber").match(/^\+?\d+$/)
+    ) {
+      // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
+      // console.log("error is cleared");
+      clearErrors("phoneNumber"); // Функція clearErrors видаляє помилку для конкретного поля
+    }
+  }, [errors.phoneNumber, watch("phoneNumber"), clearErrors]);
 
   return (
     <>
@@ -128,7 +147,6 @@ export const LoginModal = ({ onShow }) => {
             </label>
           </div>
         </form>
-        Server response: {serverResponse}
         <ul className="flex gap-[48px] justify-center">
           <li>
             <button type="button">
