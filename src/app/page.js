@@ -1,9 +1,11 @@
-import Baner from "@/components/Baner/Baner";
+import {Baner} from "@/sections/HeroSection/Baner";
+import { Products } from "@/sections/ProductsSection/Products";
 
 export default function Home() {
   return (
     <>
-      <div className="bg-white w-full h-[176px] rounded-2xl flex items-center justify-center">Baner</div>
+      <Baner />
+      <Products/>
     </>
   );
 }

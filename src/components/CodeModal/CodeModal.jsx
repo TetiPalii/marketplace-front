@@ -16,7 +16,7 @@ import { useState } from "react";
 
 const varificationSchema = z
   .object({
-    code: z
+    iinputCode: z
       .string()
       .min(4, { message: "Код має містити мінімум 4 цифри" })
       .max(4, { message: "Код має містити максимум 4 цифри" })
@@ -45,7 +45,7 @@ export const CodeModal = ({ onShow }) => {
       // console.log(phoneNumber);
       const fulfilledData = {
         ...data,
-        phoneNumber: "+380584525619",
+        phoneNumber: "+380680760805",
       };
       console.log("code", fulfilledData);
       const response = await verificationAction(fulfilledData);

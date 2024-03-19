@@ -3,6 +3,7 @@ import {Header} from "@/sections/Header/Header"
 import "./globals.css";
 import { Footer } from "@/sections/Footer/Footer";
 import StoreProvider from "./StoreProvider";
+import { MainPage } from "@/sections/Main/MainPage";
 
 // import { FooterDesctop } from "@/components/FooterDesctop/FooterDesctop";
 
@@ -20,9 +21,7 @@ export default function RootLayout({ children }) {
       <body>
         <StoreProvider>
           <Header />
-          <main className="pt-[80px] md:pt-[80px] px-2 mx-auto">
-            {children}
-          </main>
+          <MainPage>{children}</MainPage>
           <Footer />
         </StoreProvider>
       </body>
