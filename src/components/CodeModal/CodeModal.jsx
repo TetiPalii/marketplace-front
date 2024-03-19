@@ -39,10 +39,10 @@ export const CodeModal = ({ onShow }) => {
 
   const action = handleSubmit(async (data) => {
     try {
-      const phoneNumber = localStorage.getItem("phone")
-        ? JSON.parse(localStorage.getItem("phone"))
-        : "";
-      console.log(phoneNumber);
+      // const phoneNumber = localStorage.getItem("phone")
+      //   ? JSON.parse(localStorage.getItem("phone"))
+      //   : "";
+      // console.log(phoneNumber);
       const fulfilledData = {
         ...data,
         phoneNumber: "+380584525619",

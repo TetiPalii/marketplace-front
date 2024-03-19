@@ -16,7 +16,7 @@ import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
 import loginAction from "./loginAction";
-import { useDispatch, useSelector, useStore } from "react-redux";
+
 
 const loginSchema = z
   .object({
@@ -26,10 +26,6 @@ const loginSchema = z
 
 export const LoginModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
-  const dispatch = useDispatch();
-  const store = useStore();
-  const phoneNumber = useSelector((state) => state.phoneNumber.phoneNumber);
-
   const {
     register,
     handleSubmit,
