@@ -1,5 +1,5 @@
 "use server";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
 export default async function verificationAction(fulfilledData) {
