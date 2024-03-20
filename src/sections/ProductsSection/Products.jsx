@@ -10,15 +10,18 @@ import { StarRate } from "@/components/StarRate/StarRate"
 
 export const Products = () => {
     const [products, setProducts] = useState(null)
+
     const getProductsList = async () => {
         const productsList = await getProducts()
+        console.log('list')
         console.log(productsList.body)
-        if (productsList.body) { setProducts(productsList) }
+        // if (productsList.body) { setProducts(productsList) }
 
         return productsList
     }
 
     useEffect(() => {
+        console.log('useEffect')
         getProductsList().then(res => setProducts(res.body))
 
 
