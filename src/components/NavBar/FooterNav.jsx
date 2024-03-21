@@ -8,7 +8,6 @@ import { setIsLoggedIn } from "@/store/features/user/userSlice";
 
 
 
-
 export const FooterNav = () => {
     const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
