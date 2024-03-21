@@ -26,6 +26,8 @@ export default async function verificationAction(fulfilledData) {
   if (res.ok) {
     redirect("/");
   } else {
-    return json.error;
+    const error = new Error(json.error?.message);
+    error.response = json.error;
+    throw error;
   }
 }

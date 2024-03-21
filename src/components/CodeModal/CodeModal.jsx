@@ -33,7 +33,8 @@ export const CodeModal = ({ onShow }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty },
+    setError,
+    formState: { errors, isDirty, isSubmitting},
   } = useForm({
     defaultValues: {
       inputCode: "",
@@ -47,11 +48,14 @@ export const CodeModal = ({ onShow }) => {
         ...data,
         phoneNumber: phoneNumber,
       };
-      console.log("code", fulfilledData);
+      // console.log("code", fulfilledData);
       const response = await verificationAction(fulfilledData);
       setServerResponse(response);
     } catch (error) {
       console.log(error);
+      setError("inputCode", {
+        message: "Невірний код",
+      });
     }
   });
   return (
@@ -91,7 +95,7 @@ export const CodeModal = ({ onShow }) => {
                   ["auth-input-error"]: errors.inputCode,
                 })}
               />
-              {errors.inputCode?.message && (
+              {errors.inputCode && (
                 <p className="auth-error-message">
                   <span>
                     <QuestionIcon
@@ -106,13 +110,13 @@ export const CodeModal = ({ onShow }) => {
             </div>
             <button
               type="submit"
-              disabled={!isDirty}
+              disabled={!isDirty || isSubmitting}
               className={clsx(
                 "submit-btn mb-[88px]",
-                !isDirty && "submit-btn-disabled"
+                (!isDirty || isSubmitting) && "submit-btn-disabled"
               )}
             >
-              Увійти
+              {isSubmitting ? "Завантаження..." : "Увійти"}
             </button>
           </form>
           <button

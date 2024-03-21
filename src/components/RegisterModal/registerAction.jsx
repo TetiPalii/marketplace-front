@@ -17,6 +17,8 @@ export default async function registerAction(data) {
   if (res.ok) {
     redirect("/verification/?modal=true");
   } else {
-    return json.error;
+    const error = new Error(json.error?.message);
+    error.response = json.error;
+    throw error;
   }
 }

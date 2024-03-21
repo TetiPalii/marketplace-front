@@ -35,7 +35,8 @@ export const LoginModal = ({ onShow }) => {
     watch,
     clearErrors,
     handleSubmit,
-    formState: { errors, isDirty },
+    setError,
+    formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
       phoneNumber: "",
@@ -50,6 +51,7 @@ export const LoginModal = ({ onShow }) => {
       dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
       console.log(error);
+      setError('phoneNumber', {message:'Користувач з таким номером телефона не зареєстрований'} )
     }
   });
 
@@ -125,13 +127,13 @@ export const LoginModal = ({ onShow }) => {
           </div>
           <button
             type="submit"
-            disabled={!isDirty}
+            disabled={!isDirty || isSubmitting}
             className={clsx(
               "submit-btn mb-[32px]",
-              !isDirty && "submit-btn-disabled"
+              (!isDirty || isSubmitting) && "submit-btn-disabled"
             )}
           >
-            Далі
+            {isSubmitting ? "Завантаження..." : "Далі"}
           </button>
           <div className="mb-[136px]">
             <input

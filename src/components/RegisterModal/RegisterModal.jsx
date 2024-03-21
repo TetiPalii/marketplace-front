@@ -41,7 +41,8 @@ export const RegisterModal = ({ onShow }) => {
     watch,
     handleSubmit,
     clearErrors,
-    formState: { errors, isDirty },
+    setError,
+    formState: { errors, isDirty, isSubmitting},
   } = useForm({
     defaultValues: {
       firstName: "",
@@ -57,6 +58,9 @@ export const RegisterModal = ({ onShow }) => {
       dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
       console.log(error);
+      setError("phoneNumber", {
+        message: "Такий клієнт уже зареєстрований в системі",
+      });
     }
   });
 
@@ -151,12 +155,15 @@ export const RegisterModal = ({ onShow }) => {
             )}
           </div>
           <button
-            type="submit"
-            disabled={!isDirty}
-            className={clsx("submit-btn", !isDirty && "submit-btn-disabled")}
-          >
-            Зареєструватись
-          </button>
+              type="submit"
+              disabled={!isDirty || isSubmitting}
+              className={clsx(
+                "submit-btn mb-[88px]",
+                (!isDirty || isSubmitting) && "submit-btn-disabled"
+              )}
+            >
+              {isSubmitting ? "Завантаження..." : "Зареєструватись"}
+            </button>
         </form>
         <ul className="flex gap-[48px] justify-center">
           <li>
