@@ -13,15 +13,15 @@ export const Products = () => {
 
   const getProductsList = async () => {
     const productsList = await getProducts();
-    console.log('list');
-    console.log(productsList.body);
+    // console.log('list');
+    // console.log(productsList.body);
     // if (productsList.body) { setProducts(productsList) }
 
     return productsList;
   };
 
   useEffect(() => {
-    console.log('useEffect');
+    // console.log('useEffect');
     getProductsList().then(res => setProducts(res.body));
   }, []);
   return (

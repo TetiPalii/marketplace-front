@@ -1,48 +1,50 @@
-"use client";
-import { BaseModal } from "../BaseModal/BaseModal";
-import Image from "next/image";
-import LogoIcon from "../../../public/icons/LogoIcon";
-import rocket from "../../../public/images/rocket-iso-color.png";
-import facebook from "../../../public/images/facebook.png";
-import google from "../../../public/images/google.png";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import QuestionIcon from "../../../public/icons/QuestionIcon";
-import clsx from "clsx";
-import verificationAction from "./verificationAction";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { selectPhoneNumber } from "@/store/features/user/selectors";
+'use client';
+import { BaseModal } from '../BaseModal/BaseModal';
+import Image from 'next/image';
+import LogoIcon from '../../../public/icons/LogoIcon';
+import rocket from '../../../public/images/rocket-iso-color.png';
+import facebook from '../../../public/images/facebook.png';
+import google from '../../../public/images/google.png';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import QuestionIcon from '../../../public/icons/QuestionIcon';
+import clsx from 'clsx';
+import verificationAction from './verificationAction';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPhoneNumber } from '@/store/features/user/selectors';
+import { setIsLoggedIn } from '@/store/features/user/userSlice';
 
 const varificationSchema = z
   .object({
     inputCode: z
       .string()
-      .min(4, { message: "Код має містити мінімум 4 цифри" })
-      .max(4, { message: "Код має містити максимум 4 цифри" })
-      .regex(/^\d+$/, { message: "Код має містити тільки цифри" }),
+      .min(4, { message: 'Код має містити мінімум 4 цифри' })
+      .max(4, { message: 'Код має містити максимум 4 цифри' })
+      .regex(/^\d+$/, { message: 'Код має містити тільки цифри' }),
   })
   .required();
 
 export const CodeModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
   const phoneNumber = useSelector(selectPhoneNumber);
+  const dispatch = useDispatch();
   console.log(phoneNumber);
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isDirty, isSubmitting},
+    formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
-      inputCode: "",
+      inputCode: '',
     },
     resolver: zodResolver(varificationSchema),
   });
 
-  const action = handleSubmit(async (data) => {
+  const action = handleSubmit(async data => {
     try {
       const fulfilledData = {
         ...data,
@@ -50,11 +52,14 @@ export const CodeModal = ({ onShow }) => {
       };
       // console.log("code", fulfilledData);
       const response = await verificationAction(fulfilledData);
+
+      dispatch(setIsLoggedIn(true));
+
       setServerResponse(response);
     } catch (error) {
       console.log(error);
-      setError("inputCode", {
-        message: "Невірний код",
+      setError('inputCode', {
+        message: 'Невірний код',
       });
     }
   });
@@ -90,9 +95,9 @@ export const CodeModal = ({ onShow }) => {
               <input
                 type="text"
                 id="user-code"
-                {...register("inputCode")}
-                className={clsx("auth-input", {
-                  ["auth-input-error"]: errors.inputCode,
+                {...register('inputCode')}
+                className={clsx('auth-input', {
+                  ['auth-input-error']: errors.inputCode,
                 })}
               />
               {errors.inputCode && (
@@ -112,11 +117,11 @@ export const CodeModal = ({ onShow }) => {
               type="submit"
               disabled={!isDirty || isSubmitting}
               className={clsx(
-                "submit-btn mb-[88px]",
-                (!isDirty || isSubmitting) && "submit-btn-disabled"
+                'submit-btn mb-[88px]',
+                (!isDirty || isSubmitting) && 'submit-btn-disabled',
               )}
             >
-              {isSubmitting ? "Завантаження..." : "Увійти"}
+              {isSubmitting ? 'Завантаження...' : 'Увійти'}
             </button>
           </form>
           <button

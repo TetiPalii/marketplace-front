@@ -1,46 +1,49 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { IconWrapper } from "../IconWrapper/IconWrapper";
-import CloseIcon from "../../../public/icons/CloseIcon";
-import { FlexContainer } from "../FlexContainer/FlexContainer";
-import Link from "next/link";
-import LogoMobile from "../../../public/icons/LogoMobile";
-import Rocket from "../../../public/icons/Rocket";
-import { Navigation } from "./Navigation";
-import { NavLoggedIn } from "./NavLoggedIn";
-import { UserInfo } from "../UserInfo/UserInfo";
-import { FooterNav } from "./FooterNav";
-import { useDispatch, useSelector } from "react-redux";
+'use client';
+import React, { useEffect, useState } from 'react';
+import { IconWrapper } from '../IconWrapper/IconWrapper';
+import CloseIcon from '../../../public/icons/CloseIcon';
+import { FlexContainer } from '../FlexContainer/FlexContainer';
+import Link from 'next/link';
+import LogoMobile from '../../../public/icons/LogoMobile';
+import Rocket from '../../../public/icons/Rocket';
+import { Navigation } from './Navigation';
+import { NavLoggedIn } from './NavLoggedIn';
+import { UserInfo } from '../UserInfo/UserInfo';
+import { FooterNav } from './FooterNav';
+import { useSelector } from 'react-redux';
+import { getCookie } from 'cookies-next';
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  // console.log(isLoggedIn)
-  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+  const [authorized, setAuthorized] = useState(isLoggedIn);
+
+  console.log(isLoggedIn);
 
   useEffect(() => {
     if (menuOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
       return;
     }
-  }, [menuOpen]);
+    setAuthorized(isLoggedIn);
+  }, [menuOpen, isLoggedIn]);
 
   return (
     <div
       className={
         menuOpen
-          ? "md:hidden top-0 left-0 fixed w-screen h-full bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-500 overflow-auto text-lightPink"
-          : "fixed left-[-200%] top-0 ease-in duration-500 md:hidden"
+          ? 'md:hidden top-0 left-0 fixed w-screen h-full bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-500 overflow-auto text-lightPink'
+          : 'fixed left-[-200%] top-0 ease-in duration-500 md:hidden'
       }
     >
       <div
         className={
           menuOpen
-            ? "w-[88%]  fixed top-0 left-0 md:hidden  z-[999] bg-darkBlue py-6"
-            : "fixed left-[-200%] top-0 ease-in duration-300"
+            ? 'w-[88%]  fixed top-0 left-0 md:hidden  z-[999] bg-darkBlue py-6'
+            : 'fixed left-[-200%] top-0 ease-in duration-300'
         }
       >
-        <FlexContainer className={"justify-between pl-5 pr-2"}>
+        <FlexContainer className={'justify-between pl-5 pr-2'}>
           <LogoMobile />
           <IconWrapper
             setMenuOpen={() => {
@@ -51,11 +54,11 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
           </IconWrapper>
         </FlexContainer>
 
-        {isLoggedIn ? (
+        {authorized ? (
           <UserInfo />
         ) : (
           <FlexContainer
-            className={"pl-[30px] py-5 mb-4 bg-[#9843BD0D] max-w-full"}
+            className={'pl-[30px] py-5 mb-4 bg-[#9843BD0D] max-w-full'}
           >
             <Rocket />
 

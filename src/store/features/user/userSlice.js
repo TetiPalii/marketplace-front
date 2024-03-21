@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   phoneNumber: null,
@@ -6,14 +6,15 @@ const initialState = {
 };
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     savePhoneNumber: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.phoneNumber = action.payload;
     },
     setIsLoggedIn: (state, action) => {
+      console.log(action.payload);
       state.isLoggedIn = action.payload;
     },
   },
