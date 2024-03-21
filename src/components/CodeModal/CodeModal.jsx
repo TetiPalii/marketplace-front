@@ -45,11 +45,7 @@ export const CodeModal = ({ onShow }) => {
   });
 
   const action = handleSubmit(async data => {
-    dispatch(setIsLoggedIn(true));
-
     try {
-      dispatch(setIsLoggedIn(true));
-
       const fulfilledData = {
         ...data,
         phoneNumber: phoneNumber,

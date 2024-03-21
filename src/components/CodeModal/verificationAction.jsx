@@ -1,7 +1,6 @@
 'use server';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { setCookie } from 'cookies-next';
 
 export default async function verificationAction(fulfilledData) {
   const res = await fetch(
@@ -25,7 +24,6 @@ export default async function verificationAction(fulfilledData) {
   });
 
   if (res.ok) {
-    // setCookie('key', 'value', { req, res });
     redirect('/');
   } else {
     const error = new Error(json.error?.message);
