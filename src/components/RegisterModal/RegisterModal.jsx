@@ -1,21 +1,21 @@
-"use client";
-import Image from "next/image";
-import LogoIcon from "../../../public/icons/LogoIcon";
-import { BaseModal } from "../BaseModal/BaseModal";
-import rocket from "../../../public/images/rocket-iso-color.png";
-import facebook from "../../../public/images/facebook.png";
-import google from "../../../public/images/google.png";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
-import { useInputMask } from "@code-forge/react-input-mask";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import QuestionIcon from "../../../public/icons/QuestionIcon";
-import clsx from "clsx";
-import registerAction from "./registerAction";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { savePhoneNumber } from "@/store/features/user/userSlice";
+'use client';
+import Image from 'next/image';
+import LogoIcon from '../../../public/icons/LogoIcon';
+import { BaseModal } from '../BaseModal/BaseModal';
+import rocket from '../../../public/images/rocket-iso-color.png';
+import facebook from '../../../public/images/facebook.png';
+import google from '../../../public/images/google.png';
+import { useForm } from 'react-hook-form';
+import Link from 'next/link';
+import { useInputMask } from '@code-forge/react-input-mask';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import QuestionIcon from '../../../public/icons/QuestionIcon';
+import clsx from 'clsx';
+import registerAction from './registerAction';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { savePhoneNumber, saveUserName } from '@/store/features/user/userSlice';
 
 const registerSchema = z
   .object({
@@ -28,7 +28,7 @@ const registerSchema = z
         message: "Ім'я може містити лише літери",
       }),
     phoneNumber: z.string().regex(/^\+?\d+$/, {
-      message: "Телефон може містити лише цифри",
+      message: 'Телефон може містити лише цифри',
     }),
   })
   .required();
@@ -42,30 +42,31 @@ export const RegisterModal = ({ onShow }) => {
     handleSubmit,
     clearErrors,
     setError,
-    formState: { errors, isDirty, isSubmitting},
+    formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
-      firstName: "",
-      phoneNumber: "",
+      firstName: '',
+      phoneNumber: '',
     },
     resolver: zodResolver(registerSchema),
   });
 
-  const action = handleSubmit(async (data) => {
+  const action = handleSubmit(async data => {
     try {
       const response = await registerAction(data);
       setServerResponse(response);
+      dispatch(saveUserName(data.firstName));
       dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
       console.log(error);
-      setError("phoneNumber", {
-        message: "Такий клієнт уже зареєстрований в системі",
+      setError('phoneNumber', {
+        message: 'Такий клієнт уже зареєстрований в системі',
       });
     }
   });
 
   const { getInputProps } = useInputMask({
-    mask: "+380*********",
+    mask: '+380*********',
   });
 
   useEffect(() => {
@@ -74,14 +75,14 @@ export const RegisterModal = ({ onShow }) => {
     // console.log("watch('phoneNumber'):", watch("phoneNumber"));
     if (
       !errors.phoneNumber &&
-      watch("phoneNumber") &&
-      watch("phoneNumber").match(/^\+?\d+$/)
+      watch('phoneNumber') &&
+      watch('phoneNumber').match(/^\+?\d+$/)
     ) {
       // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
       // console.log("error is cleared");
-      clearErrors("phoneNumber"); // Функція clearErrors видаляє помилку для конкретного поля
+      clearErrors('phoneNumber'); // Функція clearErrors видаляє помилку для конкретного поля
     }
-  }, [errors.phoneNumber, watch("phoneNumber"), clearErrors]);
+  }, [errors.phoneNumber, watch('phoneNumber'), clearErrors]);
 
   return (
     <>
@@ -114,9 +115,9 @@ export const RegisterModal = ({ onShow }) => {
             <input
               type="text"
               id="user-name"
-              {...register("firstName")}
-              className={clsx("auth-input", {
-                ["auth-input-error"]: errors.firstName,
+              {...register('firstName')}
+              className={clsx('auth-input', {
+                ['auth-input-error']: errors.firstName,
               })}
             />
             {errors.firstName?.message && (
@@ -139,10 +140,10 @@ export const RegisterModal = ({ onShow }) => {
               type="text"
               id="user-phone"
               placeholder="+380"
-              {...register("phoneNumber")}
+              {...register('phoneNumber')}
               {...getInputProps()}
-              className={clsx("auth-input", {
-                ["auth-input-error"]: errors.phoneNumber,
+              className={clsx('auth-input', {
+                ['auth-input-error']: errors.phoneNumber,
               })}
             />
             {errors.phoneNumber?.message && (
@@ -155,15 +156,15 @@ export const RegisterModal = ({ onShow }) => {
             )}
           </div>
           <button
-              type="submit"
-              disabled={!isDirty || isSubmitting}
-              className={clsx(
-                "submit-btn mb-[88px]",
-                (!isDirty || isSubmitting) && "submit-btn-disabled"
-              )}
-            >
-              {isSubmitting ? "Завантаження..." : "Зареєструватись"}
-            </button>
+            type="submit"
+            disabled={!isDirty || isSubmitting}
+            className={clsx(
+              'submit-btn mb-[88px]',
+              (!isDirty || isSubmitting) && 'submit-btn-disabled',
+            )}
+          >
+            {isSubmitting ? 'Завантаження...' : 'Зареєструватись'}
+          </button>
         </form>
         <ul className="flex gap-[48px] justify-center">
           <li>

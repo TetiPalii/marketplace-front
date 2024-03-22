@@ -26,7 +26,7 @@ export const authLinks = [
   {
     name: 'Улюбленні товари',
     href: '/whishlist',
-    icon: <LikeIcon />,
+    icon: <LikeIcon fill={'#fff'} />,
   },
   {
     name: 'Мої замовлення',
