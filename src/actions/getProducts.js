@@ -1,6 +1,5 @@
-'use server';
-
 export const getProducts = () => {
+  console.log('getting products in seerver component');
   return fetch('https://marketplace-5ihn.onrender.com/api/v1/products/s/list', {
     method: 'GET',
     headers: {
@@ -11,12 +10,12 @@ export const getProducts = () => {
       if (!response.ok) {
         throw new Error();
       }
-      console.log(response);
-      console.log('getProducts');
-      // return response.json()
+      // console.log(response);
+      // console.log('getProducts');
+      return response.json();
     })
     .then(data => {
-      // console.log(data)
+      console.log(data);
       return data;
     })
     .catch(error => {

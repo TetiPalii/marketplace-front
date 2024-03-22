@@ -6,18 +6,23 @@ import { FlexContainer } from '../FlexContainer/FlexContainer';
 import Link from 'next/link';
 import LogoMobile from '../../../public/icons/LogoMobile';
 import Rocket from '../../../public/icons/Rocket';
-import { Navigation } from './Navigation';
-import { NavLoggedIn } from './NavLoggedIn';
+import { UnauthorizedNav } from './UnauthorizedNav';
+import { AuthorizedNav } from './AuthorizedNav';
 import { UserInfo } from '../UserInfo/UserInfo';
 import { FooterNav } from './FooterNav';
 import { useSelector } from 'react-redux';
-import { getCookie } from 'cookies-next';
+import { usePathname } from 'next/navigation';
+// import { getCookie } from 'cookies-next';
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
   const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+
   const [authorized, setAuthorized] = useState(isLoggedIn);
 
-  console.log(isLoggedIn);
+  const pathName = usePathname();
+  function navBarClose() {
+    setMenuOpen(false);
+  }
 
   useEffect(() => {
     if (menuOpen) {
@@ -44,7 +49,10 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
         }
       >
         <FlexContainer className={'justify-between pl-5 pr-2'}>
-          <LogoMobile />
+          <Link href={'/'} onClick={navBarClose}>
+            <LogoMobile />
+          </Link>
+
           <IconWrapper
             setMenuOpen={() => {
               setMenuOpen(!menuOpen);
@@ -63,6 +71,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
             <Rocket />
 
             <Link
+              onClick={navBarClose}
               href="/login/?modal=true"
               className="text-[16px] leading-[1.2] ml-5 mr-4"
             >
@@ -70,6 +79,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
             </Link>
             <div className="h-[56px] w-[1.5px] bg-white mr-4 element"></div>
             <Link
+              onClick={navBarClose}
               href="/register/?modal=true"
               className="text-[16px] leading-[1.2] "
             >
@@ -77,8 +87,12 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
             </Link>
           </FlexContainer>
         )}
-        {isLoggedIn ? <NavLoggedIn /> : <Navigation />}
-        <FooterNav />
+        {isLoggedIn ? (
+          <AuthorizedNav onClose={navBarClose} />
+        ) : (
+          <UnauthorizedNav onClose={navBarClose} />
+        )}
+        <FooterNav onClose={navBarClose} />
       </div>
     </div>
   );
