@@ -1,16 +1,12 @@
-import { about, forPartners, help, socialmediaIcons } from "@/data/footerNav";
-import Link from "next/link";
-import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsLoggedIn } from "@/store/features/user/userSlice";
+import { about, forPartners, help, socialmediaIcons } from '@/data/footerNav';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsLoggedIn } from '@/store/features/user/userSlice';
 
-
-
-
-
-export const FooterNav = () => {
-    const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+export const FooterNav = ({ onClose }) => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
   return (
     <div className="flex flex-col gap-6 pl-5 mt-[72px]">
       <div className="h-[20px] w-full bg-gradient-to-r from-[#161C2A] via-[#990078] via-50% to-[#161C2A] to-100% ...">
@@ -20,7 +16,7 @@ export const FooterNav = () => {
       </div>
       <ul>
         {about.map(({ name, href }) => (
-          <li key={name}>
+          <li key={name} onClick={onClose}>
             <Link href={href} className="text-xs">
               {name}
             </Link>
@@ -35,7 +31,7 @@ export const FooterNav = () => {
       </div>
       <ul>
         {forPartners.map(({ name, href }) => (
-          <li key={name}>
+          <li key={name} onClick={onClose}>
             <Link href={href} className="text-xs">
               {name}
             </Link>
@@ -50,7 +46,7 @@ export const FooterNav = () => {
       </div>
       <ul>
         {help.map(({ name, href }) => (
-          <li key={name}>
+          <li key={name} onClick={onClose}>
             <Link href={href} className="text-xs">
               {name}
             </Link>
@@ -61,16 +57,26 @@ export const FooterNav = () => {
         <p className="text-[#656E81] text-base mb-3">Ми у соціальних мережах</p>
         <ul className="flex items-center gap-6">
           {socialmediaIcons.map(({ id, icon }) => (
-            <li key={id}>
-              <Link href={"/"}>
+            <li key={id} onClick={onClose}>
+              <Link href={'/'}>
                 <Image src={icon} alt="icon" width="40" height="40" />
               </Link>
             </li>
           ))}
         </ul>
       </div>
-      {isLoggedIn && <button className="text-xs" type="button" onClick={()=>{dispatch(setIsLoggedIn(false))}} >Вийти із аккаунта</button>}
+      {isLoggedIn && (
+        <button
+          className="text-xs"
+          type="button"
+          onClick={() => {
+            dispatch(setIsLoggedIn(false));
+            onClose;
+          }}
+        >
+          Вийти із аккаунта
+        </button>
+      )}
     </div>
   );
 };
-//onClick={() => {  console.log("after click", isLoggedIn);}}

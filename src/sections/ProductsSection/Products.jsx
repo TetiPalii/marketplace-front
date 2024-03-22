@@ -5,24 +5,21 @@ import { useEffect, useState } from 'react';
 import CartIcon2 from '../../../public/icons/CartIcon';
 import { IconWrapper } from '@/components/IconWrapper/IconWrapper';
 import LikeIcon from '../../../public/icons/LikeIcon';
-import EmptyStartcon from '../../../public/icons/EmptyStarIcon';
 import { StarRate } from '@/components/StarRate/StarRate';
 
 export const Products = () => {
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
 
   const getProductsList = async () => {
     const productsList = await getProducts();
-    // console.log('list');
-    // console.log(productsList.body);
-    // if (productsList.body) { setProducts(productsList) }
 
     return productsList;
   };
 
   useEffect(() => {
-    // console.log('useEffect');
-    getProductsList().then(res => setProducts(res.body));
+    getProductsList().then(res => {
+      setProducts(res.body);
+    });
   }, []);
   return (
     <section className="p-6">
