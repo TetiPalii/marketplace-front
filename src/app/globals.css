@@ -75,7 +75,6 @@ html {
 
   .submit-btn {
     display: block;
-    margin-bottom: 192px;
     border-radius: 12px;
     border: none;
     width: 100%;
@@ -150,6 +149,18 @@ html {
   .padding {
     padding: 16px;
   }
+  .auth-bg{
+  backdrop-filter: blur(50px);
+background-color: rgba(152, 67, 189, 0.05);
+  }
+.clear-btn{
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 14px;
+  height: 14px;
+
+}
 }
 
 /* :root {

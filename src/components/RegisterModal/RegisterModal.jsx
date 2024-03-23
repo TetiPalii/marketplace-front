@@ -7,15 +7,17 @@ import facebook from '../../../public/images/facebook.png';
 import google from '../../../public/images/google.png';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
-import { useInputMask } from '@code-forge/react-input-mask';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import QuestionIcon from '../../../public/icons/QuestionIcon';
 import clsx from 'clsx';
 import registerAction from './registerAction';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { savePhoneNumber, saveUserName } from '@/store/features/user/userSlice';
+import CloseIcon from '../../../public/icons/CloseIcon';
+import { InputMask } from 'primereact/inputmask';
+        
 
 const registerSchema = z
   .object({
@@ -42,6 +44,7 @@ export const RegisterModal = ({ onShow }) => {
     handleSubmit,
     clearErrors,
     setError,
+    setValue,
     formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -50,6 +53,7 @@ export const RegisterModal = ({ onShow }) => {
     },
     resolver: zodResolver(registerSchema),
   });
+  
 
   const action = handleSubmit(async data => {
     try {
@@ -58,39 +62,20 @@ export const RegisterModal = ({ onShow }) => {
       dispatch(saveUserName(data.firstName));
       dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setError('phoneNumber', {
         message: 'Такий клієнт уже зареєстрований в системі',
       });
     }
   });
 
-  const { getInputProps } = useInputMask({
-    mask: '+380*********',
-  });
-
-  useEffect(() => {
-    // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
-    // console.log("errors.phoneNumber:", errors.phoneNumber);
-    // console.log("watch('phoneNumber'):", watch("phoneNumber"));
-    if (
-      !errors.phoneNumber &&
-      watch('phoneNumber') &&
-      watch('phoneNumber').match(/^\+?\d+$/)
-    ) {
-      // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
-      // console.log("error is cleared");
-      clearErrors('phoneNumber'); // Функція clearErrors видаляє помилку для конкретного поля
-    }
-  }, [errors.phoneNumber, watch('phoneNumber'), clearErrors]);
-
   return (
     <>
       <BaseModal onShow={onShow}>
-        <Link href="/" className="flex justify-center">
-          <LogoIcon className="w-[291px] h-[72px] mt-[12px] mb-[40px]" />
+        <Link href="/" className="block mt-[24px] mb-[40px]">
+          <LogoIcon className="mx-auto w-[291px] h-[72px]" />
         </Link>
-        <ul className="flex gap-[17px] justify-center items-center mb-[16px]">
+        <ul className="flex gap-[17px] justify-center items-center mb-[16px] pt-[40px] pb-[40px] auth-bg">
           <li>
             <Image
               src={rocket}
@@ -104,8 +89,8 @@ export const RegisterModal = ({ onShow }) => {
             <p className="text-[16px] text-[#fff]">Зареєструватись</p>
           </li>
         </ul>
-        <form action={action}>
-          <div className="mb-[24px] h-[84px]">
+        <form action={action} className='mb-[190px]'>
+          <div className="relative mb-[24px] h-[84px]">
             <label
               htmlFor="user-name"
               className="block mb-[8px] text-[12px] text-[#fff]"
@@ -120,6 +105,11 @@ export const RegisterModal = ({ onShow }) => {
                 ['auth-input-error']: errors.firstName,
               })}
             />
+            {watch('firstName') && (
+    <button type='button' className="clear-btn" onClick={() => setValue('firstName', '')}>
+      <CloseIcon className='w-[100%] h-[100%] fill-[#D0D0D0]'/>
+    </button>
+  )}
             {errors.firstName?.message && (
               <p className="auth-error-message">
                 <span>
@@ -129,23 +119,27 @@ export const RegisterModal = ({ onShow }) => {
               </p>
             )}
           </div>
-          <div className="mb-[31px] h-[84px]">
+          <div className="relative mb-[31px] h-[84px]">
             <label
               htmlFor="user-phone"
               className="block mb-[8px] text-[12px] text-[#fff]"
             >
               Телефон
             </label>
-            <input
-              type="text"
+            <InputMask
+              type="tel"
               id="user-phone"
+              mask='+380*********'
               placeholder="+380"
               {...register('phoneNumber')}
-              {...getInputProps()}
-              className={clsx('auth-input', {
+              className={clsx('auth-input', 'input-mask',{
                 ['auth-input-error']: errors.phoneNumber,
               })}
             />
+            {watch('phoneNumber') && (
+              <button type='button' className="clear-btn" onClick={() => setValue('phoneNumber', '')}>
+                <CloseIcon className='w-[100%] h-[100%] fill-[#D0D0D0]' />
+              </button>)}
             {errors.phoneNumber?.message && (
               <p className="auth-error-message">
                 <span>
@@ -159,7 +153,7 @@ export const RegisterModal = ({ onShow }) => {
             type="submit"
             disabled={!isDirty || isSubmitting}
             className={clsx(
-              'submit-btn mb-[88px]',
+              'submit-btn',
               (!isDirty || isSubmitting) && 'submit-btn-disabled',
             )}
           >

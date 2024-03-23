@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPhoneNumber } from '@/store/features/user/selectors';
 import { setIsLoggedIn } from '@/store/features/user/userSlice';
+import CloseIcon from '../../../public/icons/CloseIcon';
 
 const varificationSchema = z
   .object({
@@ -31,11 +32,12 @@ export const CodeModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
   const phoneNumber = useSelector(selectPhoneNumber);
   const dispatch = useDispatch();
-  console.log(phoneNumber);
   const {
     register,
     handleSubmit,
     setError,
+    watch,
+    setValue,
     formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -57,7 +59,7 @@ export const CodeModal = ({ onShow }) => {
 
       setServerResponse(response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setError('inputCode', {
         message: 'Невірний код',
       });
@@ -67,10 +69,10 @@ export const CodeModal = ({ onShow }) => {
     <>
       <BaseModal onShow={onShow}>
         <div>
-          <Link href="/" className="flex justify-center">
-            <LogoIcon className="w-[291px] h-[72px] mt-[12px] mb-[40px]" />
+          <Link href="/" className="block mt-[24px] mb-[82px]">
+            <LogoIcon className="mx-auto w-[291px] h-[72px]" />
           </Link>
-          <ul className="flex gap-[60px] justify-center items-center mb-[82px]">
+          <ul className="flex gap-[60px] justify-center items-center mb-[82px] pt-[40px] pb-[40px] auth-bg">
             <li>
               <Image
                 src={rocket}
@@ -84,8 +86,8 @@ export const CodeModal = ({ onShow }) => {
               <p className="text-[16px] text-[#fff]">Увійти</p>
             </li>
           </ul>
-          <form action={action}>
-            <div className="mb-[56px] h-[84px]">
+          <form action={action} className='mb-[112px]'>
+            <div className="relative mb-[32px] h-[84px]">
               <label
                 htmlFor="user-code"
                 className="block mb-[8px] text-[12px] text-[#fff]"
@@ -100,6 +102,10 @@ export const CodeModal = ({ onShow }) => {
                   ['auth-input-error']: errors.inputCode,
                 })}
               />
+              {watch('inputCode') && (
+                <button type='button' className="clear-btn" onClick={() => setValue('inputCode', '')}>
+                  <CloseIcon className='w-[100%] h-[100%] fill-[#D0D0D0]' />
+                </button>)}
               {errors.inputCode && (
                 <p className="auth-error-message">
                   <span>
@@ -117,7 +123,7 @@ export const CodeModal = ({ onShow }) => {
               type="submit"
               disabled={!isDirty || isSubmitting}
               className={clsx(
-                'submit-btn mb-[88px]',
+                'submit-btn',
                 (!isDirty || isSubmitting) && 'submit-btn-disabled',
               )}
             >
@@ -133,7 +139,7 @@ export const CodeModal = ({ onShow }) => {
           </button>
           <Link
             href="/login/?modal=true"
-            className="block p-0 mb-[39px] text-center border-none bg-[transparent] text-[16px] text-[#fff]"
+            className="block p-0 mb-[40px] text-center border-none bg-[transparent] text-[16px] text-[#fff]"
           >
             Ввести інший номер телефону
           </Link>
