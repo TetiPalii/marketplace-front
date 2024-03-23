@@ -7,10 +7,9 @@ import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import { useForm } from "react-hook-form";
 import EmptyCheckboxIcon from "../../../public/icons/EmptyCheckboxIcon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CheckedCheckboxIcon from "../../../public/icons/CheckedCheckboxIcon";
 import Link from "next/link";
-import { useInputMask } from "@code-forge/react-input-mask";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
@@ -18,6 +17,8 @@ import clsx from "clsx";
 import loginAction from "./loginAction";
 import { useDispatch } from "react-redux";
 import { savePhoneNumber } from "@/store/features/user/userSlice";
+import CloseIcon from '../../../public/icons/CloseIcon';
+import { InputMask } from 'primereact/inputmask';
 
 const loginSchema = z
   .object({
@@ -33,9 +34,9 @@ export const LoginModal = ({ onShow }) => {
   const {
     register,
     watch,
-    clearErrors,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -50,7 +51,7 @@ export const LoginModal = ({ onShow }) => {
       setServerResponse(response);
       dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setError('phoneNumber', {message:'Користувач з таким номером телефона не зареєстрований'} )
     }
   });
@@ -61,30 +62,13 @@ export const LoginModal = ({ onShow }) => {
     setChecked(!checked);
   };
 
-  const { getInputProps } = useInputMask({ mask: "+380*********" });
-
-  useEffect(() => {
-    // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
-    console.log("errors.phoneNumber:", errors.phoneNumber);
-    console.log("watch('phoneNumber'):", watch("phoneNumber"));
-    if (
-      !errors.phoneNumber &&
-      watch("phoneNumber") &&
-      watch("phoneNumber").match(/^\+?\d+$/)
-    ) {
-      // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
-      // console.log("error is cleared");
-      clearErrors("phoneNumber"); // Функція clearErrors видаляє помилку для конкретного поля
-    }
-  }, [errors.phoneNumber, watch("phoneNumber"), clearErrors]);
-
   return (
     <>
       <BaseModal onShow={onShow}>
-        <Link href="/" className="flex justify-center">
-          <LogoIcon className="w-[291px] h-[72px] mt-[12px] mb-[40px]" />
+        <Link href="/" className="block mt-[24px] mb-[40px]">
+          <LogoIcon className="mx-auto w-[291px] h-[72px]" />
         </Link>
-        <ul className="flex gap-[60px] justify-center items-center mb-[82px]">
+        <ul className="flex gap-[60px] justify-center items-center mb-[82px] pt-[40px] pb-[40px] auth-bg">
           <li>
             <Image
               src={rocket}
@@ -98,24 +82,28 @@ export const LoginModal = ({ onShow }) => {
             <p className="text-[16px] text-[#fff]">Увійти</p>
           </li>
         </ul>
-        <form action={action}>
-          <div className="mb-[56px] h-[84px]">
+        <form action={action} className="mb-[136px]">
+          <div className="relative mb-[32px] h-[84px]">
             <label
               htmlFor="user-phone"
               className="block mb-[8px] text-[12px] text-[#fff]"
             >
               Телефон
             </label>
-            <input
-              type="text"
+           <InputMask
+              type="tel"
               id="user-phone"
+              mask='+380*********'
               placeholder="+380"
-              {...register("phoneNumber")}
-              {...getInputProps()}
-              className={clsx("auth-input", {
-                ["auth-input-error"]: errors.phoneNumber,
+              {...register('phoneNumber')}
+              className={clsx('auth-input', 'input-mask',{
+                ['auth-input-error']: errors.phoneNumber,
               })}
             />
+            {watch('phoneNumber') && (
+              <button type='button' className="clear-btn" onClick={() => setValue('phoneNumber', '')}>
+                <CloseIcon className='w-[100%] h-[100%] fill-[#D0D0D0]' />
+              </button>)}
             {errors.phoneNumber?.message && (
               <p className="auth-error-message">
                 <span>
@@ -129,13 +117,13 @@ export const LoginModal = ({ onShow }) => {
             type="submit"
             disabled={!isDirty || isSubmitting}
             className={clsx(
-              "submit-btn mb-[32px]",
+              "submit-btn mb-[56px]",
               (!isDirty || isSubmitting) && "submit-btn-disabled"
             )}
           >
             {isSubmitting ? "Завантаження..." : "Далі"}
           </button>
-          <div className="mb-[136px]">
+          <div>
             <input
               type="checkbox"
               id="user-remember"
