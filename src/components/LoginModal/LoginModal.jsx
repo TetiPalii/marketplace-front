@@ -20,6 +20,7 @@ import { savePhoneNumber } from "@/store/features/user/userSlice";
 import CloseIcon from '../../../public/icons/CloseIcon';
 import { InputMask } from 'primereact/inputmask';
 
+
 const loginSchema = z
   .object({
     phoneNumber: z.string().regex(/^\+?\d+$/, {
@@ -49,12 +50,27 @@ export const LoginModal = ({ onShow }) => {
     try {
       const response = await loginAction(data);
       setServerResponse(response);
+      // console.log(response);
       dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
-      // console.log(error);
-      setError('phoneNumber', {message:'Користувач з таким номером телефона не зареєстрований'} )
+    let errorMessage = "Помилка на сервері";
+
+    if (error.message) {
+      switch (parseInt(error.message)) {
+        case 404:
+          errorMessage = "Користувач з таким номером телефона не зареєстрований";
+          break;
+        case 409:
+          errorMessage = "Код можна ввести повторно лише через 1 хвилину";
+          break;
+        default:
+          break;
+      }
     }
-  });
+
+    setError('phoneNumber', { message: errorMessage });
+  }
+});
 
   const [checked, setChecked] = useState(false);
 
@@ -65,8 +81,8 @@ export const LoginModal = ({ onShow }) => {
   return (
     <>
       <BaseModal onShow={onShow}>
-        <Link href="/" className="block mt-[24px] mb-[40px]">
-          <LogoIcon className="mx-auto w-[291px] h-[72px]" />
+        <Link href="/" className="block mt-[24px] mb-[40px] mx-auto w-[291px] h-[72px]">
+          <LogoIcon/>
         </Link>
         <ul className="flex gap-[60px] justify-center items-center mb-[82px] pt-[40px] pb-[40px] auth-bg">
           <li>

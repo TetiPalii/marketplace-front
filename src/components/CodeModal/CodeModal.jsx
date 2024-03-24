@@ -60,8 +60,22 @@ export const CodeModal = ({ onShow }) => {
       setServerResponse(response);
     } catch (error) {
       // console.log(error);
+       let errorMessage = "Помилка на сервері";
+
+    if (error.message) {
+      switch (parseInt(error.message)) {
+        case 400:
+          errorMessage = "Невірний код";
+          break;
+        case 409:
+          errorMessage = "Код вже було введено";
+          break;
+        default:
+          break;
+      }
+    }
       setError('inputCode', {
-        message: 'Невірний код',
+        message: errorMessage,
       });
     }
   });
@@ -69,8 +83,8 @@ export const CodeModal = ({ onShow }) => {
     <>
       <BaseModal onShow={onShow}>
         <div>
-          <Link href="/" className="block mt-[24px] mb-[82px]">
-            <LogoIcon className="mx-auto w-[291px] h-[72px]" />
+          <Link href="/" className="block mt-[24px] mb-[82px] mx-auto w-[291px] h-[72px]">
+            <LogoIcon/>
           </Link>
           <ul className="flex gap-[60px] justify-center items-center mb-[82px] pt-[40px] pb-[40px] auth-bg">
             <li>
