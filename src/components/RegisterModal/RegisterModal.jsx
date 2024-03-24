@@ -42,7 +42,6 @@ export const RegisterModal = ({ onShow }) => {
     register,
     watch,
     handleSubmit,
-    clearErrors,
     setError,
     setValue,
     formState: { errors, isDirty, isSubmitting },
@@ -63,8 +62,22 @@ export const RegisterModal = ({ onShow }) => {
       dispatch(savePhoneNumber(data.phoneNumber));
     } catch (error) {
       // console.log(error);
+       let errorMessage = "Помилка на сервері";
+
+    if (error.message) {
+      switch (parseInt(error.message)) {
+        case 400:
+          errorMessage = "Невірно введені дані";
+          break;
+        case 409:
+          errorMessage = "Такий клієнт уже зареєстрований в системі";
+          break;
+        default:
+          break;
+      }
+    }
       setError('phoneNumber', {
-        message: 'Такий клієнт уже зареєстрований в системі',
+        message: errorMessage,
       });
     }
   });
@@ -72,8 +85,8 @@ export const RegisterModal = ({ onShow }) => {
   return (
     <>
       <BaseModal onShow={onShow}>
-        <Link href="/" className="block mt-[24px] mb-[40px]">
-          <LogoIcon className="mx-auto w-[291px] h-[72px]" />
+        <Link href="/" className="block mt-[24px] mb-[40px] mx-auto w-[291px] h-[72px]">
+          <LogoIcon/>
         </Link>
         <ul className="flex gap-[17px] justify-center items-center mb-[16px] pt-[40px] pb-[40px] auth-bg">
           <li>
