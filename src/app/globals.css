@@ -86,11 +86,11 @@ html {
 
     font-size: 16px;
     color: #fff;
-    transition: background 300ms cubic-bezier(0.165, 0.84, 0.44, 1.03);
+    transition: background-color 300ms cubic-bezier(0.165, 0.84, 0.44, 1.03);
   }
 
   .submit-btn:is(:hover, :focus) {
-    background: radial-gradient(at center, #ff678b, #990078);
+  background-color: #ff678b;
   }
 
   .submit-btn-disabled {
@@ -150,8 +150,12 @@ html {
     padding: 16px;
   }
   .auth-bg{
-  backdrop-filter: blur(50px);
 background-color: rgba(152, 67, 189, 0.05);
+    
+  }
+  .auth-blur{
+    display: inline-block;
+    text-shadow: 1px 0 30px white, 1px 0 30px rgba(255, 255, 255, 0.48);
   }
 .clear-btn{
   position: absolute;

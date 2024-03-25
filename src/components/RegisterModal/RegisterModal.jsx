@@ -99,7 +99,7 @@ export const RegisterModal = ({ onShow }) => {
             />
           </li>
           <li>
-            <p className="text-[16px] text-[#fff]">Зареєструватись</p>
+            <p className="text-[16px] text-[#fff] auth-blur">Зареєструватись</p>
           </li>
         </ul>
         <form action={action} className='mb-[190px]'>

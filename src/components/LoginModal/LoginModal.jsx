@@ -38,7 +38,7 @@ export const LoginModal = ({ onShow }) => {
     handleSubmit,
     setError,
     setValue,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isDirty, isSubmitting},
   } = useForm({
     defaultValues: {
       phoneNumber: "",
@@ -95,7 +95,7 @@ export const LoginModal = ({ onShow }) => {
             />
           </li>
           <li>
-            <p className="text-[16px] text-[#fff]">Увійти</p>
+            <p className="text-[16px] text-[#fff] auth-blur">Увійти</p>
           </li>
         </ul>
         <form action={action} className="mb-[136px]">
