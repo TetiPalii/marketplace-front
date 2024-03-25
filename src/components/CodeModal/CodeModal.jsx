@@ -97,7 +97,7 @@ export const CodeModal = ({ onShow }) => {
               />
             </li>
             <li>
-              <p className="text-[16px] text-[#fff]">Увійти</p>
+              <p className="text-[16px] text-[#fff] auth-blur">Увійти</p>
             </li>
           </ul>
           <form action={action} className='mb-[112px]'>
