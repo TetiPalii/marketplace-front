@@ -19,10 +19,14 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
 
   const [authorized, setAuthorized] = useState(isLoggedIn);
 
-  const pathName = usePathname();
   function navBarClose() {
     setMenuOpen(false);
   }
+  const onBackdrop = e => {
+    const { id } = e.target;
+
+    id === 'backdrop' ? setMenuOpen(false) : null;
+  };
 
   useEffect(() => {
     if (menuOpen) {
@@ -40,6 +44,8 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
           ? 'md:hidden top-0 left-0 fixed w-screen h-full bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-500 overflow-auto text-lightPink'
           : 'fixed left-[-200%] top-0 ease-in duration-500 md:hidden'
       }
+      onClick={onBackdrop}
+      id="backdrop"
     >
       <div
         className={
