@@ -11,7 +11,6 @@ import { AuthorizedNav } from './AuthorizedNav';
 import { UserInfo } from '../UserInfo/UserInfo';
 import { FooterNav } from './FooterNav';
 import { useSelector } from 'react-redux';
-import { usePathname } from 'next/navigation';
 // import { getCookie } from 'cookies-next';
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
@@ -20,13 +19,14 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
   const [authorized, setAuthorized] = useState(isLoggedIn);
 
   function navBarClose() {
+    console.log('close');
     setMenuOpen(false);
   }
-  const onBackdrop = e => {
+  function onBackdrop(e) {
     const { id } = e.target;
 
     id === 'backdrop' ? setMenuOpen(false) : null;
-  };
+  }
 
   useEffect(() => {
     if (menuOpen) {
