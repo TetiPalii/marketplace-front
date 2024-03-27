@@ -71,7 +71,7 @@ export const FooterNav = ({ onClose }) => {
           type="button"
           onClick={() => {
             dispatch(setIsLoggedIn(false));
-            onClose;
+            onClose();
           }}
         >
           Вийти із аккаунта

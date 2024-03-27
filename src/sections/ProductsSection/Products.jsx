@@ -1,31 +1,34 @@
 'use client';
 
-import { getProducts } from '@/actions/getProducts';
+// import { getProducts } from '@/actions/getProducts';
 import { useEffect, useState } from 'react';
 import CartIcon2 from '../../../public/icons/CartIcon';
 import { IconWrapper } from '@/components/IconWrapper/IconWrapper';
 import LikeIcon from '../../../public/icons/LikeIcon';
 import { StarRate } from '@/components/StarRate/StarRate';
 
-export const Products = () => {
-  const [products, setProducts] = useState([]);
-
-  const getProductsList = async () => {
-    const productsList = await getProducts();
-
-    return productsList;
-  };
-
-  useEffect(() => {
-    getProductsList().then(res => {
-      setProducts(res.body);
-    });
-  }, []);
+async function getProducts() {
+  const response = await fetch(
+    'https://marketplace-5ihn.onrender.com/api/v1/products/s/list',
+    { cache: 'no-store' },
+    // {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // },
+  );
+  const products = await response.json();
+  return products;
+}
+export default async function Products() {
+  const { body } = await getProducts();
+  // console.log(body);
   return (
     <section className="p-6">
       <ul className="grid grid-cols-2 gap-y-4 sm:flex gap-6 flex-wrap">
-        {products &&
-          products.map(({ id, productName, productPrice }) => {
+        {body &&
+          body.map(({ id, productName, productPrice }) => {
             return (
               <li
                 key={id}
@@ -44,7 +47,6 @@ export const Products = () => {
                 </div>
 
                 <div>
-                  {' '}
                   <IconWrapper className={'bg-[#990078] rounded-[50%] p-2 '}>
                     <CartIcon2 />
                   </IconWrapper>
@@ -55,4 +57,4 @@ export const Products = () => {
       </ul>
     </section>
   );
-};
+}
