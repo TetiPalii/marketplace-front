@@ -11,12 +11,40 @@ import { AuthorizedNav } from './AuthorizedNav';
 import { UserInfo } from '../UserInfo/UserInfo';
 import { FooterNav } from './FooterNav';
 import { useSelector } from 'react-redux';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 // import { getCookie } from 'cookies-next';
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
   const isLoggedIn = useSelector(state => state.user.isLoggedIn);
 
   const [authorized, setAuthorized] = useState(isLoggedIn);
+  const router = useRouter();
+  const path = usePathname();
+  // useEffect(() => {
+  //   console.log(path);
+  //   // if (path !== '/') {
+  //   //   setMenuOpen(false);
+  //   // }
+  // });
+  useEffect(() => {
+    // const handleRouteChange = (url, { shallow }) => {
+    //   console.log(
+    //     `App is changing to ${url} ${
+    //       shallow ? 'with' : 'without'
+    //     } shallow routing`,
+    //   );
+    // };
+
+    // router.events.on('routeChangeStart', handleRouteChange);
+
+    // // If the component is unmounted, unsubscribe
+    // // from the event with the `off` method:
+    // return () => {
+    //   router.events.off('routeChangeStart', handleRouteChange);
+    // };
+    console.log(router.routeChangeStart);
+  }, [router]);
 
   function navBarClose() {
     console.log('close');

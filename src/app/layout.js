@@ -3,6 +3,9 @@ import { Header } from '@/sections/Header/Header';
 import './globals.css';
 import { Footer } from '@/sections/Footer/Footer';
 import StoreProvider from './StoreProvider';
+import { MainPage } from '@/sections/Main/MainPage';
+import { Suspense } from 'react';
+import { NavigationEvents } from '../components/navigation-events';
 
 // import { FooterDesctop } from "@/components/FooterDesctop/FooterDesctop";
 
@@ -17,17 +20,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className="w-full">
         <StoreProvider>
           <Header />
-          <main className="pt-[80px] md:pt-[80px] px-2 mx-auto">
-            {children}
-          </main>
+          <MainPage>{children}</MainPage>
           <Footer />
         </StoreProvider>
+        <Suspense fallback={null}>
+          <NavigationEvents />
+        </Suspense>
       </body>
     </html>
   );
 }
 //className="bg-gradient-to-r from-[#24c6dc] to-[#514a9d] ..."
 //from-[#80abf0] via-[#7a678675] via-90% to-[#d5c7e3] ...">
+
+//md:pt-[80px] px-2 mx-auto
