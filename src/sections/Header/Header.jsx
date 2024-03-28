@@ -36,16 +36,16 @@ export const Header = () => {
             <LogoDesktop />
           </Link>
 
-          <FlexContainer className={'justify-around'}>
-            <IconWrapper className=" hidden md:block">
+          <FlexContainer className={'justify-around md:gap-x-5'}>
+            <Link href={'/profile'} className=" hidden md:block">
               <CabinetIcon />
-            </IconWrapper>
-            <IconWrapper>
+            </Link>
+            <Link href={'/cart'}>
               <CartIcon />
-            </IconWrapper>
-            <IconWrapper className="hidden md:block">
+            </Link>
+            <Link href={'/whishlist'} className="hidden md:block">
               <LikeIcon fill={'#fff'} />
-            </IconWrapper>
+            </Link>
           </FlexContainer>
           <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
         </nav>
