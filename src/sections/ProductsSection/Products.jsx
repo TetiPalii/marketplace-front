@@ -1,5 +1,4 @@
 import CartIcon2 from '../../../public/icons/CartIcon';
-import { IconWrapper } from '@/components/IconWrapper/IconWrapper';
 import LikeIcon from '../../../public/icons/LikeIcon';
 import { StarRate } from '@/components/StarRate/StarRate';
 import { Wrapper } from '@/components/Wrapper/Wrapper';
@@ -8,12 +7,12 @@ async function getProducts() {
   const response = await fetch(
     'https://marketplace-5ihn.onrender.com/api/v1/products/s/list',
     { cache: 'no-store' },
-    // {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // },
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
   );
   const products = await response.json();
   return products;

@@ -4,10 +4,8 @@ import './globals.css';
 import { Footer } from '@/sections/Footer/Footer';
 import StoreProvider from './StoreProvider';
 import { MainPage } from '@/sections/Main/MainPage';
-import { Suspense } from 'react';
-import { NavigationEvents } from '../components/navigation-events';
-
-// import { FooterDesctop } from "@/components/FooterDesctop/FooterDesctop";
+// import { Suspense } from 'react';
+// import { NavigationEvents } from '../components/navigation-events';
 
 export const metadata = {
   title: {
@@ -26,9 +24,6 @@ export default function RootLayout({ children }) {
           <MainPage>{children}</MainPage>
           <Footer />
         </StoreProvider>
-        <Suspense fallback={null}>
-          <NavigationEvents />
-        </Suspense>
       </body>
     </html>
   );
