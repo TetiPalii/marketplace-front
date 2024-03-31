@@ -18,7 +18,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="w-full">
+      <body className="w-full h-full">
         <StoreProvider>
           <Header />
           <MainPage>{children}</MainPage>
