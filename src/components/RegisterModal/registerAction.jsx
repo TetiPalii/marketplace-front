@@ -1,6 +1,7 @@
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 export default async function registerAction(data) {
+  console.log(data);
   const res = await fetch(
     "https://marketplace-5ihn.onrender.com/api/v1/auth/registration",
     {
@@ -14,7 +15,8 @@ export default async function registerAction(data) {
   console.log(json);
 
   if (res.ok) {
-    redirect("/verification/?modal=true");
+    // redirect("/verification/?modal=true");
+    window.location.href = "/verification/?modal=true";
   } else {
      throw new Error(res.status);
   }

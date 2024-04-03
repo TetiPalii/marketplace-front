@@ -55,13 +55,18 @@ export const RegisterModal = ({ onShow }) => {
   
 
   const action = handleSubmit(async data => {
-    try {
-      const response = await registerAction(data);
-      setServerResponse(response);
-      dispatch(saveUserName(data.firstName));
-      dispatch(savePhoneNumber(data.phoneNumber));
+    console.log(data.phoneNumber);
+
+      try {
+        console.log(data.phoneNumber);
+        const response = await registerAction(data);
+        setServerResponse(response);
+          dispatch(saveUserName(data.firstName));
+        console.log("phoneNumber before dispatch:", data.phoneNumber);
+          dispatch(savePhoneNumber(data.phoneNumber));
+        console.log("phoneNumber after dispatch:", data.phoneNumber);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
        let errorMessage = "Помилка на сервері";
 
     if (error.message) {
