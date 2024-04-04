@@ -32,6 +32,7 @@ export const CodeModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
   const phoneNumber = useSelector(selectPhoneNumber);
   const dispatch = useDispatch();
+  
   const {
     register,
     handleSubmit,
