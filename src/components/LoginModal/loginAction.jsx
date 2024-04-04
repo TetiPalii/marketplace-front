@@ -1,5 +1,4 @@
-"use server";
-import { redirect } from "next/navigation";
+
 
 export default async function loginAction(data) {
     const res = await fetch(
@@ -16,7 +15,7 @@ export default async function loginAction(data) {
    
 
   if (res.ok) {
-    redirect("/verification/?modal=true");
+    // redirect("/verification/?modal=true");
   } else {
     throw new Error(res.status);
   }

@@ -31,8 +31,8 @@ const varificationSchema = z
 export const CodeModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
   const phoneNumber = useSelector(selectPhoneNumber);
-  console.log(phoneNumber);
   const dispatch = useDispatch();
+  
   const {
     register,
     handleSubmit,
@@ -53,7 +53,7 @@ export const CodeModal = ({ onShow }) => {
         ...data,
         phoneNumber: phoneNumber,
       };
-      console.log("code", fulfilledData);
+      // console.log("code", fulfilledData);
       const response = await verificationAction(fulfilledData);
 
       dispatch(setIsLoggedIn(true));

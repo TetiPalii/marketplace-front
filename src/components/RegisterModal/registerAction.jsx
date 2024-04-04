@@ -1,4 +1,4 @@
-// import { redirect } from "next/navigation";
+
 
 export default async function registerAction(data) {
   console.log(data);
@@ -15,8 +15,7 @@ export default async function registerAction(data) {
   console.log(json);
 
   if (res.ok) {
-    // redirect("/verification/?modal=true");
-    window.location.href = "/verification/?modal=true";
+    // window.location.href = "/verification/?modal=true";
   } else {
      throw new Error(res.status);
   }

@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { savePhoneNumber } from "@/store/features/user/userSlice";
 import CloseIcon from '../../../public/icons/CloseIcon';
 import { InputMask } from 'primereact/inputmask';
+import { useRouter } from "next/navigation";
 
 
 const loginSchema = z
@@ -32,6 +33,7 @@ const loginSchema = z
 export const LoginModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
   const dispatch = useDispatch();
+  const router = useRouter();
   const {
     register,
     watch,
@@ -52,6 +54,7 @@ export const LoginModal = ({ onShow }) => {
       setServerResponse(response);
       // console.log(response);
       dispatch(savePhoneNumber(data.phoneNumber));
+      router.push("/verification/?modal=true");
     } catch (error) {
     let errorMessage = "Помилка на сервері";
 
