@@ -1,8 +1,15 @@
-import { about, forPartners, help, socialmediaIcons } from '@/data/footerNav';
+'use client';
+import {
+  about,
+  forPartners,
+  help,
+  socialmediaIcons,
+} from '../../data/footerNav';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsLoggedIn } from '@/store/features/user/userSlice';
+import { setIsLoggedIn } from '../../store/features/user/userSlice';
+import { Logout } from '../Logout/Logout';
 
 export const FooterNav = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -65,18 +72,7 @@ export const FooterNav = ({ onClose }) => {
           ))}
         </ul>
       </div>
-      {isLoggedIn && (
-        <button
-          className="text-xs"
-          type="button"
-          onClick={() => {
-            dispatch(setIsLoggedIn(false));
-            onClose();
-          }}
-        >
-          Вийти із аккаунта
-        </button>
-      )}
+      {isLoggedIn && <Logout />}
     </div>
   );
 };

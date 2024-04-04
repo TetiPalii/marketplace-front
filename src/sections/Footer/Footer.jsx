@@ -1,9 +1,9 @@
 'use client';
 import Image from 'next/image';
 import React from 'react';
-import { about, forPartners, help } from '@/data/footerNav';
+import { about, forPartners, help } from '../../data/footerNav';
 import Link from 'next/link';
-import { socialmediaIcons } from '@/data/footerNav';
+import { socialmediaIcons } from '../../data/footerNav';
 import { useSelector } from 'react-redux';
 
 export const Footer = () => {

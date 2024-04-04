@@ -1,4 +1,4 @@
-import { authLinks } from '@/data/authLinks';
+import { authLinks } from '../../data/authLinks';
 import Link from 'next/link';
 import { Theme } from '../Theme/Theme';
 

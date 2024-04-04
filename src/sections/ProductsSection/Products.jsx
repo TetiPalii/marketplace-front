@@ -1,7 +1,7 @@
 import CartIcon2 from '../../../public/icons/CartIcon';
 import LikeIcon from '../../../public/icons/LikeIcon';
-import { StarRate } from '@/components/StarRate/StarRate';
-import { Wrapper } from '@/components/Wrapper/Wrapper';
+import { StarRate } from '../../components/StarRate/StarRate';
+import { Wrapper } from '../../components/Wrapper/Wrapper';
 
 async function getProducts() {
   const response = await fetch(

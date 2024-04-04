@@ -1,11 +1,8 @@
-// import { Header } from "@/components/header/Header";
-import { Header } from '@/sections/Header/Header';
+import { Header } from '../sections/Header/Header';
 import './globals.css';
-import { Footer } from '@/sections/Footer/Footer';
+import { Footer } from '../sections/Footer/Footer';
 import StoreProvider from './StoreProvider';
-import { MainPage } from '@/sections/Main/MainPage';
-// import { Suspense } from 'react';
-// import { NavigationEvents } from '../components/navigation-events';
+import { MainPage } from '../sections/Main/MainPage';
 
 export const metadata = {
   title: {
@@ -18,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="w-full h-full">
+      <body className="min-w-full min-h-full">
         <StoreProvider>
           <Header />
           <MainPage>{children}</MainPage>
@@ -28,7 +25,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-//className="bg-gradient-to-r from-[#24c6dc] to-[#514a9d] ..."
-//from-[#80abf0] via-[#7a678675] via-90% to-[#d5c7e3] ...">
-
-//md:pt-[80px] px-2 mx-auto
