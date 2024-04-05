@@ -6,7 +6,7 @@ import { Wrapper } from '../../components/Wrapper/Wrapper';
 async function getProducts() {
   const response = await fetch(
     'https://marketplace-5ihn.onrender.com/api/v1/products/s/list',
-    { cache: 'no-store' },
+
     {
       method: 'GET',
       headers: {

@@ -3,6 +3,7 @@ import './globals.css';
 import { Footer } from '../sections/Footer/Footer';
 import StoreProvider from './StoreProvider';
 import { MainPage } from '../sections/Main/MainPage';
+import TokenChecker from '../sections/TokenChecker/TokenChecker';
 
 export const metadata = {
   title: {
@@ -17,9 +18,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="min-w-full min-h-full">
         <StoreProvider>
-          <Header />
-          <MainPage>{children}</MainPage>
-          <Footer />
+          <TokenChecker>
+            <Header />
+            <MainPage>{children}</MainPage>
+            <Footer />
+          </TokenChecker>
         </StoreProvider>
       </body>
     </html>

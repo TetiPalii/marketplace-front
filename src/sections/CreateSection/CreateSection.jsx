@@ -1,24 +1,9 @@
 'use client';
 import { CreateAdd } from '@/components/CreateAdd/CreateAdd';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getToken } from '../../actions/getToken';
+import { useAppSelector } from '../../store/hooks';
 
 export const CreateSection = () => {
-  // const isLoggedIn = useSelector(state => state.user.isLoggedIn);
-  const [token, setToken] = useState('');
-  const dispatch = useDispatch();
+  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
 
-  useEffect(() => {
-    async function isToken() {
-      const token = await getToken();
-      if (token) {
-        setToken(token);
-      }
-      return;
-    }
-    isToken();
-  });
-
-  return <section className="pt-7">{token && <CreateAdd />}</section>;
+  return <section className="pt-7">{isLoggedIn && <CreateAdd />}</section>;
 };
