@@ -1,4 +1,4 @@
-import { Wrapper } from '@/components/Wrapper/Wrapper';
+// import { Wrapper } from '../components/Wrapper/Wrapper';
 
 export const Baner = () => {
   return (
