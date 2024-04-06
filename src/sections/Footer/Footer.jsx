@@ -5,9 +5,11 @@ import { about, forPartners, help } from '../../data/footerNav';
 import Link from 'next/link';
 import { socialmediaIcons } from '../../data/footerNav';
 import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
+import { Logout } from '../../components/Logout/Logout';
 
 export const Footer = () => {
-  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
   return (
     <footer className="w-full bg-darkBlue hidden md:flex flex-col gap-y-4 text-[#FFF] text-xs py-12 px-36 ">
       <div className="flex justify-between">
@@ -55,18 +57,7 @@ export const Footer = () => {
         </ul>
       </div>
 
-      {isLoggedIn && (
-        <button
-          className="text-base self-start"
-          type="button"
-          onClick={() => {
-            dispatch(setIsLoggedIn(false));
-            onClose();
-          }}
-        >
-          Вийти із аккаунта
-        </button>
-      )}
+      {isLoggedIn && <Logout />}
     </footer>
   );
 };

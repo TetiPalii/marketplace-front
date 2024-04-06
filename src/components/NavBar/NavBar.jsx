@@ -10,12 +10,10 @@ import { UnauthorizedNav } from './UnauthorizedNav';
 import { AuthorizedNav } from './AuthorizedNav';
 import { UserInfo } from '../UserInfo/UserInfo';
 import { FooterNav } from './FooterNav';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
-  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
-
-  const [authorized, setAuthorized] = useState(isLoggedIn);
+  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
 
   function navBarClose() {
     setMenuOpen(false);
@@ -32,7 +30,6 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
     } else {
       return;
     }
-    setAuthorized(isLoggedIn);
   }, [menuOpen, isLoggedIn]);
 
   return (
@@ -66,7 +63,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
           </IconWrapper>
         </FlexContainer>
 
-        {authorized ? (
+        {isLoggedIn ? (
           <UserInfo />
         ) : (
           <FlexContainer
