@@ -58,19 +58,19 @@ export const BaseModal = ({ onShow = true, children }) => {
               transition={{ ease: 'easeInOut', duration: 0.3 }}
               onClick={closeModal}
               ref={backdropRef}
-              className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1000]"
+              className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-[1000] bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px]"
             >
               <div
                 onClick={e => e.stopPropagation()}
                 ref={modalContainerRef}
-                className="absolute top-1/2 left-0 mobile:w-[100%] secondMobile:max-w-[90%] max-h-[90vh] overflow-y-scroll translate-y-[-50%] pt-[30px] px-[30px] pb-[108px] bg-darkBlue rounded-[28px]"
+                className="absolute top-1/2 left-0 desktop:left-1/2 mobile:w-[100%] secondMobile:max-w-[90%] desktop:w-[768px] max-h-[90vh] overflow-y-scroll translate-y-[-50%] desktop:translate-x-[-50%] pt-[30px] desktop:pt-[16px] px-[30px] desktop:pl-[108px] desktop:pr-[36px] pb-[108px] desktop:pb-[16px] bg-darkBlue desktop:bg-[#fff] rounded-[28px] desktop:rounded-none"
               >
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="absolute top-[28px] right-[28px] w-[24px] h-[24px] p-0 bg-[transparent]"
+                  className="absolute top-[28px] desktop:top-[16px] right-[28px] desktop:right-[36px] w-[24px] h-[24px] p-0 bg-[transparent]"
                 >
-                  <CloseIcon className="w-[100%] h-[100%] fill-[#fff]" />
+                  <CloseIcon className="w-[100%] h-[100%] fill-[#fff] desktop:fill-black" />
                 </button>
                 {children}
               </div>
