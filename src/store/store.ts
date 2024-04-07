@@ -25,12 +25,6 @@ const rootReducer = combineReducers({
 export const makeStore = () => {
   return configureStore({
     reducer: rootReducer,
-    middleware: getDefaultMiddleware =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }),
   });
 };
 

@@ -3,7 +3,7 @@ import './globals.css';
 import { Footer } from '../sections/Footer/Footer';
 import StoreProvider from './StoreProvider';
 import { MainPage } from '../sections/Main/MainPage';
-import TokenChecker from '../sections/TokenChecker/TokenChecker';
+import TokenChecker from '../components/TokenChecker/TokenChecker.tsx';
 
 export const metadata = {
   title: {
