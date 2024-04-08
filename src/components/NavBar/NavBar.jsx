@@ -42,13 +42,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
       onClick={onBackdrop}
       id="backdrop"
     >
-      <div
-        className={
-          menuOpen
-            ? 'w-[88%]  fixed top-0 left-0 md:hidden  z-[999] bg-darkBlue py-6'
-            : 'fixed left-[-200%] top-0 ease-in duration-300'
-        }
-      >
+      <div className={'w-[88%] md:hidden  z-[999] bg-darkBlue py-6'}>
         <FlexContainer className={'justify-between pl-5 pr-2'}>
           <Link href={'/'} onClick={navBarClose}>
             <LogoMobile />
