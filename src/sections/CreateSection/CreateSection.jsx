@@ -1,9 +1,9 @@
 'use client';
 import { CreateAdd } from '@/components/CreateAdd/CreateAdd';
-import { useAppSelector } from '../../store/hooks';
+import { useSelector } from 'react-redux';
 
 export const CreateSection = () => {
-  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
 
   return <section className="pt-7">{isLoggedIn && <CreateAdd />}</section>;
 };
