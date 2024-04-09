@@ -6,9 +6,7 @@ import rocket from "../../../public/images/rocket-iso-color.png";
 import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import { useForm } from "react-hook-form";
-import EmptyCheckboxIcon from "../../../public/icons/EmptyCheckboxIcon";
 import { useState } from "react";
-import CheckedCheckboxIcon from "../../../public/icons/CheckedCheckboxIcon";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -84,7 +82,7 @@ export const LoginModal = ({ onShow }) => {
   return (
     <>
       <BaseModal onShow={onShow}>
-       <div className='relative desktop:flex items-center justify-between'>
+       <div className='desktop:flex items-center justify-between'>
             <div className='desktop:pr-[56px] desktop:border-r'>
               <p className='text-[24px] mb-[16px] mobile:hidden desktop:block'>Вхід</p>
               <Link href="/" className="block mt-[24px] mb-[40px] mx-auto w-[291px] h-[72px] desktop:hidden">
@@ -139,29 +137,16 @@ export const LoginModal = ({ onShow }) => {
                   type="submit"
                   disabled={!isDirty || isSubmitting}
                   className={clsx(
-                    "submit-btn mb-[56px] desktop:mb-[32px]",
+                    "submit-btn",
                     (!isDirty || isSubmitting) && "submit-btn-disabled"
                   )}
                 >
                   {isSubmitting ? "Завантаження..." : "Далі"}
                 </button>
-                <div>
-                  <input
-                    type="checkbox"
-                    id="user-remember"
-                    className="checkbox-input visually-hidden"
-                  />
-                  <label htmlFor="user-remember" className="checkbox-label desktop:text-[#000]">
-                    <span onClick={handleCheckox} className="cursor-pointer">
-                      {checked ? <CheckedCheckboxIcon /> : <EmptyCheckboxIcon />}
-                    </span>
-                    Запам’ятати мене
-                  </label>
-                </div>
               </form>
-              <Link href='/register?modal=true' className='block text-[16px] text-center'>Зареєструватись</Link>
+              <Link href='/register?modal=true' className='mobile:hidden desktop:block text-[16px] text-center'>Зареєструватись</Link>
             </div>
-            <p className='mobile:hidden desktop:block absolute top-1/2 left-[63%] text-[#939393]'>або</p>
+            <p className='mobile:hidden desktop:block absolute top-1/2 left-[65.3%] text-[#939393]'>або</p>
         <div>
               <p className='mobile:hodden desktop:block mb-[52px] text-[12px] text-center'>Увійти як користувач</p>
               <ul className="flex gap-[48px] desktop:flex-col desktop:gap-[24px] justify-center desktop:items-center">

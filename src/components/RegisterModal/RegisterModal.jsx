@@ -89,7 +89,7 @@ export const RegisterModal = ({ onShow }) => {
   return (
     <>
       <BaseModal onShow={onShow}>
-        <div className='relative desktop:flex items-center justify-between'>
+        <div className='desktop:flex items-center justify-between'>
           <div className='desktop:pr-[56px] desktop:border-r'>
             <p className='text-[24px] mb-[16px] mobile:hidden desktop:block'>Реєстрація</p>
             <Link href="/" className="block mt-[24px] mb-[40px] mx-auto w-[291px] h-[72px] desktop:hidden">
@@ -180,9 +180,9 @@ export const RegisterModal = ({ onShow }) => {
                 {isSubmitting ? 'Завантаження...' : 'Зареєструватись'}
               </button>
             </form>
-            <Link href='/login?modal=true' className='block text-[16px] text-center'>Увійти</Link>
+            <Link href='/login?modal=true' className='mobile:hidden desktop:block text-[16px] text-center'>Увійти</Link>
           </div>
-          <p className='mobile:hidden desktop:block absolute top-1/2 left-[63%] text-[#939393]'>або</p>
+          <p className='mobile:hidden desktop:block absolute top-1/2 left-[65.3%] text-[#939393]'>або</p>
           <div>
             <p className='mobile:hodden desktop:block mb-[52px] text-[12px] text-center'>Увійти як користувач</p>
             <ul className="flex gap-[48px] desktop:flex-col desktop:gap-[24px] justify-center desktop:items-center">
