@@ -2,9 +2,11 @@ import Image from 'next/image';
 import { FlexContainer } from '../FlexContainer/FlexContainer';
 import ProfileIcon from '../../../public/icons/ProfileIcon';
 import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
 
 export const UserInfo = () => {
-  const firstName = useSelector(state => state.user.userName);
+  const firstName = useAppSelector(state => state.user.userName);
+  console.log(firstName);
 
   return (
     <FlexContainer
@@ -21,7 +23,7 @@ export const UserInfo = () => {
       /> */}
       <ProfileIcon width={'72'} height={'72'} />
       <div className="flex flex-col">
-        <p className="text-base">{firstName || 'Name'}</p>
+        <p className="text-base">{firstName}</p>
         <p className="text-xs">email address</p>
       </div>
     </FlexContainer>

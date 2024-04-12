@@ -7,11 +7,14 @@ import { setIsLoggedIn } from "../../store/features/user/userSlice";
 import { RootState } from "../../store/store";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
+
 export default function TokenChecker({ children }) {
     // const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
 
 
     const [token, setToken] = useState('');
+    const [name, setName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -23,7 +26,9 @@ export default function TokenChecker({ children }) {
             }
             return;
         }
+
         isToken();
+
 
     }, []);
     useEffect(() => {
@@ -32,5 +37,6 @@ export default function TokenChecker({ children }) {
 
         }
     }, [token])
+
     return <>{children}</>
 }

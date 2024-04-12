@@ -14,7 +14,6 @@ import { useAppSelector } from '../../store/hooks';
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
   const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
-
   function navBarClose() {
     setMenuOpen(false);
   }
@@ -30,7 +29,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
     } else {
       return;
     }
-  }, [menuOpen, isLoggedIn]);
+  }, [menuOpen]);
 
   return (
     <div

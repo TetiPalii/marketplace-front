@@ -26,6 +26,6 @@ export default async function verificationAction(fulfilledData) {
   if (res.ok) {
     redirect('/');
   } else {
-      throw new Error(res.status);
+    throw new Error(res.status);
   }
 }
