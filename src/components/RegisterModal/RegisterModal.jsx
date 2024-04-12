@@ -182,7 +182,7 @@ export const RegisterModal = ({ onShow }) => {
             </form>
             <Link href='/login?modal=true' className='mobile:hidden desktop:block text-[16px] text-center'>Увійти</Link>
           </div>
-          <p className='mobile:hidden desktop:block absolute top-1/2 left-[65.3%] text-[#939393]'>або</p>
+          <p className='mobile:hidden desktop:block absolute top-1/2 left-[64%] text-[#939393]'>або</p>
           <div>
             <p className='mobile:hodden desktop:block mb-[52px] text-[12px] text-center'>Увійти як користувач</p>
             <ul className="flex gap-[48px] desktop:flex-col desktop:gap-[24px] justify-center desktop:items-center">
