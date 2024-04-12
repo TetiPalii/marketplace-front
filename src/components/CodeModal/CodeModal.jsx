@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectPhoneNumber } from '@/store/features/user/selectors';
 import { setIsLoggedIn } from '@/store/features/user/userSlice';
 import CloseIcon from '../../../public/icons/CloseIcon';
+import { useRouter } from 'next/navigation';
 
 const varificationSchema = z
   .object({
@@ -32,6 +33,7 @@ export const CodeModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
   const phoneNumber = useSelector(selectPhoneNumber);
   const dispatch = useDispatch();
+  const router = useRouter();
   
   const {
     register,
@@ -59,6 +61,7 @@ export const CodeModal = ({ onShow }) => {
       dispatch(setIsLoggedIn(true));
 
       setServerResponse(response);
+      router.push('/');
     } catch (error) {
       // console.log(error);
        let errorMessage = "Помилка на сервері";

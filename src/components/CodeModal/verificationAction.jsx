@@ -1,6 +1,7 @@
-'use server';
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+// 'use server';
+// import { redirect } from 'next/navigation';
+// import { cookies } from 'next/headers';
+import Cookies from 'js-cookie';
 
 export default async function verificationAction(fulfilledData) {
   const res = await fetch(
@@ -15,16 +16,15 @@ export default async function verificationAction(fulfilledData) {
   const json = await res.json();
   console.log(json);
 
-  cookies().set('Authorization', json.token, {
-    secure: true,
-    httpOnly: true,
-    expires: Date.now() + 24 * 60 * 60 * 1000 * 3,
-    path: '/',
-    sameSite: 'strict',
-  });
+  Cookies.set('Authorization', json.token, {
+      secure: true,
+      expires: 10, // expires встановлює термін дії кукі в днях
+      path: '/',
+      sameSite: 'strict',
+    });
 
   if (res.ok) {
-    redirect('/');
+    // redirect('/');
   } else {
       throw new Error(res.status);
   }

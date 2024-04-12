@@ -22,8 +22,8 @@ import { useRouter } from "next/navigation";
 
 const loginSchema = z
   .object({
-    phoneNumber: z.string().regex(/^\+?\d+$/, {
-      message: "Телефон може містити лише цифри",
+    phoneNumber: z.string().regex(/^\+380\d{9}$/, {
+      message: 'Телефон має містити +380 та 9 цифр',
     }),
   })
   .required();
