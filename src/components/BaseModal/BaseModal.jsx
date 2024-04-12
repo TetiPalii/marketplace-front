@@ -63,7 +63,7 @@ export const BaseModal = ({ onShow = true, children }) => {
               <div
                 onClick={e => e.stopPropagation()}
                 ref={modalContainerRef}
-                className="absolute top-1/2 left-0 desktop:left-1/2 mobile:w-[100%] secondMobile:max-w-[90%] desktop:w-[768px] max-h-[90vh] overflow-y-scroll translate-y-[-50%] desktop:translate-x-[-50%] pt-[30px] desktop:pt-[16px] px-[30px] desktop:pl-[108px] desktop:pr-[36px] pb-[108px] desktop:pb-[16px] bg-darkBlue desktop:bg-[#fff] rounded-[28px] desktop:rounded-none"
+                className="absolute top-1/2 left-0 desktop:left-1/2 mobile:w-[100%] secondMobile:max-w-[90%] desktop:w-[768px] max-h-[90vh] overflow-auto translate-y-[-50%] desktop:translate-x-[-50%] pt-[30px] desktop:pt-[16px] px-[30px] desktop:pl-[108px] desktop:pr-[36px] pb-[108px] desktop:pb-[16px] bg-darkBlue desktop:bg-[#fff] rounded-[28px] desktop:rounded-none"
               >
                 <button
                   type="button"

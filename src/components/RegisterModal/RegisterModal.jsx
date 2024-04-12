@@ -27,11 +27,11 @@ const registerSchema = z
       .trim()
       .min(2, { message: "Ім'я має містити мінімум 2 літери" })
       .max(15, { message: "Ім'я має містити максимум 15 літер" })
-      .regex(/^[a-zA-Zа-яА-Я]+$/, {
+      .regex(/^[a-zA-Zа-яА-ЯІі']+$/u, {
         message: "Ім'я може містити лише літери",
       }),
-    phoneNumber: z.string().regex(/^\+?\d+$/, {
-      message: 'Телефон може містити лише цифри',
+    phoneNumber: z.string().regex(/^\+380\d{9}$/, {
+      message: 'Телефон має містити +380 та 9 цифр',
     }),
   })
   .required();
@@ -182,7 +182,7 @@ export const RegisterModal = ({ onShow }) => {
             </form>
             <Link href='/login?modal=true' className='mobile:hidden desktop:block text-[16px] text-center'>Увійти</Link>
           </div>
-          <p className='mobile:hidden desktop:block absolute top-1/2 left-[65.3%] text-[#939393]'>або</p>
+          <p className='mobile:hidden desktop:block absolute top-1/2 left-[64%] text-[#939393]'>або</p>
           <div>
             <p className='mobile:hodden desktop:block mb-[52px] text-[12px] text-center'>Увійти як користувач</p>
             <ul className="flex gap-[48px] desktop:flex-col desktop:gap-[24px] justify-center desktop:items-center">

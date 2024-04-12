@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectPhoneNumber } from '@/store/features/user/selectors';
 import { setIsLoggedIn } from '@/store/features/user/userSlice';
 import CloseIcon from '../../../public/icons/CloseIcon';
+import { useRouter } from 'next/navigation';
 
 const varificationSchema = z
   .object({
@@ -32,6 +33,7 @@ export const CodeModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
   const phoneNumber = useSelector(selectPhoneNumber);
   const dispatch = useDispatch();
+  const router = useRouter();
   
   const {
     register,
@@ -59,6 +61,7 @@ export const CodeModal = ({ onShow }) => {
       dispatch(setIsLoggedIn(true));
 
       setServerResponse(response);
+      router.push('/');
     } catch (error) {
       // console.log(error);
        let errorMessage = "Помилка на сервері";
@@ -161,7 +164,7 @@ export const CodeModal = ({ onShow }) => {
               Ввести інший номер телефону
             </Link>
            </div>
-          <p className='mobile:hidden desktop:block absolute top-1/2 left-[65.3%] text-[#939393]'>або</p>
+          <p className='mobile:hidden desktop:block absolute top-1/2 left-[64%] text-[#939393]'>або</p>
         <div>
               <p className='mobile:hodden desktop:block mb-[52px] text-[12px] text-center'>Увійти як користувач</p>
               <ul className="flex gap-[48px] desktop:flex-col desktop:gap-[24px] justify-center desktop:items-center">
