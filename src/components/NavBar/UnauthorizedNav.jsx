@@ -1,4 +1,4 @@
-import { unauthLinks } from '@/data/unauthLinks';
+import { unauthLinks } from '../../data/unauthLinks';
 import Link from 'next/link';
 import { Theme } from '../Theme/Theme';
 

@@ -10,18 +10,12 @@ import { UnauthorizedNav } from './UnauthorizedNav';
 import { AuthorizedNav } from './AuthorizedNav';
 import { UserInfo } from '../UserInfo/UserInfo';
 import { FooterNav } from './FooterNav';
-import { useSelector } from 'react-redux';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
-// import { getCookie } from 'cookies-next';
+import { useAppSelector } from '../../store/hooks';
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
-  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
-
-  const [authorized, setAuthorized] = useState(isLoggedIn);
+  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
 
   function navBarClose() {
-    console.log('close');
     setMenuOpen(false);
   }
   function onBackdrop(e) {
@@ -36,7 +30,6 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
     } else {
       return;
     }
-    setAuthorized(isLoggedIn);
   }, [menuOpen, isLoggedIn]);
 
   return (
@@ -70,7 +63,7 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
           </IconWrapper>
         </FlexContainer>
 
-        {authorized ? (
+        {isLoggedIn ? (
           <UserInfo />
         ) : (
           <FlexContainer
@@ -105,30 +98,3 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
     </div>
   );
 };
-
-//// const router = useRouter();
-// const path = usePathname();
-// useEffect(() => {
-//   console.log(path);
-//   // if (path !== '/') {
-//   //   setMenuOpen(false);
-//   // }
-// });
-// useEffect(() => {
-//   const handleRouteChange = (url, { shallow }) => {
-//     console.log(
-//       `App is changing to ${url} ${
-//         shallow ? 'with' : 'without'
-//       } shallow routing`,
-//     );
-//   };
-
-//   router.events.on('routeChangeStart', handleRouteChange);
-
-// If the component is unmounted, unsubscribe
-// from the event with the `off` method:
-//   return () => {
-//     router.events.off('routeChangeStart', handleRouteChange);
-//   };
-//   console.log(router.routeChangeStart);
-// }, [router]);

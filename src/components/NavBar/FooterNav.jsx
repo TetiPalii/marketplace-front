@@ -1,12 +1,17 @@
-import { about, forPartners, help, socialmediaIcons } from '@/data/footerNav';
+'use client';
+import {
+  about,
+  forPartners,
+  help,
+  socialmediaIcons,
+} from '../../data/footerNav';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useDispatch, useSelector } from 'react-redux';
-import { setIsLoggedIn } from '@/store/features/user/userSlice';
+import { Logout } from '../Logout/Logout';
+import { useAppSelector } from '../../store/hooks';
 
 export const FooterNav = ({ onClose }) => {
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
   return (
     <div className="flex flex-col gap-6 pl-5 mt-[72px]">
       <div className="h-[20px] w-full bg-gradient-to-r from-[#161C2A] via-[#990078] via-50% to-[#161C2A] to-100% ...">
@@ -65,18 +70,7 @@ export const FooterNav = ({ onClose }) => {
           ))}
         </ul>
       </div>
-      {isLoggedIn && (
-        <button
-          className="text-xs"
-          type="button"
-          onClick={() => {
-            dispatch(setIsLoggedIn(false));
-            onClose();
-          }}
-        >
-          Вийти із аккаунта
-        </button>
-      )}
+      {isLoggedIn && <Logout />}
     </div>
   );
 };

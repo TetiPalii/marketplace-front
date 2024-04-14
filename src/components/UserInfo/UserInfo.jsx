@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 export const UserInfo = () => {
   const firstName = useSelector(state => state.user.userName);
-  console.log(firstName);
+
   return (
     <FlexContainer
       className={

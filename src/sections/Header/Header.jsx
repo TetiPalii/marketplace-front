@@ -10,11 +10,12 @@ import LikeIcon from '../../../public/icons/LikeIcon';
 import LogoMobile from '../../../public/icons/LogoMobile';
 import LogoDesktop from '../../../public/icons/LogoDesktop';
 import Link from 'next/link';
-import { NavBar } from '@/components/NavBar/NavBar';
+import { NavBar } from '../../components/NavBar/NavBar';
+// import { useAppSelector } from '../../store/hooks';
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  // const isLoggedIn = useAppSelector()
   return (
     <>
       <header className="fixed w-full bg-darkBlue text-lightPink p-4 md:py-4 md:px-36">

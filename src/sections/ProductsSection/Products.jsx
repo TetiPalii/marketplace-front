@@ -1,12 +1,12 @@
 import CartIcon2 from '../../../public/icons/CartIcon';
 import LikeIcon from '../../../public/icons/LikeIcon';
-import { StarRate } from '@/components/StarRate/StarRate';
-import { Wrapper } from '@/components/Wrapper/Wrapper';
+import { StarRate } from '../../components/StarRate/StarRate';
+import { Wrapper } from '../../components/Wrapper/Wrapper';
 
 async function getProducts() {
   const response = await fetch(
     'https://marketplace-5ihn.onrender.com/api/v1/products/s/list',
-    { cache: 'no-store' },
+
     {
       method: 'GET',
       headers: {
@@ -21,7 +21,7 @@ export default async function Products() {
   const { body } = await getProducts();
 
   return (
-    <Wrapper className="p-6">
+    <Wrapper className="p-6 ">
       <ul className="gap-x-5 gap-y-7 md:gap-x-6 w-full items-start  products">
         {body &&
           body.map(({ id, productName, productPrice }) => {

@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
+import path from 'path';
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
 const nextConfig = {
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find(rule =>
       rule.test?.test?.('.svg'),
     );
+    config.resolve.alias['@'] = path.resolve(__dirname, './src');
 
     config.module.rules.push(
       // Reapply the existing rule, but only for svg imports ending in ?url

@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const burgerSlice = createSlice({
-  name: 'berger',
+  name: 'burger',
   initialState,
   reducers: {
     closeBurgerMenu: state => {
