@@ -23,7 +23,8 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/actions/logout.jsx"
+    "src/actions/logout.jsx",
+    "src/store/storage.js"
   ],
   "exclude": ["node_modules"]
 }
