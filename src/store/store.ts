@@ -1,6 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { userReduser } from './features/user/userSlice';
-import { storage } from './storage';
 import {
   persistStore,
   persistReducer,
@@ -11,28 +10,27 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-
-const rootReducer = combineReducers({
-  user: userReduser,
-});
+import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
   key: 'user',
   storage,
+  whitelist: ['user'],
 };
-const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+const rootReducer = combineReducers({
+  user: persistReducer(persistConfig, userReduser),
 });
 
-export type AppStore = typeof store;
+export const makeStore = () => {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware({ serializableCheck: false }),
+  });
+};
+
+export type AppStore = ReturnType<typeof makeStore>;
+// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];
-export let persistor = persistStore(store as AppStore);
