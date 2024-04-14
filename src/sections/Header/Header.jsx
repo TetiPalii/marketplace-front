@@ -11,11 +11,12 @@ import LogoMobile from '../../../public/icons/LogoMobile';
 import LogoDesktop from '../../../public/icons/LogoDesktop';
 import Link from 'next/link';
 import { NavBar } from '../../components/NavBar/NavBar';
-// import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  // const isLoggedIn = useAppSelector()
+  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
+  const firstName = useAppSelector(state => state.user.userName);
   return (
     <>
       <header className="fixed w-full bg-darkBlue text-lightPink p-4 md:py-4 md:px-36">
@@ -38,9 +39,15 @@ export const Header = () => {
           </Link>
 
           <FlexContainer className={'justify-around md:gap-x-5'}>
-            <Link href={'/profile'} className=" hidden md:block">
+            <Link
+              href={isLoggedIn ? '/profile' : '/login/?modal=true'}
+              className=" hidden md:block"
+            >
               <CabinetIcon />
             </Link>
+            {isLoggedIn && (
+              <p className="hidden md:block">{`Вітаю, ${firstName}`}</p>
+            )}
             <Link href={'/cart'}>
               <CartIcon />
             </Link>
