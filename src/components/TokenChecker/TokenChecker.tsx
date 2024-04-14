@@ -24,7 +24,7 @@ export default function TokenChecker({ children }) {
             return;
         }
         isToken();
-        console.log(token)
+
 
     }, []);
     useEffect(() => {
