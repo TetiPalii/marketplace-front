@@ -91,12 +91,6 @@ useEffect(() => {
   }
 });
 
-  const [checked, setChecked] = useState(false);
-
-  const handleCheckox = () => {
-    setChecked(!checked);
-  };
-
   return (
     <>
       <BaseModal onShow={onShow}>
@@ -124,7 +118,7 @@ useEffect(() => {
                 <div className="relative mb-[32px] desktop:mb-[38px] h-[84px] desktop:w-[340px]">
                   <label
                     htmlFor="user-phone"
-                    className="block mb-[8px] text-[12px] text-[#fff]"
+                    className="block mb-[8px] text-[12px] text-[#fff] desktop:text-[#000]"
                   >
                     Телефон
                   </label>
