@@ -70,7 +70,8 @@ export const RegisterModal = ({ onShow }) => {
     // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
     clearErrors("phoneNumber");
   }
-}, [watch("phoneNumber"), setError, clearErrors, watch]);
+  }, [watch("phoneNumber"), setError, clearErrors, watch]);
+  
 
   const action = handleSubmit(async data => {
 

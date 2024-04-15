@@ -110,7 +110,7 @@ export const CodeModal = ({ onShow }) => {
               <div className="relative mb-[32px] desktop:mb-[38px] h-[84px] desktop:w-[340px]">
                 <label
                   htmlFor="user-code"
-                  className="block mb-[8px] text-[12px] text-[#fff]"
+                  className="block mb-[8px] text-[12px] text-[#fff] desktop:text-[#000]"
                 >
                   Код з СМС
                 </label>
