@@ -6,7 +6,7 @@ import rocket from "../../../public/images/rocket-iso-color.png";
 import facebook from "../../../public/images/facebook.png";
 import google from "../../../public/images/google.png";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -38,13 +38,31 @@ export const LoginModal = ({ onShow }) => {
     handleSubmit,
     setError,
     setValue,
-    formState: { errors, isDirty, isSubmitting},
+    clearErrors,
+    formState: { errors, isDirty, isSubmitting, isValid},
   } = useForm({
     defaultValues: {
       phoneNumber: "",
     },
     resolver: zodResolver(loginSchema),
   });
+
+useEffect(() => {
+  // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
+  // console.log("errors.phoneNumber:", errors.phoneNumber);
+  // console.log("watch('phoneNumber'):", watch("phoneNumber"));
+  if (
+    watch("phoneNumber") &&
+    !watch("phoneNumber").match(/^\+380\d{9}$/)
+  ) {
+    // Якщо є помилка або значення поля вводу невірне, встановіть помилку
+    setError("phoneNumber", { message: "Телефон має містити +380 та 9 цифр" });
+  } else {
+    // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
+    clearErrors("phoneNumber");
+  }
+}, [watch("phoneNumber"), setError, clearErrors, watch]);
+
 
   const action = handleSubmit(async (data) => {
     try {
@@ -123,7 +141,7 @@ export const LoginModal = ({ onShow }) => {
                   {watch('phoneNumber') && (
                     <button type='button' className="clear-btn" onClick={() => setValue('phoneNumber', '')}>
                       <CloseIcon className='w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black'/>
-                    </button>)}
+                  </button>)}
                   {errors.phoneNumber?.message && (
                     <p className="auth-error-message">
                       <span>
@@ -135,10 +153,10 @@ export const LoginModal = ({ onShow }) => {
                 </div>
                 <button
                   type="submit"
-                  disabled={!isDirty || isSubmitting}
+                  disabled={!isDirty || isSubmitting || !isValid}
                   className={clsx(
                     "submit-btn",
-                    (!isDirty || isSubmitting) && "submit-btn-disabled"
+                    (!isDirty || isSubmitting || !isValid) && "submit-btn-disabled"
                   )}
                 >
                   {isSubmitting ? "Завантаження..." : "Далі"}

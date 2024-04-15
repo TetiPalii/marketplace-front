@@ -12,7 +12,7 @@ import * as z from 'zod';
 import QuestionIcon from '../../../public/icons/QuestionIcon';
 import clsx from 'clsx';
 import registerAction from './registerAction';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { savePhoneNumber, saveUserName } from '@/store/features/user/userSlice';
 import CloseIcon from '../../../public/icons/CloseIcon';
@@ -46,6 +46,7 @@ export const RegisterModal = ({ onShow }) => {
     handleSubmit,
     setError,
     setValue,
+    clearErrors,
     formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -55,6 +56,21 @@ export const RegisterModal = ({ onShow }) => {
     resolver: zodResolver(registerSchema),
   });
   
+  useEffect(() => {
+  // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
+  // console.log("errors.phoneNumber:", errors.phoneNumber);
+  // console.log("watch('phoneNumber'):", watch("phoneNumber"));
+  if (
+    watch("phoneNumber") &&
+    !watch("phoneNumber").match(/^\+380\d{9}$/)
+  ) {
+    // Якщо є помилка або значення поля вводу невірне, встановіть помилку
+    setError("phoneNumber", { message: "Телефон має містити +380 та 9 цифр" });
+  } else {
+    // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
+    clearErrors("phoneNumber");
+  }
+}, [watch("phoneNumber"), setError, clearErrors, watch]);
 
   const action = handleSubmit(async data => {
 
