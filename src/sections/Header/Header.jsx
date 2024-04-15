@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import BurgerIcon from '../../../public/icons/BurgerIcon';
+import BurgerIcon from '@/public/icons/BurgerIcon';
 import { FlexContainer } from '../../components/FlexContainer/FlexContainer';
-import CartIcon from '../../../public/icons/CartIcon';
+import CartIcon from '@/public/icons/CartIcon';
 import { IconWrapper } from '../../components/IconWrapper/IconWrapper';
 import CabinetIcon from '../../../public/icons/CabinetIcon';
 import LikeIcon from '../../../public/icons/LikeIcon';
