@@ -13,12 +13,11 @@ import QuestionIcon from '../../../public/icons/QuestionIcon';
 import clsx from 'clsx';
 import registerAction from './registerAction';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { savePhoneNumber, saveUserName } from '@/store/features/user/userSlice';
 import CloseIcon from '../../../public/icons/CloseIcon';
 import { InputMask } from 'primereact/inputmask';
 import { useRouter } from 'next/navigation';
-        
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 const registerSchema = z
   .object({
@@ -38,7 +37,7 @@ const registerSchema = z
 
 export const RegisterModal = ({ onShow }) => {
   const [serverResponse, setServerResponse] = useState(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const {
     register,
@@ -55,48 +54,45 @@ export const RegisterModal = ({ onShow }) => {
     },
     resolver: zodResolver(registerSchema),
   });
-  
+
   useEffect(() => {
-  // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
-  // console.log("errors.phoneNumber:", errors.phoneNumber);
-  // console.log("watch('phoneNumber'):", watch("phoneNumber"));
-  if (
-    watch("phoneNumber") &&
-    !watch("phoneNumber").match(/^\+380\d{9}$/)
-  ) {
-    // Якщо є помилка або значення поля вводу невірне, встановіть помилку
-    setError("phoneNumber", { message: "Телефон має містити +380 та 9 цифр" });
-  } else {
-    // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
-    clearErrors("phoneNumber");
-  }
-  }, [watch("phoneNumber"), setError, clearErrors, watch]);
-  
+    // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
+    // console.log("errors.phoneNumber:", errors.phoneNumber);
+    // console.log("watch('phoneNumber'):", watch("phoneNumber"));
+    if (watch('phoneNumber') && !watch('phoneNumber').match(/^\+380\d{9}$/)) {
+      // Якщо є помилка або значення поля вводу невірне, встановіть помилку
+      setError('phoneNumber', {
+        message: 'Телефон має містити +380 та 9 цифр',
+      });
+    } else {
+      // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
+      clearErrors('phoneNumber');
+    }
+  }, [watch('phoneNumber'), setError, clearErrors, watch]);
 
   const action = handleSubmit(async data => {
-
-      try {
-        const response = await registerAction(data);
-        setServerResponse(response);
-          dispatch(saveUserName(data.firstName));
-          dispatch(savePhoneNumber(data.phoneNumber));
-        router.push('/verification/?modal=true');
+    try {
+      const response = await registerAction(data);
+      setServerResponse(response);
+      // dispatch(saveUserName(data.firstName));
+      dispatch(savePhoneNumber(data.phoneNumber));
+      router.push('/verification/?modal=true');
     } catch (error) {
       // console.log(error);
-       let errorMessage = "Помилка на сервері";
+      let errorMessage = 'Помилка на сервері';
 
-    if (error.message) {
-      switch (parseInt(error.message)) {
-        case 400:
-          errorMessage = "Невірно введені дані";
-          break;
-        case 409:
-          errorMessage = "Такий клієнт уже зареєстрований в системі";
-          break;
-        default:
-          break;
+      if (error.message) {
+        switch (parseInt(error.message)) {
+          case 400:
+            errorMessage = 'Невірно введені дані';
+            break;
+          case 409:
+            errorMessage = 'Такий клієнт уже зареєстрований в системі';
+            break;
+          default:
+            break;
+        }
       }
-    }
       setError('phoneNumber', {
         message: errorMessage,
       });
@@ -106,11 +102,16 @@ export const RegisterModal = ({ onShow }) => {
   return (
     <>
       <BaseModal onShow={onShow}>
-        <div className='desktop:flex items-center justify-between'>
-          <div className='desktop:pr-[56px] desktop:border-r'>
-            <p className='text-[24px] mb-[16px] mobile:hidden desktop:block'>Реєстрація</p>
-            <Link href="/" className="block mt-[24px] mb-[40px] mx-auto w-[291px] h-[72px] desktop:hidden">
-              <LogoIcon/>
+        <div className="desktop:flex items-center justify-between">
+          <div className="desktop:pr-[56px] desktop:border-r">
+            <p className="text-[24px] mb-[16px] mobile:hidden desktop:block">
+              Реєстрація
+            </p>
+            <Link
+              href="/"
+              className="block mt-[24px] mb-[40px] mx-auto w-[291px] h-[72px] desktop:hidden"
+            >
+              <LogoIcon />
             </Link>
             <ul className="flex gap-[17px] justify-center items-center mb-[16px] pt-[40px] pb-[40px] auth-bg desktop:hidden">
               <li>
@@ -123,10 +124,12 @@ export const RegisterModal = ({ onShow }) => {
                 />
               </li>
               <li>
-                <p className="text-[16px] text-[#fff] auth-blur">Зареєструватись</p>
+                <p className="text-[16px] text-[#fff] auth-blur">
+                  Зареєструватись
+                </p>
               </li>
             </ul>
-            <form action={action} className='mb-[190px] desktop:mb-[24px]'>
+            <form action={action} className="mb-[190px] desktop:mb-[24px]">
               <div className="relative mb-[24px] desktop:mb-[8px] h-[84px] desktop:w-[340px]">
                 <label
                   htmlFor="user-name"
@@ -143,14 +146,22 @@ export const RegisterModal = ({ onShow }) => {
                   })}
                 />
                 {watch('firstName') && (
-        <button type='button' className="clear-btn" onClick={() => setValue('firstName', '')}>
-          <CloseIcon className='w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black'/>
-        </button>
-      )}
+                  <button
+                    type="button"
+                    className="clear-btn"
+                    onClick={() => setValue('firstName', '')}
+                  >
+                    <CloseIcon className="w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black" />
+                  </button>
+                )}
                 {errors.firstName?.message && (
                   <p className="auth-error-message">
                     <span>
-                      <QuestionIcon width={8} height={8} className="fill-[#fff] desktop:fill-black" />
+                      <QuestionIcon
+                        width={8}
+                        height={8}
+                        className="fill-[#fff] desktop:fill-black"
+                      />
                     </span>
                     {errors.firstName?.message}
                   </p>
@@ -166,21 +177,30 @@ export const RegisterModal = ({ onShow }) => {
                 <InputMask
                   type="tel"
                   id="user-phone"
-                  mask='+380*********'
+                  mask="+380*********"
                   placeholder="+380"
                   {...register('phoneNumber')}
-                  className={clsx('auth-input', 'input-mask',{
+                  className={clsx('auth-input', 'input-mask', {
                     ['auth-input-error']: errors.phoneNumber,
                   })}
                 />
                 {watch('phoneNumber') && (
-                  <button type='button' className="clear-btn" onClick={() => setValue('phoneNumber', '')}>
-                    <CloseIcon className='w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black' />
-                  </button>)}
+                  <button
+                    type="button"
+                    className="clear-btn"
+                    onClick={() => setValue('phoneNumber', '')}
+                  >
+                    <CloseIcon className="w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black" />
+                  </button>
+                )}
                 {errors.phoneNumber?.message && (
                   <p className="auth-error-message">
                     <span>
-                      <QuestionIcon width={8} height={8} className="fill-[#fff] desktop:fill-black" />
+                      <QuestionIcon
+                        width={8}
+                        height={8}
+                        className="fill-[#fff] desktop:fill-black"
+                      />
                     </span>
                     {errors.phoneNumber?.message}
                   </p>
@@ -197,11 +217,20 @@ export const RegisterModal = ({ onShow }) => {
                 {isSubmitting ? 'Завантаження...' : 'Зареєструватись'}
               </button>
             </form>
-            <Link href='/login?modal=true' className='mobile:hidden desktop:block text-[16px] text-center'>Увійти</Link>
+            <Link
+              href="/login?modal=true"
+              className="mobile:hidden desktop:block text-[16px] text-center"
+            >
+              Увійти
+            </Link>
           </div>
-          <p className='mobile:hidden desktop:block absolute top-1/2 left-[64%] text-[#939393]'>або</p>
+          <p className="mobile:hidden desktop:block absolute top-1/2 left-[64%] text-[#939393]">
+            або
+          </p>
           <div>
-            <p className='mobile:hodden desktop:block mb-[52px] text-[12px] text-center'>Увійти як користувач</p>
+            <p className="mobile:hodden desktop:block mb-[52px] text-[12px] text-center">
+              Увійти як користувач
+            </p>
             <ul className="flex gap-[48px] desktop:flex-col desktop:gap-[24px] justify-center desktop:items-center">
               <li>
                 <button type="button">
