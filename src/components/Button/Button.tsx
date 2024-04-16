@@ -1,5 +1,14 @@
 import Link from 'next/link';
-export const Button = ({ children, href, className }) => {
+import { ReactElement } from 'react';
+export const Button = ({ 
+  children, 
+  href = "", 
+  className
+}:{
+  children?: ReactElement | string,
+  href?: string,
+  className?: string
+}) => {
   return (
     <Link
       href={href}
