@@ -15,6 +15,7 @@ export async function logout() {
 
     if (response.ok) {
       cookies().set('Authorization', '', { expires: new Date(0) });
+      return response.status;
     }
   } catch (error) {
     console.log(error);
