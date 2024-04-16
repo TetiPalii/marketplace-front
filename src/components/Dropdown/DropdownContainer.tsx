@@ -1,6 +1,21 @@
-import React, { useRef, ReactElement, useEffect, useState } from 'react';
+import React, { useRef, ReactElement, useEffect, useState, ReactNode } from 'react';
+import { CatalogDropdownItem } from './CatalogDropdownItem';
 
-export const DropdownContainer = (): ReactElement => {
+const dropdownSettings = {
+    headerCatalog: {
+      styles: "rounded-xl bg-[#98BAEC] flex flex-col gap-1 py-1"
+    }
+  };
+  
+  type DropDownType = keyof typeof dropdownSettings;
+
+export const DropdownContainer = ({
+    type,
+    children
+}:{
+    type?:DropDownType,
+    children?: ReactNode
+}): ReactElement => {
     const ref = useRef<HTMLDivElement>(null);   
     const [height, setHeight] = useState<number>(0);
 
@@ -11,8 +26,8 @@ export const DropdownContainer = (): ReactElement => {
     }, []);
 
     return (
-        <div ref={ref} className="absolute left-0 w-full h-fit bg-slate-700" style={{ bottom: -height }}>
-            children
+        <div ref={ref} className={`absolute left-0 w-full ${type? dropdownSettings[type].styles : ""}`} style={{ bottom: -height }}>
+            {children}
         </div>
     );
 }
