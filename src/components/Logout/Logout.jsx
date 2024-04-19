@@ -1,23 +1,40 @@
 'use client';
-import { Suspense, useState } from 'react';
-import { redirect } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { logout } from '../../actions/logout';
+import { useAppDispatch } from '@/store/hooks';
+import { setIsLoggedIn } from '@/store/features/user/userSlice';
 
 export const Logout = () => {
-  const [resStatus, setResStatus] = useState(null);
-  console.log(resStatus);
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useAppDispatch();
   return (
     <form
       action={async () => {
-        const status = await logout();
-        setResStatus(status);
-
-        redirect('/');
+        try {
+          setLoading(true);
+          await logout();
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+          dispatch(setIsLoggedIn(false));
+        }
       }}
     >
-      <button className="text-xs" type="submit">
-        Вийти із аккаунта
-      </button>
+      {' '}
+      {loading ? (
+        'Loading...'
+      ) : (
+        <button
+          className={loading ? 'text-[#656E81]' : 'text-xs'}
+          type="submit"
+          disabled={loading}
+        >
+          Вийти із аккаунта
+        </button>
+      )}
     </form>
   );
 };
