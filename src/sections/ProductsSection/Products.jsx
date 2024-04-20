@@ -4,8 +4,10 @@ import { StarRate } from '../../components/StarRate/StarRate';
 import { Wrapper } from '../../components/Wrapper/Wrapper';
 
 async function getProducts() {
+  const baseUrl = process.env.BASE_URL;
+
   const response = await fetch(
-    'https://marketplace-5ihn.onrender.com/api/v1/products/s/list',
+    `${baseUrl}/v1/products/s/view`,
 
     {
       method: 'GET',
@@ -14,6 +16,7 @@ async function getProducts() {
       },
     },
   );
+
   const products = await response.json();
   return products;
 }
