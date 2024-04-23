@@ -1,6 +1,8 @@
-import { Categories } from "./Categories"
-import { ProductField } from "./ProductField"
-import { ProductLable } from "./ProductLable"
+import { Categories } from "./Categories";
+import { ProductField } from "./ProductField";
+import { ProductLable } from "./ProductLable";
+
+
 
 export const ProductForm = () => {
     return <form action="" className="flex flex-col gap-2">
@@ -37,7 +39,7 @@ export const ProductForm = () => {
 
             </ProductLable></div>
 
-
+        <button type="submit" className="text-center text-white py-3 px-7 min-w-[140px] rounded-xl bg-eggPlant hover:bg-eggPlant focus:bg-eggPlant ">Опублікувати</button>
     </form>
 
 }
