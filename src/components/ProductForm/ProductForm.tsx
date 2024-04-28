@@ -1,11 +1,19 @@
+'use client'
+import { getCategories } from "@/actions/getCategories";
 import { Categories } from "./Categories";
 import { ProductField } from "./ProductField";
 import { ProductLable } from "./ProductLable";
+import { useEffect, useState } from "react";
+import { Condition } from "./Condition";
 
 
 
 export const ProductForm = () => {
-    return <form action="" className="flex flex-col gap-2">
+
+
+
+
+    return <form action='' className="flex flex-col gap-2">
         <h1 className="text-center text-2xl font-medium">Створи оголошення</h1>
         <ProductLable inputName="Назва товару" >
             <ProductField type="text" id="productName" />
@@ -20,6 +28,7 @@ export const ProductForm = () => {
         <ProductLable inputName="Опис товару">
             <textarea className="bg-transparent border border-formColor rounded-2xl" name="" id="" cols={30} rows={10}></textarea>
         </ProductLable>
+        <Condition />
 
         <div><h3>Контактні дані</h3>
             <ProductLable inputName="Контактна особа" className="text-xs">
