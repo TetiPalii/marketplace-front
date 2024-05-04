@@ -1,5 +1,15 @@
-export const Condition =
-  () => {
+import { UseFormRegisterReturn} from 'react-hook-form';
+
+type RegisterFunction = UseFormRegisterReturn<string>;
+
+interface ComponentProps {
+    register?: RegisterFunction;
+    type?: string,
+    id?: string,
+    list?: string,
+  }
+export const Condition : React.FC<ComponentProps> =
+  ({register}) => {
     return (
       <>
         <ul className="flex gap-x-4 justify-center mt-4 mb-4 w-full">
@@ -11,6 +21,7 @@ export const Condition =
               value="used"
               className="peer hidden"
               required
+              {...register}
               onChange={e => {
                 console.log(
                   e
@@ -28,6 +39,7 @@ export const Condition =
           </li>
           <li className="w-full">
             <input
+              {...register}
               type="radio"
               id="new"
               name="condition"

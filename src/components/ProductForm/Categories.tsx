@@ -6,7 +6,7 @@ import { ProductField } from './ProductField';
 import { getCategories } from "@/actions/getCategories";
 
 
-export const Categories = () => {
+export const Categories = ({register}) => {
     const [categoriesList, setCategoriesList] = useState(null);
 
     useEffect(() => {
@@ -46,7 +46,7 @@ export const Categories = () => {
             options={categoriesOptions()}
             isMulti
             closeMenuOnSelect={false}
-
+{...register}
         />
 
     );
