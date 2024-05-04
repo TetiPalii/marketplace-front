@@ -11,7 +11,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     savePhoneNumber: (state, action) => {
-      console.log(action.payload);
+      
       state.phoneNumber = action.payload;
     },
     saveUserName: (state, action) => {

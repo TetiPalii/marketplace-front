@@ -72,10 +72,11 @@ export const RegisterModal = ({ onShow }) => {
 
   const action = handleSubmit(async data => {
     try {
-      const response = await registerAction(data);
-      setServerResponse(response);
-      // dispatch(saveUserName(data.firstName));
+      await registerAction(data);
+     
+      dispatch(saveUserName(data.firstName));
       dispatch(savePhoneNumber(data.phoneNumber));
+      
       router.push('/verification/?modal=true');
     } catch (error) {
       // console.log(error);
