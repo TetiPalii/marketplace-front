@@ -57,17 +57,17 @@ export const CodeModal = ({ onShow }) => {
     try {
       const fulfilledData = {
         ...data,
-        phoneNumber: phoneNumber,
+        phoneNumber,
       };
-      // console.log("code", fulfilledData);
+     
       const response = await verificationAction(fulfilledData);
 
-      if (response) {
-        dispatch(saveUserName(response.firstName));
+      if (response.token) {
+        
         dispatch(setIsLoggedIn(true));
       }
 
-      setServerResponse(response);
+      
       router.push('/');
     } catch (error) {
       // console.log(error);
@@ -170,13 +170,13 @@ export const CodeModal = ({ onShow }) => {
             <button
               type="button"
               onClick={action}
-              className="block p-0 mb-[24px] desktop:mb-[8px] mx-auto border-none bg-[transparent] text-[16px] text-[#fff] desktop:text-[#000]"
+              className="block p-0 mb-[24px] desktop:mb-[8px] mx-auto border-none bg-[transparent] text-[16px] text-white desktop:text-black"
             >
               Вислати код ще раз
             </button>
             <Link
               href="/login/?modal=true"
-              className="block p-0 mb-[40px] desktop:mb-0 text-center border-none bg-[transparent] text-[16px] text-[#fff] desktop:text-[#000]"
+              className="block p-0 mb-[40px] desktop:mb-0 text-center border-none bg-[transparent] text-[16px] text-white desktop:text-black"
             >
               Ввести інший номер телефону
             </Link>
@@ -185,7 +185,7 @@ export const CodeModal = ({ onShow }) => {
             або
           </p>
           <div>
-            <p className="mobile:hodden desktop:block mb-[52px] text-[12px] text-center">
+            <p className="mobile:hodden desktop:block mb-[52px] text-[12px] text-center text-white">
               Увійти як користувач
             </p>
             <ul className="flex gap-[48px] desktop:flex-col desktop:gap-[24px] justify-center desktop:items-center">

@@ -22,6 +22,7 @@ export default async function verificationAction(fulfilledData) {
     sameSite: 'strict',
   });
 
+
   if (res.ok) {
     return json;
   } else {
