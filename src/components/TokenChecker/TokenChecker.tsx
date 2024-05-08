@@ -25,14 +25,15 @@ export default function TokenChecker({ children }) {
         }
         isToken();
 
-
     }, []);
     useEffect(() => {
         if (token) {
             dispatch(setIsLoggedIn(true))
 
         }
-        else { dispatch(setIsLoggedIn(false)) }
+        else {
+            dispatch(setIsLoggedIn(false))
+        }
     }, [token])
     return <>{children}</>
 }

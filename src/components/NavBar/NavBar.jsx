@@ -36,17 +36,15 @@ export const NavBar = ({ menuOpen, setMenuOpen }) => {
     <div
       className={
         menuOpen
-          ? 'md:hidden top-0 left-0 fixed w-screen h-full bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-500 overflow-auto text-lightPink'
-          : 'fixed left-[-200%] top-0 ease-in duration-500 md:hidden'
+          ? 'md:hidden fixed top-0 left-0 w-screen h-full bg-[rgba(114, 200, 233, 0.25)] backdrop-blur-[2px] ease-in duration-300 overflow-scroll text-lightPink'
+          : 'fixed left-[-100%] top-0 ease-in duration-300 md:hidden'
       }
       onClick={onBackdrop}
       id="backdrop"
     >
       <div
         className={
-          menuOpen
-            ? 'w-[88%]  fixed top-0 left-0 md:hidden  z-[999] bg-darkBlue py-6'
-            : 'fixed left-[-200%] top-0 ease-in duration-300'
+          'w-[88%] md:hidden  z-[999] bg-darkBlue py-6 overflow-scroll'
         }
       >
         <FlexContainer className={'justify-between pl-5 pr-2'}>

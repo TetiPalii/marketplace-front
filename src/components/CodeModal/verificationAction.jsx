@@ -14,18 +14,18 @@ export default async function verificationAction(fulfilledData) {
   );
 
   const json = await res.json();
-  console.log(json);
 
   Cookies.set('Authorization', json.token, {
-      secure: true,
-      expires: 10, // expires встановлює термін дії кукі в днях
-      path: '/',
-      sameSite: 'strict',
-    });
+    secure: true,
+    expires: 10, // expires встановлює термін дії кукі в днях
+    path: '/',
+    sameSite: 'strict',
+  });
+
 
   if (res.ok) {
-    // redirect('/');
+    return json;
   } else {
-      throw new Error(res.status);
+    throw new Error(res.status);
   }
 }

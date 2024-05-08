@@ -12,6 +12,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/public/*": ["./public/*"]
+    },
     "plugins": [
       {
         "name": "next"
@@ -23,8 +27,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/actions/logout.jsx",
-    "src/store/storage.js"
+    "src/actions/logout.jsx"
   ],
   "exclude": ["node_modules"]
 }

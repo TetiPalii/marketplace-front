@@ -31,6 +31,9 @@ module.exports = {
         gradientBlue: '#66FFFF',
         gradientBlue2: '#9966FF75',
         gradientBlue3: '#66FFFF',
+
+        /*Product form */
+        formColor: '#0D0D0D',
       },
     },
   },

@@ -13,8 +13,9 @@ export async function logout() {
       },
     );
 
-    if (response.ok) {
+    if (response.status === 204) {
       cookies().set('Authorization', '', { expires: new Date(0) });
+      return response.status;
     }
   } catch (error) {
     console.log(error);
