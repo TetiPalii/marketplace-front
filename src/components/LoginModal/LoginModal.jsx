@@ -1,34 +1,33 @@
-'use client';
-import { BaseModal } from '../BaseModal/BaseModal';
-import Image from 'next/image';
-import LogoIcon from '../../../public/icons/LogoIcon';
-import rocket from '../../../public/images/rocket-iso-color.png';
-import facebook from '../../../public/images/facebook.png';
-import google from '../../../public/images/google.png';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import QuestionIcon from '../../../public/icons/QuestionIcon';
-import clsx from 'clsx';
-import loginAction from './loginAction';
-import { savePhoneNumber } from '@/store/features/user/userSlice';
-import CloseIcon from '../../../public/icons/CloseIcon';
-import { InputMask } from 'primereact/inputmask';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+"use client";
+import { BaseModal } from "../BaseModal/BaseModal";
+import Image from "next/image";
+import LogoIcon from "../../../public/icons/LogoIcon";
+import rocket from "../../../public/images/rocket-iso-color.png";
+import facebook from "../../../public/images/facebook.png";
+import google from "../../../public/images/google.png";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import QuestionIcon from "../../../public/icons/QuestionIcon";
+import clsx from "clsx";
+import loginAction from "./loginAction";
+import { savePhoneNumber } from "@/store/features/user/userSlice";
+import CloseIcon from "../../../public/icons/CloseIcon";
+import { InputMask } from "primereact/inputmask";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const loginSchema = z
   .object({
     phoneNumber: z.string().regex(/^\+380\d{9}$/, {
-      message: 'Телефон має містити +380 та 9 цифр',
+      message: "Телефон має містити +380 та 9 цифр",
     }),
   })
   .required();
 
 export const LoginModal = ({ onShow }) => {
-  const [serverResponse, setServerResponse] = useState(null);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const {
@@ -41,7 +40,7 @@ export const LoginModal = ({ onShow }) => {
     formState: { errors, isDirty, isSubmitting, isValid },
   } = useForm({
     defaultValues: {
-      phoneNumber: '',
+      phoneNumber: "",
     },
     resolver: zodResolver(loginSchema),
   });
@@ -50,42 +49,42 @@ export const LoginModal = ({ onShow }) => {
     // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
     // console.log("errors.phoneNumber:", errors.phoneNumber);
     // console.log("watch('phoneNumber'):", watch("phoneNumber"));
-    if (watch('phoneNumber') && !watch('phoneNumber').match(/^\+380\d{9}$/)) {
+    if (watch("phoneNumber") && !watch("phoneNumber").match(/^\+380\d{9}$/)) {
       // Якщо є помилка або значення поля вводу невірне, встановіть помилку
-      setError('phoneNumber', {
-        message: 'Телефон має містити +380 та 9 цифр',
+      setError("phoneNumber", {
+        message: "Телефон має містити +380 та 9 цифр",
       });
     } else {
       // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
-      clearErrors('phoneNumber');
+      clearErrors("phoneNumber");
     }
-  }, [watch('phoneNumber'), setError, clearErrors, watch]);
+  }, [watch("phoneNumber"), setError, clearErrors, watch]);
 
-  const action = handleSubmit(async data => {
+  const action = handleSubmit(async (data) => {
     try {
       const response = await loginAction(data);
       setServerResponse(response);
       // console.log(response);
       dispatch(savePhoneNumber(data.phoneNumber));
-      router.push('/verification/?modal=true');
+      router.push("/verification/?modal=true");
     } catch (error) {
-      let errorMessage = 'Помилка на сервері';
+      let errorMessage = "Помилка на сервері";
 
       if (error.message) {
         switch (parseInt(error.message)) {
           case 404:
             errorMessage =
-              'Користувач з таким номером телефона не зареєстрований';
+              "Користувач з таким номером телефона не зареєстрований";
             break;
           case 409:
-            errorMessage = 'Код можна ввести повторно лише через 1 хвилину';
+            errorMessage = "Код можна ввести повторно лише через 1 хвилину";
             break;
           default:
             break;
         }
       }
 
-      setError('phoneNumber', { message: errorMessage });
+      setError("phoneNumber", { message: errorMessage });
     }
   });
 
@@ -130,16 +129,16 @@ export const LoginModal = ({ onShow }) => {
                   id="user-phone"
                   mask="+380*********"
                   placeholder="+380"
-                  {...register('phoneNumber')}
-                  className={clsx('auth-input', 'input-mask', {
-                    ['auth-input-error']: errors.phoneNumber,
+                  {...register("phoneNumber")}
+                  className={clsx("auth-input", "input-mask", {
+                    ["auth-input-error"]: errors.phoneNumber,
                   })}
                 />
-                {watch('phoneNumber') && (
+                {watch("phoneNumber") && (
                   <button
                     type="button"
                     className="clear-btn"
-                    onClick={() => setValue('phoneNumber', '')}
+                    onClick={() => setValue("phoneNumber", "")}
                   >
                     <CloseIcon className="w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black" />
                   </button>
@@ -161,12 +160,12 @@ export const LoginModal = ({ onShow }) => {
                 type="submit"
                 disabled={!isDirty || isSubmitting || !isValid}
                 className={clsx(
-                  'submit-btn',
+                  "submit-btn",
                   (!isDirty || isSubmitting || !isValid) &&
-                    'submit-btn-disabled',
+                    "submit-btn-disabled",
                 )}
               >
-                {isSubmitting ? 'Завантаження...' : 'Далі'}
+                {isSubmitting ? "Завантаження..." : "Далі"}
               </button>
             </form>
             <Link

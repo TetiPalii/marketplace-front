@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from "react";
 const FacebookIcon = (props) => (
-    <svg
+  <svg
     xmlns="http://www.w3.org/2000/svg"
     width="54"
     height="54"
@@ -16,5 +16,5 @@ const FacebookIcon = (props) => (
       d="m177.825 165 5.675-37H148v-24.01C148 93.866 152.959 84 168.86 84H185V52.5S170.352 50 156.347 50C127.11 50 108 67.72 108 99.8V128H75.5v37H108v89.445A128.959 128.959 0 0 0 128 256a128.9 128.9 0 0 0 20-1.555V165h29.825"
     />
   </svg>
-)
-export default FacebookIcon
+);
+export default FacebookIcon;

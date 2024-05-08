@@ -1,17 +1,17 @@
-'use client';
+"use client";
 import {
   about,
   forPartners,
   help,
   socialmediaIcons,
-} from '../../data/footerNav';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Logout } from '../Logout/Logout';
-import { useAppSelector } from '../../store/hooks';
+} from "../../data/footerNav";
+import Link from "next/link";
+import Image from "next/image";
+import { Logout } from "../Logout/Logout";
+import { useAppSelector } from "../../store/hooks";
 
 export const FooterNav = ({ onClose }) => {
-  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   return (
     <div className="flex flex-col gap-6 pl-5 mt-[72px]">
       <div className="h-[20px] w-full bg-gradient-to-r from-[#161C2A] via-[#990078] via-50% to-[#161C2A] to-100% ...">
@@ -63,7 +63,7 @@ export const FooterNav = ({ onClose }) => {
         <ul className="flex items-center gap-6">
           {socialmediaIcons.map(({ id, icon }) => (
             <li key={id} onClick={onClose}>
-              <Link href={'/'}>
+              <Link href={"/"}>
                 <Image src={icon} alt="icon" width="40" height="40" />
               </Link>
             </li>

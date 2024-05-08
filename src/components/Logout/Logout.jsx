@@ -1,9 +1,9 @@
-'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { logout } from '../../actions/logout';
-import { useAppDispatch } from '@/store/hooks';
-import { setIsLoggedIn } from '@/store/features/user/userSlice';
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { logout } from "../../actions/logout";
+import { useAppDispatch } from "@/store/hooks";
+import { setIsLoggedIn } from "@/store/features/user/userSlice";
 
 export const Logout = () => {
   const [loading, setLoading] = useState(false);
@@ -23,12 +23,12 @@ export const Logout = () => {
         }
       }}
     >
-      {' '}
+      {" "}
       {loading ? (
-        'Loading...'
+        "Loading..."
       ) : (
         <button
-          className={loading ? 'text-[#656E81]' : 'text-xs'}
+          className={loading ? "text-[#656E81]" : "text-xs"}
           type="submit"
           disabled={loading}
         >
