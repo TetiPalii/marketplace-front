@@ -1,5 +1,5 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
 export const Theme = () => {
   const [isChecked, setIsChecked] = useState(true);

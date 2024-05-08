@@ -1,7 +1,7 @@
-import CartIcon2 from '../../../public/icons/CartIcon';
-import LikeIcon from '../../../public/icons/LikeIcon';
-import { StarRate } from '../../components/StarRate/StarRate';
-import { Wrapper } from '../../components/Wrapper/Wrapper';
+import CartIcon2 from "../../../public/icons/CartIcon";
+import LikeIcon from "../../../public/icons/LikeIcon";
+import { StarRate } from "../../components/StarRate/StarRate";
+import { Wrapper } from "../../components/Wrapper/Wrapper";
 
 async function getProducts() {
   const baseUrl = process.env.BASE_URL;
@@ -10,9 +10,9 @@ async function getProducts() {
     `${baseUrl}/v1/products/s/view`,
 
     {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     },
   );
@@ -35,7 +35,7 @@ export default async function Products() {
               >
                 {/* image */}
                 <div className="w-full h-[151px]  md:h-[243px] border border-[#581919] rounded-md self-center">
-                  {<LikeIcon fill={'#161C2A'} className="ml-auto" />}
+                  {<LikeIcon fill={"#161C2A"} className="ml-auto" />}
                 </div>
 
                 {/* product description */}
@@ -53,7 +53,7 @@ export default async function Products() {
                   <div>
                     <button
                       type="button"
-                      className={'bg-[#990078] rounded-[50%] p-2 '}
+                      className={"bg-[#990078] rounded-[50%] p-2 "}
                     >
                       <CartIcon2 />
                     </button>

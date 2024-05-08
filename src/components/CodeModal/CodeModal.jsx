@@ -1,33 +1,33 @@
-'use client';
-import { BaseModal } from '../BaseModal/BaseModal';
-import Image from 'next/image';
-import LogoIcon from '../../../public/icons/LogoIcon';
-import rocket from '../../../public/images/rocket-iso-color.png';
-import facebook from '../../../public/images/facebook.png';
-import google from '../../../public/images/google.png';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import QuestionIcon from '../../../public/icons/QuestionIcon';
-import clsx from 'clsx';
-import verificationAction from './verificationAction';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectPhoneNumber } from '@/store/features/user/selectors';
-import { setIsLoggedIn } from '@/store/features/user/userSlice';
-import CloseIcon from '../../../public/icons/CloseIcon';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { saveUserName } from '../../store/features/user/userSlice';
+"use client";
+import { BaseModal } from "../BaseModal/BaseModal";
+import Image from "next/image";
+import LogoIcon from "../../../public/icons/LogoIcon";
+import rocket from "../../../public/images/rocket-iso-color.png";
+import facebook from "../../../public/images/facebook.png";
+import google from "../../../public/images/google.png";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import QuestionIcon from "../../../public/icons/QuestionIcon";
+import clsx from "clsx";
+import verificationAction from "./verificationAction";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectPhoneNumber } from "@/store/features/user/selectors";
+import { setIsLoggedIn } from "@/store/features/user/userSlice";
+import CloseIcon from "../../../public/icons/CloseIcon";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { saveUserName } from "../../store/features/user/userSlice";
 
 const varificationSchema = z
   .object({
     inputCode: z
       .string()
-      .min(4, { message: 'Код має містити мінімум 4 цифри' })
-      .max(4, { message: 'Код має містити максимум 4 цифри' })
-      .regex(/^\d+$/, { message: 'Код має містити тільки цифри' }),
+      .min(4, { message: "Код має містити мінімум 4 цифри" })
+      .max(4, { message: "Код має містити максимум 4 цифри" })
+      .regex(/^\d+$/, { message: "Код має містити тільки цифри" }),
   })
   .required();
 
@@ -48,44 +48,42 @@ export const CodeModal = ({ onShow }) => {
     formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
-      inputCode: '',
+      inputCode: "",
     },
     resolver: zodResolver(varificationSchema),
   });
 
-  const action = handleSubmit(async data => {
+  const action = handleSubmit(async (data) => {
     try {
       const fulfilledData = {
         ...data,
         phoneNumber,
       };
-     
+
       const response = await verificationAction(fulfilledData);
 
       if (response.token) {
-        
         dispatch(setIsLoggedIn(true));
       }
 
-      
-      router.push('/');
+      router.push("/");
     } catch (error) {
       // console.log(error);
-      let errorMessage = 'Помилка на сервері';
+      let errorMessage = "Помилка на сервері";
 
       if (error.message) {
         switch (parseInt(error.message)) {
           case 400:
-            errorMessage = 'Невірний код';
+            errorMessage = "Невірний код";
             break;
           case 409:
-            errorMessage = 'Код вже було введено';
+            errorMessage = "Код вже було введено";
             break;
           default:
             break;
         }
       }
-      setError('inputCode', {
+      setError("inputCode", {
         message: errorMessage,
       });
     }
@@ -129,16 +127,16 @@ export const CodeModal = ({ onShow }) => {
                 <input
                   type="text"
                   id="user-code"
-                  {...register('inputCode')}
-                  className={clsx('auth-input', {
-                    ['auth-input-error']: errors.inputCode,
+                  {...register("inputCode")}
+                  className={clsx("auth-input", {
+                    ["auth-input-error"]: errors.inputCode,
                   })}
                 />
-                {watch('inputCode') && (
+                {watch("inputCode") && (
                   <button
                     type="button"
                     className="clear-btn"
-                    onClick={() => setValue('inputCode', '')}
+                    onClick={() => setValue("inputCode", "")}
                   >
                     <CloseIcon className="w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black" />
                   </button>
@@ -160,11 +158,11 @@ export const CodeModal = ({ onShow }) => {
                 type="submit"
                 disabled={!isDirty || isSubmitting}
                 className={clsx(
-                  'submit-btn',
-                  (!isDirty || isSubmitting) && 'submit-btn-disabled',
+                  "submit-btn",
+                  (!isDirty || isSubmitting) && "submit-btn-disabled",
                 )}
               >
-                {isSubmitting ? 'Завантаження...' : 'Увійти'}
+                {isSubmitting ? "Завантаження..." : "Увійти"}
               </button>
             </form>
             <button
