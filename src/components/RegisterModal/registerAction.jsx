@@ -1,4 +1,5 @@
 export default async function registerAction(data) {
+  
   const res = await fetch(
     "https://marketplace-5ihn.onrender.com/api/v1/auth/registration",
     {
