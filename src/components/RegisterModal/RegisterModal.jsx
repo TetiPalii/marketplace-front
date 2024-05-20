@@ -105,7 +105,7 @@ export const RegisterModal = ({ onShow }) => {
       <BaseModal onShow={onShow}>
         <div className="desktop:flex items-center justify-between">
           <div className="desktop:pr-[56px] desktop:border-r">
-            <p className="text-[24px] mb-[16px] mobile:hidden desktop:block">
+            <p className="text-2xl mb-4 mobile:hidden desktop:block">
               Реєстрація
             </p>
             <Link

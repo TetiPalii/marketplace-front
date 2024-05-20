@@ -22,7 +22,7 @@ async function getProducts() {
 }
 export default async function Products() {
   const { body } = await getProducts();
-
+console.log(body)
   return (
     <Wrapper className="p-6 ">
       <ul className="gap-x-5 gap-y-7 md:gap-x-6 w-full items-start  products">

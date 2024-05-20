@@ -1,19 +1,33 @@
-// "use server"
-// import { revalidatePath } from "next/cache";
-// import { z } from "zod";
+"use server"
 
-// export async function createProduct(prevState,formData:FormData) {
-//     const productSchema = z.object({
-//         product: z.string(),
+import { cookies } from "next/headers";
+
+export async function createProduct(formData: FormData): Promise<void> {
+    console.log(formData)
+
+    const baseUrl = process.env.BASE_URL;
+   
+    const token = cookies().get('Authorization')?.value;
+
+    try {
+        const response = await fetch(`${baseUrl}/v1/products/create`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` },
+            body: formData,
+        });   
+
+        if (!response.ok) {
+            throw new Error(response.statusText)
+        }
+        
+        else {
+            const json = await response.json();
+            console.log(json);
+            return json
+        }
+        
+    } catch (error) {
+        console.error(error)
+    }
     
-      
-//     });
-//     // console.log('fomdata:', formData)
-//     // console.log('prevstate:', prevState)
-//     const parse = productSchema.safeParse({
-//         product: formData.get("product"),
-//     });
-//     console.log(parse.data)
-//     const data = parse.data;
-//     return data
-// }
+}
