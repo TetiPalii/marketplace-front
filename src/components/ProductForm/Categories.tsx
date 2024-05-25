@@ -53,7 +53,7 @@ export const Categories = ({ control }) => {
       }}
       options={categoriesOptions()} 
      
-        closeMenuOnSelect={false}
+       
         
   />}
   />

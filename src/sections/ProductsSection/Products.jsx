@@ -1,3 +1,6 @@
+
+
+import { ProductsList } from "@/components/Products/ProductsList";
 import CartIcon2 from "../../../public/icons/CartIcon";
 import LikeIcon from "../../../public/icons/LikeIcon";
 import { StarRate } from "../../components/StarRate/StarRate";
@@ -7,7 +10,7 @@ async function getProducts() {
   const baseUrl = process.env.BASE_URL;
 
   const response = await fetch(
-    `${baseUrl}/v1/products/s/view`,
+    `${baseUrl}/v1/products/s/view?number=0&size=30&sort=creationDate&order=DESC`,
 
     {
       method: "GET",
@@ -21,49 +24,12 @@ async function getProducts() {
   return products;
 }
 export default async function Products() {
+  
   const { body } = await getProducts();
-console.log(body)
+
+
   return (
-    <Wrapper className="p-6 ">
-      <ul className="gap-x-5 gap-y-7 md:gap-x-6 w-full items-start  products">
-        {body &&
-          body.map(({ id, productName, productPrice }) => {
-            return (
-              <li
-                key={id}
-                className=" flex flex-col justify-center align-baseline w-full gap-y-2 "
-              >
-                {/* image */}
-                <div className="w-full h-[151px]  md:h-[243px] border border-[#581919] rounded-md self-center">
-                  {<LikeIcon fill={"#161C2A"} className="ml-auto" />}
-                </div>
-
-                {/* product description */}
-                <div className="flex flex-col flex-wrap gap-y-2 ">
-                  {/* product name */}
-                  <div className="h-[45px]">
-                    <p>{productName}</p>
-                  </div>
-
-                  <span>{productPrice}₴</span>
-                  <div className="flex">
-                    <StarRate />
-                  </div>
-
-                  <div>
-                    <button
-                      type="button"
-                      className={"bg-[#990078] rounded-[50%] p-2 "}
-                    >
-                      <CartIcon2 />
-                    </button>
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-      </ul>
-    </Wrapper>
+    <ProductsList body={body}/>
   );
 }
 //grid justify-items-center grid-cols-2
