@@ -1,6 +1,8 @@
 "use server"
 
+
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function createProduct(formData: FormData): Promise<void> {
     console.log(formData)
@@ -23,7 +25,9 @@ export async function createProduct(formData: FormData): Promise<void> {
         else {
             const json = await response.json();
             console.log(json);
+        
             return json
+            
         }
         
     } catch (error) {

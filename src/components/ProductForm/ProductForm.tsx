@@ -7,36 +7,23 @@ import { ProductField } from "./ProductField";
 import { ProductLable } from "./ProductLable";
 import { Condition } from "./Condition";
 import { createProduct } from "@/actions/createProduct";
-import { useState } from "react";
+import { useEffect} from "react";
+import { useRouter } from "next/navigation";
 
-// interface ProductData {
-//   productName: string;
-//   price: string;
-//   description: string;
-//   condition: string;
-//   contactPerson: string;
-//   phoneNumber: string;
-//   email: string;
-//   location: string;
-//   category: {
-//       value: string; 
-//       label: string;
-      
-//   },
-//   file?: File
-// }
 const productSchema = z.object({
-  productName: z.string().min(5).max(50),
+  productName: z.string().min(5,{message:"Назва товару має містити щонайменше 5 символів "}).max(100,{message:"Назва товару має містити не більше 100 символів "}),
   category: z.object({
     label: z.string(),
     value:z.string()
   }),
-  condition:z.string(),
-  price: z.string().min(0),
-  description: z.string().min(10).max(500),
-  contactPerson: z.string().min(3).max(50),
-  phoneNumber: z.string(),
-  email: z.string().email(),
+  productType:z.string(),
+  productPrice: z.string().min(1),
+  productDescription: z.string().min(5).max(250),
+  sellerName: z.string().min(3).max(50),
+  sellerPhoneNumber: z.string().regex(/^\+380\d{9}$/, {
+    message: 'Телефон має містити +380 та 9 цифр',
+  }).min(13).max(13),
+  sellerEmail: z.string().email({message:"Будь-ласка введіть валідний адрес електронної пошти"}).min(1, "Це поле є обовʼязковим"),
   location: z.string().min(3).max(100),
   file: z
   .instanceof(File)
@@ -45,22 +32,40 @@ const productSchema = z.object({
     message: 'Файл должен быть изображением (JPEG/PNG) или PDF',
   }),
   
-});
+}).required();
 export type ProductSchema = z.infer<typeof productSchema>;
+// const defaultValues = {
+//   productName: '',
+//   productDescription: '',
+//   productPrice: '',
+//   category: {
+//     value: '',
+//     label:''
+//   },
+//   productType: '',
+//   sellerName: '',
+//   sellerPhoneNumber: '',
+//   sellerEmail: '',
+//   location: '',
+ 
+// };
 
 export const ProductForm = () => {
 
+  const router = useRouter();
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
+    trigger,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<ProductSchema>({resolver: zodResolver(productSchema),});
+  } = useForm({resolver: zodResolver(productSchema),});
 
   const onSubmit = handleSubmit(async (data) => {
-    
-    const { productName, price: productPrice, description: productDescription, condition: productType, contactPerson: sellerName, phoneNumber: sellerPhoneNumber, email: sellerEmail, location, category: { value: productCategory }, file} = data;
+   
+    const { productName,productPrice, productDescription,  productType, sellerName, sellerPhoneNumber, sellerEmail, location, category: { value: productCategory }, file} = data;
     
     const productData = { 
       productName,
@@ -74,8 +79,9 @@ export const ProductForm = () => {
       location,
         
     }
-    const jsonProductData = JSON.stringify(productData)
     
+    const jsonProductData = JSON.stringify(productData);
+    // localStorage.setItem('productForm', jsonProductData);
     const formData = new FormData();
     formData.append('request', new Blob([jsonProductData], { type: 'application/json' }));
     formData.append('files', file, file.name)
@@ -84,11 +90,33 @@ export const ProductForm = () => {
      
       const newProductData = await createProduct(formData)
       console.log(newProductData)
+      
    } catch (error) {
-    console.log(error)
-   }
+      console.log(error)
+    }
+    router.push('/')
    
   });
+
+useEffect(() => {
+  const savedData = localStorage.getItem('productForm');
+  
+  if (savedData) {
+    const parsedData = JSON.parse(savedData);
+    for (const key in parsedData) {
+      setValue(key, parsedData[key]);
+    }
+  }
+}, [setValue]);
+  
+  const watchedFields = watch();
+  
+  useEffect(() => {
+    if (Object.values(watchedFields).some(field => field !== '')) {
+      localStorage.setItem('productForm', JSON.stringify(watchedFields));
+    }
+   
+  }, [watchedFields]);
 
   return (
     <>
@@ -99,16 +127,20 @@ export const ProductForm = () => {
             type="text"
             id="productName"
             register={register("productName")}
+           
           />
+          {errors.productName&& errors.productName.message &&(<span className="text-red">{errors.productName.message.toString()}</span> )}
         </ProductLable>
         <ProductLable inputName="Категорія товару">
           <Categories control={control} />
         </ProductLable>
+        <ProductLable inputName="Додати фото" className="text-center w-[136px] h-[124px] border border-darkBlue rounded-xl">
         <Controller
           name="file"
           control={control}
           render={({ field }) => (
             <input
+              className="opacity-0"
               type="file"
               onChange={(e) => {
                 if (e.target.files && e.target.files[0]) {
@@ -116,8 +148,10 @@ export const ProductForm = () => {
                 }
               }}
             />)}/>
+        </ProductLable>
+        
         <ProductLable inputName="Ціна за 1 одиницю товару">
-          <ProductField type="number" register={register("price")} />
+          <ProductField type="number" register={register("productPrice")} />
         </ProductLable>
         <ProductLable inputName="Опис товару">
           <textarea
@@ -125,21 +159,22 @@ export const ProductForm = () => {
             name="description"
             cols={30}
             rows={10}
-            {...register("description")}
+            {...register("productDescription")}
           ></textarea>
         </ProductLable>
-        <Condition register={register("condition")}/>
+        <Condition register={register("productType")}/>
 
         <div>
           <h3>Контактні дані</h3>
           <ProductLable inputName="Контактна особа" className="text-xs">
-            <ProductField type="text" register={register("contactPerson")} />
+            <ProductField type="text" register={register("sellerName")} />
           </ProductLable>
           <ProductLable inputName="Номер телефону" className="text-xs">
-            <ProductField type="phone" register={register("phoneNumber")} />
+            <ProductField type="phone" register={register("sellerPhoneNumber")} />
           </ProductLable>
           <ProductLable inputName="Ел. пошта" className="text-xs">
-            <ProductField type="mail" register={register("email")} />
+            <ProductField type="mail" register={register("sellerEmail")} onBlur={() => trigger('sellerEmail')}/>
+            {errors.sellerEmail&& errors.sellerEmail.message &&(<span className="text-red">{errors.sellerEmail.message.toString()}</span> )}
           </ProductLable>
           <ProductLable inputName="Місцезнаходження товару" className="text-xs">
             <ProductField type="text" register={register("location")} />
