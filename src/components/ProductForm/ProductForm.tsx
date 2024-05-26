@@ -1,4 +1,5 @@
 "use client";
+import { useSWRConfig } from 'swr';
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,7 +52,7 @@ export type ProductSchema = z.infer<typeof productSchema>;
 // };
 
 export const ProductForm = () => {
-
+  const { mutate } = useSWRConfig();
   const router = useRouter();
   const {
     register,
@@ -88,7 +89,7 @@ export const ProductForm = () => {
   
     try {
      
-      const newProductData = await createProduct(formData)
+      const newProductData = await createProduct(formData,mutate)
       console.log(newProductData)
       
    } catch (error) {

@@ -1,15 +1,14 @@
-"use server"
 
+// import { cookies } from "next/headers";
+import Cookies from "js-cookie";
 
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { ScopedMutator } from "swr/dist/_internal";
 
-export async function createProduct(formData: FormData): Promise<void> {
-    console.log(formData)
-
-    const baseUrl = process.env.BASE_URL;
+export async function createProduct(formData: FormData,mutate:ScopedMutator): Promise<void> {
    
-    const token = cookies().get('Authorization')?.value;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+   
+    const token = Cookies.get('Authorization');
 
     try {
         const response = await fetch(`${baseUrl}/v1/products/create`, {
@@ -23,6 +22,7 @@ export async function createProduct(formData: FormData): Promise<void> {
         }
         
         else {
+            mutate(`${baseUrl}/v1/products/s/view`)
             const json = await response.json();
             console.log(json);
         
