@@ -4,16 +4,9 @@ import LikeIcon from "@/public/icons/LikeIcon";
 import CartIcon2 from "../../../public/icons/CartIcon";
 import { Wrapper } from "../Wrapper/Wrapper";
 import { StarRate } from "../StarRate/StarRate";
-import { useEffect, useState } from "react";
 
-export const ProductsList = ({ body }) => {
-    // console.log(body)
-    const [products, setProducts] = useState(null);
-    useEffect(() => {
-        if (body !== products) {
-        setProducts(body)
-    }
-    },[body])
+export const ProductsList = ({ products }) => {
+  
     return <Wrapper>
     <ul className="gap-x-5 gap-y-7 md:gap-x-6 w-full items-start  products">
       {products &&

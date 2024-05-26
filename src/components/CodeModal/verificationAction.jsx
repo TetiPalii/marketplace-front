@@ -4,8 +4,9 @@
 import Cookies from "js-cookie";
 
 export default async function verificationAction(fulfilledData) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const res = await fetch(
-    "https://marketplace-5ihn.onrender.com/api/v1/auth/login/code",
+    `${baseUrl}/v1/auth/login/code`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

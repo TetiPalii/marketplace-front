@@ -1,10 +1,11 @@
-import Image from "next/image";
-import { FlexContainer } from "../FlexContainer/FlexContainer";
-import ProfileIcon from "../../../public/icons/ProfileIcon";
 import { useSelector } from "react-redux";
+import ProfileIcon from "../../../public/icons/ProfileIcon";
+import { FlexContainer } from "../FlexContainer/FlexContainer";
+
 
 export const UserInfo = () => {
   const firstName = useSelector((state) => state.user.userName);
+
 
   return (
     <FlexContainer
