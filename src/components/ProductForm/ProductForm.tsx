@@ -23,7 +23,7 @@ const productSchema = z.object({
   sellerPhoneNumber: z.string().regex(/^\+380\d{9}$/, {
     message: 'Телефон має містити +380 та 9 цифр',
   }).min(13).max(13),
-  sellerEmail: z.string().email(),
+  sellerEmail: z.string().email({message:"Будь-ласка введіть валідний адрес електронної пошти"}).min(1, "Це поле є обовʼязковим"),
   location: z.string().min(3).max(100),
   file: z
   .instanceof(File)
@@ -58,13 +58,13 @@ export const ProductForm = () => {
     handleSubmit,
     setValue,
     watch,
+    trigger,
     control,
     formState: { errors, isSubmitting },
   } = useForm({resolver: zodResolver(productSchema),});
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log('errors:', errors)
-    console.log('isSubmitting:',isSubmitting)
+   
     const { productName,productPrice, productDescription,  productType, sellerName, sellerPhoneNumber, sellerEmail, location, category: { value: productCategory }, file} = data;
     
     const productData = { 
@@ -134,11 +134,13 @@ useEffect(() => {
         <ProductLable inputName="Категорія товару">
           <Categories control={control} />
         </ProductLable>
+        <ProductLable inputName="Додати фото" className="text-center w-[136px] h-[124px] border border-darkBlue rounded-xl">
         <Controller
           name="file"
           control={control}
           render={({ field }) => (
             <input
+              className="opacity-0"
               type="file"
               onChange={(e) => {
                 if (e.target.files && e.target.files[0]) {
@@ -146,6 +148,8 @@ useEffect(() => {
                 }
               }}
             />)}/>
+        </ProductLable>
+        
         <ProductLable inputName="Ціна за 1 одиницю товару">
           <ProductField type="number" register={register("productPrice")} />
         </ProductLable>
@@ -169,7 +173,8 @@ useEffect(() => {
             <ProductField type="phone" register={register("sellerPhoneNumber")} />
           </ProductLable>
           <ProductLable inputName="Ел. пошта" className="text-xs">
-            <ProductField type="mail" register={register("sellerEmail")} />
+            <ProductField type="mail" register={register("sellerEmail")} onBlur={() => trigger('sellerEmail')}/>
+            {errors.sellerEmail&& errors.sellerEmail.message &&(<span className="text-red">{errors.sellerEmail.message.toString()}</span> )}
           </ProductLable>
           <ProductLable inputName="Місцезнаходження товару" className="text-xs">
             <ProductField type="text" register={register("location")} />

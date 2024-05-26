@@ -8,13 +8,15 @@ interface ComponentProps {
   type?: string;
   id?: string;
   list?: string;
-  onChange?:any
+  onChange?: any;
+  onBlur?:()=>void
 }
 
 export const ProductField: React.FC<ComponentProps> = ({
   type,
   list,
   register,
+  onBlur
   
 }) => {
  
@@ -32,6 +34,7 @@ export const ProductField: React.FC<ComponentProps> = ({
       className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3"
       {...register}
       list={list}
+      onBlur={onBlur}
       
      
     />
