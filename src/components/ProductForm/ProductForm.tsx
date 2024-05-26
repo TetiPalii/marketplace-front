@@ -26,14 +26,13 @@ const productSchema = z.object({
   }).min(13).max(13),
   sellerEmail: z.string().email({message:"Будь-ласка введіть валідний адрес електронної пошти"}).min(1, "Це поле є обовʼязковим"),
   location: z.string().min(3).max(100),
-  file: z
-  .instanceof(File)
-  .refine((file) => file.size <= 5 * 1024 * 1024, { message: 'Размер файла должен быть не более 5MB' })
-  .refine((file) => ['image/jpeg', 'image/png', 'application/pdf'].includes(file.type), {
-    message: 'Файл должен быть изображением (JPEG/PNG) или PDF',
-  }),
+  file: z.instanceof(File,{ message: 'Будь-ласка завантажте фото' }).refine((file) => !!file, { message: 'Будь-ласка завантажте фото' })
+    .refine((file) => file.size <= 5 * 1024 * 1024, { message: 'Размер файла должен быть не более 5MB' })
+    .refine((file) => ['image/jpeg', 'image/png'].includes(file.type), {
+      message: 'Файл должен бути изображением (JPEG/PNG)',
+    }),
   
-}).required();
+});
 export type ProductSchema = z.infer<typeof productSchema>;
 // const defaultValues = {
 //   productName: '',
@@ -89,12 +88,14 @@ export const ProductForm = () => {
   
     try {
      
-      const newProductData = await createProduct(formData,mutate)
+      const newProductData = await createProduct(formData, mutate)
+    
       console.log(newProductData)
       
    } catch (error) {
       console.log(error)
     }
+    
     router.push('/')
    
   });
@@ -135,12 +136,15 @@ useEffect(() => {
         <ProductLable inputName="Категорія товару">
           <Categories control={control} />
         </ProductLable>
-        <ProductLable inputName="Додати фото" className="text-center w-[136px] h-[124px] border border-darkBlue rounded-xl">
-        <Controller
+       
+        <ProductLable inputName="Фото" >
+          <Controller
+            // className="text-center w-[136px] h-[124px] border border-darkBlue rounded-xl"
           name="file"
           control={control}
-          render={({ field }) => (
-            <input
+            render={({ field }) => (
+              <div className='text-center w-[136px] h-[124px] border border-darkBlue rounded-xl'>
+                Додати фото<input
               className="opacity-0"
               type="file"
               onChange={(e) => {
@@ -148,7 +152,10 @@ useEffect(() => {
                   field.onChange(e.target.files[0]);
                 }
               }}
-            />)}/>
+              /></div>
+           )} />
+          {errors.file && errors.file.message && <span className='text-red'>
+            {errors.file.message.toString()}</span>}
         </ProductLable>
         
         <ProductLable inputName="Ціна за 1 одиницю товару">
@@ -183,10 +190,10 @@ useEffect(() => {
         </div>
 
         <button
-         
-          className="text-center text-white py-3 px-7 min-w-[140px] rounded-xl bg-eggPlant hover:bg-eggPlant focus:bg-eggPlant "
+         disabled={isSubmitting}
+          className={`text-center text-white py-3 px-7 min-w-[140px] rounded-xl  ${isSubmitting ? 'bg-disabled cursor-not-allowed':'bg-eggPlant'}`}
         >
-          Опублікувати
+         {isSubmitting?'Публікується': 'Опублікувати'}
         </button>
       </form>
     </>

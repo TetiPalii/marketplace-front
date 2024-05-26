@@ -34,6 +34,9 @@ module.exports = {
 
         /*Product form */
         formColor: '#0D0D0D',
+
+        /*button */
+        disabled:'#FF678B'
       },
     },
   },
