@@ -8,8 +8,9 @@ import { ProductField } from "./ProductField";
 import { ProductLable } from "./ProductLable";
 import { Condition } from "./Condition";
 import { createProduct } from "@/actions/createProduct";
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
+import Image from 'next/image';
 
 const productSchema = z.object({
   productName: z.string().min(5,{message:"Назва товару має містити щонайменше 5 символів "}).max(100,{message:"Назва товару має містити не більше 100 символів "}),
@@ -51,6 +52,8 @@ export type ProductSchema = z.infer<typeof productSchema>;
 // };
 
 export const ProductForm = () => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const {
@@ -99,6 +102,17 @@ export const ProductForm = () => {
     router.push('/')
    
   });
+  useEffect(() => {
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      setPreview(null);
+    }
+  }, [selectedFile]);
 
 useEffect(() => {
   const savedData = localStorage.getItem('productForm');
@@ -139,20 +153,25 @@ useEffect(() => {
        
         <ProductLable inputName="Фото" >
           <Controller
-            // className="text-center w-[136px] h-[124px] border border-darkBlue rounded-xl"
           name="file"
           control={control}
             render={({ field }) => (
-              <div className='text-center w-[136px] h-[124px] border border-darkBlue rounded-xl'>
-                Додати фото<input
-              className="opacity-0"
+              <div className='text-center w-[136px] h-[124px] border border-darkBlue rounded-xl overflow-hidden'>
+                {preview ? (<div className='w-[136px] h-[124px] '>
+                  <Image src={preview} width='136' height='124' alt="Preview" className="w-full h-full object-cover" /></div>) : <span className='text-sm my-auto'>Додати фото</span>}
+               <input
+              className="opacity-0 w-[150px] h-[130px] absolute top-80 left-1"
               type="file"
               onChange={(e) => {
-                if (e.target.files && e.target.files[0]) {
-                  field.onChange(e.target.files[0]);
+                const file = e.target.files && e.target.files[0];
+                if (file) {
+                  field.onChange(file);
+                  setSelectedFile(file);
                 }
               }}
-              /></div>
+                />
+                  
+              </div>
            )} />
           {errors.file && errors.file.message && <span className='text-red'>
             {errors.file.message.toString()}</span>}
@@ -163,7 +182,7 @@ useEffect(() => {
         </ProductLable>
         <ProductLable inputName="Опис товару">
           <textarea
-            className="bg-transparent border border-formColor rounded-2xl"
+            className="bg-transparent border border-formColor rounded-2xl px-2 py-3"
             name="description"
             cols={30}
             rows={10}
