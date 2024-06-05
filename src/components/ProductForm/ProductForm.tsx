@@ -1,6 +1,7 @@
 "use client";
 import { useSWRConfig } from 'swr';
 import { Controller, useForm } from "react-hook-form";
+import { InputMask } from 'primereact/inputmask';
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Categories } from "./Categories";
@@ -11,6 +12,7 @@ import { createProduct } from "@/actions/createProduct";
 import { useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
+import Products from '@/sections/ProductsSection/Products';
 
 const productSchema = z.object({
   productName: z.string().min(5,{message:"Назва товару має містити щонайменше 5 символів "}).max(100,{message:"Назва товару має містити не більше 100 символів "}),
@@ -55,6 +57,7 @@ export const ProductForm = () => {
   const onSubmit = handleSubmit(async (data) => {
   
     const { productName, productPrice, productDescription, productType, sellerName, sellerPhoneNumber, sellerEmail, location, category: { value: productCategory }, file } = data;
+    console.log(sellerPhoneNumber)
     
     const productData = { 
       productName,
@@ -187,9 +190,23 @@ useEffect(() => {
           <ProductLable inputName="Контактна особа" className="text-xs">
             <ProductField type="text" register={register("sellerName")} />
           </ProductLable>
-          <ProductLable inputName="Номер телефону" className="text-xs">
+          {/* <ProductLable inputName="Номер телефону" className="text-xs">
             <ProductField type="phone" register={register("sellerPhoneNumber")} />
-          </ProductLable>
+          </ProductLable> */}
+           <Controller
+          name="phoneNumber"
+          control={control}
+          defaultValue=""
+            render={({ field }) => (
+            <ProductLable inputName='Номер телефону'>
+            <InputMask
+            className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3"
+              {...field}
+              mask="+38(099)999-99-99"
+              placeholder="+38(0__)___-__-__"
+            /></ProductLable>
+          )}
+        />
           <ProductLable inputName="Ел. пошта" className="text-xs">
             <ProductField type="mail" register={register("sellerEmail")} onBlur={() => trigger('sellerEmail')}/>
             {errors.sellerEmail&& errors.sellerEmail.message &&(<span className="text-red">{errors.sellerEmail.message.toString()}</span> )}
