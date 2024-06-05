@@ -20,7 +20,7 @@ const productSchema = z.object({
   }),
   productType:z.string(),
   productPrice: z.string().min(1),
-  productDescription: z.string().min(5).max(250),
+  productDescription: z.string().min(5,{message:'Опис товару має містити щонайменше 5 символів'}).max(250,{message:'Опис товару має містити не більше 250 символів'}),
   sellerName: z.string().min(3).max(50),
   sellerPhoneNumber: z.string().regex(/^\+380\d{9}$/, {
     message: 'Телефон має містити +380 та 9 цифр',
@@ -28,28 +28,14 @@ const productSchema = z.object({
   sellerEmail: z.string().email({message:"Будь-ласка введіть валідний адрес електронної пошти"}).min(1, "Це поле є обовʼязковим"),
   location: z.string().min(3).max(100),
   file: z.instanceof(File,{ message: 'Будь-ласка завантажте фото' }).refine((file) => !!file, { message: 'Будь-ласка завантажте фото' })
-    .refine((file) => file.size <= 5 * 1024 * 1024, { message: 'Размер файла должен быть не более 5MB' })
-    .refine((file) => ['image/jpeg', 'image/png'].includes(file.type), {
-      message: 'Файл должен бути изображением (JPEG/PNG)',
-    }),
+  .refine((file) => file.size <= 5 * 1024 * 1024, { message: 'Размер файла должен быть не более 5MB' })
+  .refine((file) => ['image/jpeg', 'image/png'].includes(file.type), {
+    message: 'Файл должен бути изображением (JPEG/PNG)',
+  }),
   
 });
+
 export type ProductSchema = z.infer<typeof productSchema>;
-// const defaultValues = {
-//   productName: '',
-//   productDescription: '',
-//   productPrice: '',
-//   category: {
-//     value: '',
-//     label:''
-//   },
-//   productType: '',
-//   sellerName: '',
-//   sellerPhoneNumber: '',
-//   sellerEmail: '',
-//   location: '',
- 
-// };
 
 export const ProductForm = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -65,10 +51,10 @@ export const ProductForm = () => {
     control,
     formState: { errors, isSubmitting },
   } = useForm({resolver: zodResolver(productSchema),});
-
+ 
   const onSubmit = handleSubmit(async (data) => {
-   
-    const { productName,productPrice, productDescription,  productType, sellerName, sellerPhoneNumber, sellerEmail, location, category: { value: productCategory }, file} = data;
+  
+    const { productName, productPrice, productDescription, productType, sellerName, sellerPhoneNumber, sellerEmail, location, category: { value: productCategory }, file } = data;
     
     const productData = { 
       productName,
@@ -87,8 +73,11 @@ export const ProductForm = () => {
     // localStorage.setItem('productForm', jsonProductData);
     const formData = new FormData();
     formData.append('request', new Blob([jsonProductData], { type: 'application/json' }));
-    formData.append('files', file, file.name)
-  
+    // formData.append('files', file, file.name)
+    if (file) {
+      formData.append('files', file, file.name)
+    }
+   
     try {
      
       const newProductData = await createProduct(formData, mutate)
@@ -164,10 +153,9 @@ useEffect(() => {
               type="file"
               onChange={(e) => {
                 const file = e.target.files && e.target.files[0];
-                if (file) {
-                  field.onChange(file);
-                  setSelectedFile(file);
-                }
+                field.onChange(file ?? undefined);
+                setSelectedFile(file);
+                
               }}
                 />
                   
@@ -184,10 +172,13 @@ useEffect(() => {
           <textarea
             className="bg-transparent border border-formColor rounded-2xl px-2 py-3"
             name="description"
+            placeholder='Опишіть у подробицях Ваш товар'
             cols={30}
             rows={10}
             {...register("productDescription")}
           ></textarea>
+          {errors.productDescription&& errors.productDescription.message &&<span className='text-red'>
+            {errors.productDescription.message.toString()}</span>}
         </ProductLable>
         <Condition register={register("productType")}/>
 

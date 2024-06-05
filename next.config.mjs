@@ -31,6 +31,16 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'testingbucket00-0-1.s3.eu-central-1.amazonaws.com',
+        port: '',
+        pathname: '**',
+      },
+    ],
+  },
   // experimental: {
   //   serverActions: true,
   // },

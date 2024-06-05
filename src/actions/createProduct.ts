@@ -24,7 +24,7 @@ export async function createProduct(formData: FormData,mutate:ScopedMutator): Pr
         else {
             mutate(`${baseUrl}/v1/products/s/view`)
             const json = await response.json();
-            console.log(json);
+            
         
             return json
             
