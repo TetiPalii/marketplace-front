@@ -1,20 +1,23 @@
 {
-  "workbench.editor.autoLockGroups": {
-    "imagePreview.previewEditor": true
-  },
-  "extensions.webWorker": true,
-  "vscode-edge-devtools.showWorkers": true,
-  "files.associations": {
-    "image": "png/jpg"
-  },
-  "workbench.editor.enablePreviewFromQuickOpen": true,
-  "workbench.editor.enablePreviewFromCodeNavigation": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.requireConfig": true,
-  "prettier.printWidth": 50,
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "prettier.endOfLine": "auto",
-  "prettier.insertPragma": true
+	"workbench.editor.autoLockGroups": {
+		"imagePreview.previewEditor": true
+	},
+	"extensions.webWorker": true,
+	"vscode-edge-devtools.showWorkers": true,
+	"files.associations": {
+		"image": "png/jpg"
+	},
+	"workbench.editor.enablePreviewFromQuickOpen": true,
+	"workbench.editor.enablePreviewFromCodeNavigation": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"prettier.requireConfig": false,
+	"prettier.printWidth": 50,
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"prettier.endOfLine": "auto",
+	"prettier.insertPragma": true,
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
 }

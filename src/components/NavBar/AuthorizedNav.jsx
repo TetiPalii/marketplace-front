@@ -1,6 +1,6 @@
-import { authLinks } from '../../data/authLinks';
-import Link from 'next/link';
-import { Theme } from '../Theme/Theme';
+import { authLinks } from "../../data/authLinks";
+import Link from "next/link";
+import { Theme } from "../Theme/Theme";
 
 export const AuthorizedNav = ({ onClose }) => {
   return (

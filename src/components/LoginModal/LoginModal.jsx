@@ -28,7 +28,6 @@ const loginSchema = z
   .required();
 
 export const LoginModal = ({ onShow }) => {
-  const [serverResponse, setServerResponse] = useState(null);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const {
@@ -64,7 +63,7 @@ export const LoginModal = ({ onShow }) => {
   const action = handleSubmit(async data => {
     try {
       const response = await loginAction(data);
-      setServerResponse(response);
+      // setServerResponse(response);
       // console.log(response);
       dispatch(savePhoneNumber(data.phoneNumber));
       router.push('/verification/?modal=true');

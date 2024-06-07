@@ -2,9 +2,10 @@
 import { cookies } from 'next/headers';
 
 export async function logout() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   try {
     const response = await fetch(
-      'https://marketplace-5ihn.onrender.com/api/v1/auth/logout',
+      `${baseUrl}/v1/auth/logout`,
       {
         method: 'POST',
         headers: {
@@ -12,6 +13,10 @@ export async function logout() {
         },
       },
     );
+    if (!response.ok) {
+
+       throw new Error(response.status);
+    }
 
     if (response.status === 204) {
       cookies().set('Authorization', '', { expires: new Date(0) });

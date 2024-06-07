@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export const Wrapper = ({ children }) => {
   return (
     <section className="w-full pt-5 pb-6">

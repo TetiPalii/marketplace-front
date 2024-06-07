@@ -1,15 +1,15 @@
-'use client';
-import Image from 'next/image';
-import React from 'react';
-import { about, forPartners, help } from '../../data/footerNav';
-import Link from 'next/link';
-import { socialmediaIcons } from '../../data/footerNav';
-import { useSelector } from 'react-redux';
-import { useAppSelector } from '../../store/hooks';
-import { Logout } from '../../components/Logout/Logout';
+"use client";
+import Image from "next/image";
+import React from "react";
+import { about, forPartners, help } from "../../data/footerNav";
+import Link from "next/link";
+import { socialmediaIcons } from "../../data/footerNav";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "../../store/hooks";
+import { Logout } from "../../components/Logout/Logout";
 
 export const Footer = () => {
-  const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   return (
     <footer className="w-full bg-darkBlue hidden md:flex flex-col gap-y-4 text-[#FFF] text-xs py-12 px-36 ">
       <div className="flex justify-between">
@@ -49,7 +49,7 @@ export const Footer = () => {
         <ul className="flex items-center gap-6">
           {socialmediaIcons.map(({ id, icon }) => (
             <li key={id}>
-              <Link href={'/'}>
+              <Link href={"/"}>
                 <Image src={icon} alt="icon" width="40" height="40" />
               </Link>
             </li>

@@ -1,23 +1,23 @@
-'use client';
-import Image from 'next/image';
-import LogoIcon from '../../../public/icons/LogoIcon';
-import { BaseModal } from '../BaseModal/BaseModal';
-import rocket from '../../../public/images/rocket-iso-color.png';
-import facebook from '../../../public/images/facebook.png';
-import google from '../../../public/images/google.png';
-import { useForm } from 'react-hook-form';
-import Link from 'next/link';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import QuestionIcon from '../../../public/icons/QuestionIcon';
-import clsx from 'clsx';
-import registerAction from './registerAction';
-import { useEffect, useState } from 'react';
-import { savePhoneNumber, saveUserName } from '@/store/features/user/userSlice';
-import CloseIcon from '../../../public/icons/CloseIcon';
-import { InputMask } from 'primereact/inputmask';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+"use client";
+import Image from "next/image";
+import LogoIcon from "../../../public/icons/LogoIcon";
+import { BaseModal } from "../BaseModal/BaseModal";
+import rocket from "../../../public/images/rocket-iso-color.png";
+import facebook from "../../../public/images/facebook.png";
+import google from "../../../public/images/google.png";
+import { useForm } from "react-hook-form";
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import QuestionIcon from "../../../public/icons/QuestionIcon";
+import clsx from "clsx";
+import registerAction from "./registerAction";
+import { useEffect, useState } from "react";
+import { savePhoneNumber, saveUserName } from "@/store/features/user/userSlice";
+import CloseIcon from "../../../public/icons/CloseIcon";
+import { InputMask } from "primereact/inputmask";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const registerSchema = z
   .object({
@@ -30,7 +30,7 @@ const registerSchema = z
         message: "Ім'я може містити лише літери",
       }),
     phoneNumber: z.string().regex(/^\+380\d{9}$/, {
-      message: 'Телефон має містити +380 та 9 цифр',
+      message: "Телефон має містити +380 та 9 цифр",
     }),
   })
   .required();
@@ -49,8 +49,8 @@ export const RegisterModal = ({ onShow }) => {
     formState: { errors, isDirty, isSubmitting },
   } = useForm({
     defaultValues: {
-      firstName: '',
-      phoneNumber: '',
+      firstName: "",
+      phoneNumber: "",
     },
     resolver: zodResolver(registerSchema),
   });
@@ -59,42 +59,42 @@ export const RegisterModal = ({ onShow }) => {
     // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
     // console.log("errors.phoneNumber:", errors.phoneNumber);
     // console.log("watch('phoneNumber'):", watch("phoneNumber"));
-    if (watch('phoneNumber') && !watch('phoneNumber').match(/^\+380\d{9}$/)) {
+    if (watch("phoneNumber") && !watch("phoneNumber").match(/^\+380\d{9}$/)) {
       // Якщо є помилка або значення поля вводу невірне, встановіть помилку
-      setError('phoneNumber', {
-        message: 'Телефон має містити +380 та 9 цифр',
+      setError("phoneNumber", {
+        message: "Телефон має містити +380 та 9 цифр",
       });
     } else {
       // Якщо помилка відсутня і значення поля вводу вірне, встановіть помилку на null
-      clearErrors('phoneNumber');
+      clearErrors("phoneNumber");
     }
-  }, [watch('phoneNumber'), setError, clearErrors, watch]);
+  }, [watch("phoneNumber"), setError, clearErrors, watch]);
 
-  const action = handleSubmit(async data => {
+  const action = handleSubmit(async (data) => {
     try {
       await registerAction(data);
-     
+
       dispatch(saveUserName(data.firstName));
       dispatch(savePhoneNumber(data.phoneNumber));
-      
-      router.push('/verification/?modal=true');
+
+      router.push("/verification/?modal=true");
     } catch (error) {
       // console.log(error);
-      let errorMessage = 'Помилка на сервері';
+      let errorMessage = "Помилка на сервері";
 
       if (error.message) {
         switch (parseInt(error.message)) {
           case 400:
-            errorMessage = 'Невірно введені дані';
+            errorMessage = "Невірно введені дані";
             break;
           case 409:
-            errorMessage = 'Такий клієнт уже зареєстрований в системі';
+            errorMessage = "Такий клієнт уже зареєстрований в системі";
             break;
           default:
             break;
         }
       }
-      setError('phoneNumber', {
+      setError("phoneNumber", {
         message: errorMessage,
       });
     }
@@ -105,7 +105,7 @@ export const RegisterModal = ({ onShow }) => {
       <BaseModal onShow={onShow}>
         <div className="desktop:flex items-center justify-between">
           <div className="desktop:pr-[56px] desktop:border-r">
-            <p className="text-[24px] mb-[16px] mobile:hidden desktop:block">
+            <p className="text-2xl mb-4 mobile:hidden desktop:block">
               Реєстрація
             </p>
             <Link
@@ -141,16 +141,16 @@ export const RegisterModal = ({ onShow }) => {
                 <input
                   type="text"
                   id="user-name"
-                  {...register('firstName')}
-                  className={clsx('auth-input', {
-                    ['auth-input-error']: errors.firstName,
+                  {...register("firstName")}
+                  className={clsx("auth-input", {
+                    ["auth-input-error"]: errors.firstName,
                   })}
                 />
-                {watch('firstName') && (
+                {watch("firstName") && (
                   <button
                     type="button"
                     className="clear-btn"
-                    onClick={() => setValue('firstName', '')}
+                    onClick={() => setValue("firstName", "")}
                   >
                     <CloseIcon className="w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black" />
                   </button>
@@ -180,16 +180,16 @@ export const RegisterModal = ({ onShow }) => {
                   id="user-phone"
                   mask="+380*********"
                   placeholder="+380"
-                  {...register('phoneNumber')}
-                  className={clsx('auth-input', 'input-mask', {
-                    ['auth-input-error']: errors.phoneNumber,
+                  {...register("phoneNumber")}
+                  className={clsx("auth-input", "input-mask", {
+                    ["auth-input-error"]: errors.phoneNumber,
                   })}
                 />
-                {watch('phoneNumber') && (
+                {watch("phoneNumber") && (
                   <button
                     type="button"
                     className="clear-btn"
-                    onClick={() => setValue('phoneNumber', '')}
+                    onClick={() => setValue("phoneNumber", "")}
                   >
                     <CloseIcon className="w-[100%] h-[100%] fill-[#D0D0D0] desktop:fill-black" />
                   </button>
@@ -211,11 +211,11 @@ export const RegisterModal = ({ onShow }) => {
                 type="submit"
                 disabled={!isDirty || isSubmitting}
                 className={clsx(
-                  'submit-btn desktop:max-w-[340px]',
-                  (!isDirty || isSubmitting) && 'submit-btn-disabled',
+                  "submit-btn desktop:max-w-[340px]",
+                  (!isDirty || isSubmitting) && "submit-btn-disabled",
                 )}
               >
-                {isSubmitting ? 'Завантаження...' : 'Зареєструватись'}
+                {isSubmitting ? "Завантаження..." : "Зареєструватись"}
               </button>
             </form>
             <Link

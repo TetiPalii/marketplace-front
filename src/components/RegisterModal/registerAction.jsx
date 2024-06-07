@@ -1,9 +1,10 @@
 export default async function registerAction(data) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const res = await fetch(
-    'https://marketplace-5ihn.onrender.com/api/v1/auth/registration',
+    `${baseUrl}/v1/auth/registration`,
     {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     },
   );

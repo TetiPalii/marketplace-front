@@ -1,12 +1,12 @@
-import { unauthLinks } from '../../data/unauthLinks';
-import Link from 'next/link';
-import { Theme } from '../Theme/Theme';
+import { unauthLinks } from "../../data/unauthLinks";
+import Link from "next/link";
+import { Theme } from "../Theme/Theme";
 
 export const UnauthorizedNav = ({ onClose }) => {
   return (
     <>
       <ul className="flex flex-col items-center gap-2 w-full">
-        {unauthLinks.map(link => {
+        {unauthLinks.map((link) => {
           return (
             <li
               onClick={onClose}
