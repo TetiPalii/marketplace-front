@@ -1,9 +1,7 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { logout } from "../../actions/logout";
 import { useAppDispatch } from "@/store/hooks";
-import { setIsLoggedIn } from "@/store/features/user/userSlice";
+import { logoutOperation } from "@/store/features/user/userProfileSlice";
 
 export const Logout = () => {
   const [loading, setLoading] = useState(false);
@@ -13,13 +11,13 @@ export const Logout = () => {
     <form
       action={async () => {
         try {
-          setLoading(true);
-          await logout();
+         
+          dispatch(logoutOperation());
         } catch (error) {
           console.log(error);
         } finally {
           setLoading(false);
-          dispatch(setIsLoggedIn(false));
+          // dispatch(setIsLoggedIn(false));
         }
       }}
     >

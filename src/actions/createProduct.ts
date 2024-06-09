@@ -1,7 +1,4 @@
-
-// import { cookies } from "next/headers";
 import Cookies from "js-cookie";
-
 import { ScopedMutator } from "swr/dist/_internal";
 
 export async function createProduct(formData: FormData,mutate:ScopedMutator): Promise<void> {
@@ -25,7 +22,6 @@ export async function createProduct(formData: FormData,mutate:ScopedMutator): Pr
             mutate(`${baseUrl}/v1/products/s/view`)
             const json = await response.json();
             
-        
             return json
             
         }

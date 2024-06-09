@@ -1,11 +1,9 @@
-'use server';
-import { cookies } from 'next/headers';
+import Cookies from "js-cookie";
 
-export async function getToken() {
-  const token = cookies().get('Authorization')?.value;
-  if (!token) {
-    return null;
-  } else {
+const token = Cookies.get('Authorization');
+export async function getToken(setToken) {
+  
+    setToken(token)
     return token;
-  }
+  
 }

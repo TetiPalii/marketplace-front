@@ -13,13 +13,11 @@ import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
 import verificationAction from "./verificationAction";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectPhoneNumber } from "@/store/features/user/selectors";
-import { setIsLoggedIn } from "@/store/features/user/userSlice";
 import CloseIcon from "../../../public/icons/CloseIcon";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { saveUserName } from "../../store/features/user/userSlice";
+import { fetchUser } from "@/store/features/user/userProfileSlice";
+
 
 const varificationSchema = z
   .object({
@@ -32,11 +30,9 @@ const varificationSchema = z
   .required();
 
 export const CodeModal = ({ onShow }) => {
-  const [serverResponse, setServerResponse] = useState(null);
-
-  const phoneNumber = useAppSelector(selectPhoneNumber);
+ 
+  const {phoneNumber} = useAppSelector(state=>state.phoneNumber);
   const dispatch = useAppDispatch();
-
   const router = useRouter();
 
   const {
@@ -60,16 +56,16 @@ export const CodeModal = ({ onShow }) => {
         phoneNumber,
       };
 
-      const response = await verificationAction(fulfilledData);
-
-      if (response.token) {
-        dispatch(setIsLoggedIn(true));
+      const token:string = await verificationAction(fulfilledData);
+      
+      if (token) {
+        dispatch(fetchUser(token));
       }
 
       router.push("/");
     } catch (error) {
-      // console.log(error);
-      let errorMessage = "Помилка на сервері";
+    
+      let errorMessage;
 
       if (error.message) {
         switch (parseInt(error.message)) {
@@ -116,7 +112,7 @@ export const CodeModal = ({ onShow }) => {
                 <p className="text-[16px] text-[#fff] auth-blur">Увійти</p>
               </li>
             </ul>
-            <form action={action} className="mb-[112px] desktop:mb-[56px]">
+            <form onSubmit = {action} className="mb-[112px] desktop:mb-[56px]">
               <div className="relative mb-[32px] desktop:mb-[38px] h-[84px] desktop:w-[340px]">
                 <label
                   htmlFor="user-code"
