@@ -6,6 +6,7 @@ import banerOne from "../../../public/images/baner-1.jpg";
 import banerTwo from "../../../public/images/baner-2.jpg";
 import banerThree from "../../../public/images/baner-3.jpg";
 import banerFour from "../../../public/images/baner-4.jpg";
+import { nanoid } from 'nanoid';
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -40,7 +41,7 @@ const Slider = () => {
           {slides.concat(slides).map((slide, index) => (
             <div
               className="min-w-full xl:h-[344px] flex justify-center items-center bg-white rounded-2xl mx-auto"
-              key={index}
+              key={nanoid()}
             >
               {slide}
             </div>
