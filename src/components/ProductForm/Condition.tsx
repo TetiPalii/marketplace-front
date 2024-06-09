@@ -11,7 +11,7 @@ interface ComponentProps {
 export const Condition: React.FC<ComponentProps> = ({ register }) => {
   return (
     <>
-      <ul className="flex gap-x-4 justify-center mt-4 mb-4 w-full">
+      <ul className="flex flex-col sm:flex-row gap-4 justify-center mt-4 mb-4 w-full">
         <li className="w-full">
           <input
             type="radio"

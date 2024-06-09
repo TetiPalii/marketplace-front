@@ -12,7 +12,7 @@ import { createProduct } from "@/actions/createProduct";
 import { useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
-import Products from '@/sections/ProductsSection/Products';
+
 
 const productSchema = z.object({
   productName: z.string().min(5,{message:"Назва товару має містити щонайменше 5 символів "}).max(100,{message:"Назва товару має містити не більше 100 символів "}),
@@ -57,7 +57,7 @@ export const ProductForm = () => {
   const onSubmit = handleSubmit(async (data) => {
   
     const { productName, productPrice, productDescription, productType, sellerName, sellerPhoneNumber, sellerEmail, location, category: { value: productCategory }, file } = data;
-    console.log(sellerPhoneNumber)
+   
     
     const productData = { 
       productName,

@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { userReduser } from './features/user/userSlice';
+import { phoneNumberReduser } from './features/user/phoneNumberSlice';
+import {userProfileReduser} from './features/user/userProfileSlice';
 import { storage } from './storage';
 import {
   persistStore,
@@ -13,7 +14,9 @@ import {
 } from 'redux-persist';
 
 const rootReducer = combineReducers({
-  user: userReduser,
+  user: userProfileReduser,
+  phoneNumber:phoneNumberReduser
+  
 });
 
 const persistConfig = {
