@@ -32,23 +32,24 @@ const Slider = () => {
   }, []);
 
   return (
-    <section className="px-[15px] pt-7 md:pt-9 flex justify-center">
-      <div className="relative overflow-hidden sm:w-[640px] sm xl:w-[1082px]">
-        <div
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {slides.concat(slides).map((slide, index) => (
-            <div
-              className="min-w-full xl:h-[344px] flex justify-center items-center bg-white rounded-2xl mx-auto"
-              key={nanoid()}
-            >
-              {slide}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    // <section className="px-[15px] pt-7 md:pt-9 flex justify-center">
+    //   <div className="relative overflow-hidden sm:w-[640px] sm xl:w-[1082px]">
+    //     <div
+    //       className="flex transition-transform duration-500 ease-in-out"
+    //       style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+    //     >
+    //       {slides.concat(slides).map((slide, index) => (
+    //         <div
+    //           className="min-w-full xl:h-[344px] flex justify-center items-center bg-white rounded-2xl mx-auto"
+    //           key={nanoid()}
+    //         >
+    //           {slide}
+    //         </div>
+    //       ))}
+    //     </div>
+    //   </div>
+    // </section>
+    <div></div>
   );
 };
 
