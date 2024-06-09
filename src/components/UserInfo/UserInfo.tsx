@@ -6,7 +6,11 @@ import {User}from '@/store/features/user/userProfileSlice'
 
 export const UserInfo = () => {
 
-  const firstName = useAppSelector((state):string => state.user?.user?.firstName);
+  const firstName = useAppSelector((state): string => {
+    
+    return state.user?.user?.firstName
+  });
+ 
   
   return (
     <FlexContainer

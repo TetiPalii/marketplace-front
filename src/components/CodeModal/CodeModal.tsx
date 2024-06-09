@@ -57,7 +57,7 @@ export const CodeModal = ({ onShow }) => {
       };
 
       const token:string = await verificationAction(fulfilledData);
-      
+      console.log(token)
       if (token) {
         dispatch(fetchUser(token));
       }

@@ -14,7 +14,7 @@ const selectStyles = {
   })
 }
 
-export const Categories = ({ control }) => {
+export const Categories = ({ control, register}) => {
   const [categoriesList, setCategoriesList] = useState(null);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export const Categories = ({ control }) => {
         }),
       }}
       options={categoriesOptions()} 
-     
+    
        
         
   />}

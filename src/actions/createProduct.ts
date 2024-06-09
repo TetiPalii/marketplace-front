@@ -1,11 +1,10 @@
 import Cookies from "js-cookie";
 import { ScopedMutator } from "swr/dist/_internal";
 
-export async function createProduct(formData: FormData,mutate:ScopedMutator): Promise<void> {
+export async function createProduct(formData: FormData,mutate:ScopedMutator,token:string): Promise<void> {
    
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
    
-    const token = Cookies.get('Authorization');
 
     try {
         const response = await fetch(`${baseUrl}/v1/products/create`, {

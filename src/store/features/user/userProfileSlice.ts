@@ -32,17 +32,18 @@ const initialState:UserState = {
 }
 export const fetchUser = createAsyncThunk('user/fetchUser',
     async (token: string, { rejectWithValue }) => {
-        
+       
         try {
-            const response = await fetch(`https://marketplace-5ihn.onrender.com/api/v1/my-profile/info`, {
+            const response = await fetch(`${baseUrl}/v1/my-profile/info`, {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${token}` }
             });
             if (!response.ok) {
-                throw new Error
+                throw new Error(response.statusText)
             }
+            
             const data: User = await response.json();
-            console.log('data', data)
+           
             return { ...data, token }
         }
         catch (err) {
@@ -52,8 +53,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser',
 );
 
 export const logoutOperation = createAsyncThunk('user/logout', async (_, { rejectWithValue }) => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    console.log(baseUrl)
+   
     try {
         const response:Response = await fetch(
             `${baseUrl}/v1/auth/logout`,
@@ -87,8 +87,6 @@ const userProfileSlice = createSlice({
                 state.error = null;
             }
         ).addCase(fetchUser.fulfilled, (state, action: PayloadAction<User>) => {
-            // console.log('state.user:', state.user)
-            // console.log('action.payload:',action.payload)
             state.user = action.payload;
             state.loading = false;
             state.isLoggedin = true;
@@ -103,7 +101,7 @@ const userProfileSlice = createSlice({
             state.loading = true;
             state.error = '';
         }).addCase(logoutOperation.fulfilled, (state) => {
-            console.log('fullfiled')
+           
             state.isLoggedin = false;
             state.loading = false;
         }
