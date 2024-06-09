@@ -12,10 +12,10 @@ const Slider = () => {
   const slideInterval = useRef(null);
 
   const slides = [
-    <Image src={banerOne} className=" w-full h-full flex justify-center items-center rounded-xl" />,
-    <Image src={banerTwo} className=" w-full h-full flex justify-center items-center rounded-xl" />,
-    <Image src={banerThree} className=" w-full h-full flex justify-center items-center rounded-xl" />,
-    <Image src={banerFour} className=" w-full h-full flex justify-center items-center rounded-xl" />,
+    <Image src={banerOne} className=" w-full h-full flex justify-center items-center rounded-xl" alt='Nechupara'/>,
+    <Image src={banerTwo} className=" w-full h-full flex justify-center items-center rounded-xl"alt='Nechupara' />,
+    <Image src={banerThree} className=" w-full h-full flex justify-center items-center rounded-xl" alt='Nechupara' />,
+    <Image src={banerFour} className=" w-full h-full flex justify-center items-center rounded-xl" alt='Nechupara' />,
   ];
 
   const nextSlide = () => {
