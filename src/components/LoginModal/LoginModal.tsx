@@ -13,7 +13,7 @@ import * as z from 'zod';
 import QuestionIcon from '../../../public/icons/QuestionIcon';
 import clsx from 'clsx';
 import loginAction from './loginAction';
-import { savePhoneNumber } from '@/store/features/user/userSlice';
+import { savePhoneNumber } from '@/store/features/user/phoneNumberSlice';
 import CloseIcon from '../../../public/icons/CloseIcon';
 import { InputMask } from 'primereact/inputmask';
 import { useRouter } from 'next/navigation';
@@ -62,10 +62,10 @@ export const LoginModal = ({ onShow }) => {
 
   const action = handleSubmit(async data => {
     try {
-      const response = await loginAction(data);
-      // setServerResponse(response);
-      // console.log(response);
-      dispatch(savePhoneNumber(data.phoneNumber));
+     
+      const phoneNumber:string = await loginAction(data);
+     
+      dispatch(savePhoneNumber(phoneNumber));
       router.push('/verification/?modal=true');
     } catch (error) {
       let errorMessage = 'Помилка на сервері';
@@ -116,7 +116,7 @@ export const LoginModal = ({ onShow }) => {
                 <p className="text-[16px] text-[#fff] auth-blur">Увійти</p>
               </li>
             </ul>
-            <form action={action} className="mb-[136px] desktop:mb-[56px]">
+            <form onSubmit={action} className="mb-[136px] desktop:mb-[56px]">
               <div className="relative mb-[32px] desktop:mb-[38px] h-[84px] desktop:w-[340px]">
                 <label
                   htmlFor="user-phone"

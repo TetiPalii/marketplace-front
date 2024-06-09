@@ -11,13 +11,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import QuestionIcon from "../../../public/icons/QuestionIcon";
 import clsx from "clsx";
-import registerAction from "./registerAction";
+import {registerAction} from "./registerAction";
 import { useEffect, useState } from "react";
-import { savePhoneNumber, saveUserName } from "@/store/features/user/userSlice";
+import { savePhoneNumber} from "@/store/features/user/phoneNumberSlice";
 import CloseIcon from "../../../public/icons/CloseIcon";
 import { InputMask } from "primereact/inputmask";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch} from "../../store/hooks";
 
 const registerSchema = z
   .object({
@@ -57,10 +57,7 @@ export const RegisterModal = ({ onShow }) => {
 
   useEffect(() => {
     // Перевірте, чи є помилка телефонного номера та чи вірне значення поля вводу
-    // console.log("errors.phoneNumber:", errors.phoneNumber);
-    // console.log("watch('phoneNumber'):", watch("phoneNumber"));
     if (watch("phoneNumber") && !watch("phoneNumber").match(/^\+380\d{9}$/)) {
-      // Якщо є помилка або значення поля вводу невірне, встановіть помилку
       setError("phoneNumber", {
         message: "Телефон має містити +380 та 9 цифр",
       });
@@ -72,14 +69,12 @@ export const RegisterModal = ({ onShow }) => {
 
   const action = handleSubmit(async (data) => {
     try {
-      await registerAction(data);
+      const phoneNumber:string = await registerAction(data);
 
-      dispatch(saveUserName(data.firstName));
-      dispatch(savePhoneNumber(data.phoneNumber));
+      dispatch(savePhoneNumber(phoneNumber));
 
       router.push("/verification/?modal=true");
     } catch (error) {
-      // console.log(error);
       let errorMessage = "Помилка на сервері";
 
       if (error.message) {
@@ -130,7 +125,7 @@ export const RegisterModal = ({ onShow }) => {
                 </p>
               </li>
             </ul>
-            <form action={action} className="mb-[190px] desktop:mb-[24px]">
+            <form onSubmit={action} className="mb-[190px] desktop:mb-[24px]">
               <div className="relative mb-[24px] desktop:mb-[8px] h-[84px] desktop:w-[340px]">
                 <label
                   htmlFor="user-name"

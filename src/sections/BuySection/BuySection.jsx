@@ -1,4 +1,5 @@
 "use client";
+import { useAppSelector } from "@/store/hooks";
 import { Button } from "../../components/Button/Button";
 import { Hello } from "../../components/Hello/Hello";
 import { useSelector } from "react-redux";
@@ -6,7 +7,8 @@ import { useSelector } from "react-redux";
 // import { useAppSelector } from '../../store/hooks';
 
 export const BuySection = () => {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedin
+  );
 
   return isLoggedIn ? null : (
     <section className="w-full px-6 pt-9 pb-4 bg-[#FFFFFF40]">

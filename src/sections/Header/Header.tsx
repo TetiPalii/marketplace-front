@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import BurgerIcon from "@/public/icons/BurgerIcon";
 import { FlexContainer } from "../../components/FlexContainer/FlexContainer";
@@ -12,11 +11,18 @@ import LogoDesktop from "../../../public/icons/LogoDesktop";
 import Link from "next/link";
 import { NavBar } from "../../components/NavBar/NavBar";
 import { useAppSelector } from "../../store/hooks";
+import { User } from "@/store/features/user/userProfileSlice";
+
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
-  const firstName = useAppSelector((state) => state.user.userName);
+
+  const isLoggedIn = useAppSelector((state):Boolean => 
+    state.user.isLoggedin
+  );
+  
+  const firstName = useAppSelector((state):string => state.user?.user?.firstName);
+
   return (
     <>
       <header className="fixed w-full bg-darkBlue text-lightPink p-4 md:py-4 md:px-36">
@@ -45,8 +51,8 @@ export const Header = () => {
             >
               <CabinetIcon />
             </Link>
-            {isLoggedIn && (
-              <p className="hidden md:block">{`Вітаю, ${firstName}`}</p>
+            {isLoggedIn && firstName && (
+              <p className="hidden md:block">{`Вітаю, ${firstName||'Name'}`}</p>
             )}
             <Link href={"/cart"}>
               <CartIcon />

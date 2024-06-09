@@ -1,4 +1,4 @@
-export const IconWrapper = ({ children, setMenuOpen, className }) => {
+export const IconWrapper = ({ children, setMenuOpen, className='' }) => {
   return (
     <button
       onClick={() => {

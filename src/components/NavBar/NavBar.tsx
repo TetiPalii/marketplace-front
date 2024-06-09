@@ -13,8 +13,11 @@ import { FooterNav } from "./FooterNav";
 import { useAppSelector } from "../../store/hooks";
 
 export const NavBar = ({ menuOpen, setMenuOpen }) => {
-  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
-
+  const isLoggedIn = useAppSelector((state):Boolean =>
+    state.user.isLoggedin
+  );
+  
+  
   function navBarClose() {
     setMenuOpen(false);
   }
