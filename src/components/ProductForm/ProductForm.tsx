@@ -47,10 +47,9 @@ const productSchema = z.object({
                 "Опис товару має містити не більше 250 символів",
         }),
     sellerName: z.string().min(3).max(50),
-    sellerPhoneNumber: z
-        .string()
-        .min(13)
-        .max(13),
+    sellerPhoneNumber: z.string().regex(/^\+380\d{9}$/, {
+      message: 'Телефон має містити +380 та 9 цифр',
+    }).min(13).max(13),
     sellerEmail: z
         .string()
         .email({
