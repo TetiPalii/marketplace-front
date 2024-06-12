@@ -7,7 +7,6 @@ export default function Home() {
   return (
     <>
       <AddProductSection />
-      <Slider />
       <Products />
       <BuySection />
     </>

@@ -6,7 +6,7 @@ import banerOne from "../../../public/images/baner-1.jpg";
 import banerTwo from "../../../public/images/baner-2.jpg";
 import banerThree from "../../../public/images/baner-3.jpg";
 import banerFour from "../../../public/images/baner-4.jpg";
-import { nanoid } from 'nanoid';
+
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
