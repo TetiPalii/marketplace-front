@@ -12,6 +12,7 @@ import { createProduct } from "@/actions/createProduct";
 import { useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
+import { useAppSelector } from '@/store/hooks';
 
 
 const productSchema = z.object({
@@ -42,6 +43,7 @@ export type ProductSchema = z.infer<typeof productSchema>;
 export const ProductForm = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const token = useAppSelector((state)=>state.user.user.token)
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const {
@@ -83,7 +85,7 @@ export const ProductForm = () => {
    
     try {
      
-      const newProductData = await createProduct(formData,
+      const newProductData = await createProduct(formData,token,
         mutate)
     
       console.log(newProductData)
