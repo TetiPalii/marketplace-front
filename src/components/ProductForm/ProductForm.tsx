@@ -49,10 +49,6 @@ const productSchema = z.object({
     sellerName: z.string().min(3).max(50),
     sellerPhoneNumber: z
         .string()
-        .regex(/^\+380\d{9}$/, {
-            message:
-                "Телефон має містити +380 та 9 цифр",
-        })
         .min(13)
         .max(13),
     sellerEmail: z
@@ -122,7 +118,7 @@ export const ProductForm = () => {
 
 const onSubmit = handleSubmit(
     async (data) => {
-        console.log('dfkj')
+        console.log(data)
         const {
             productName,
             productPrice,
