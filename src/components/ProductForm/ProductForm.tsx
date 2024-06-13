@@ -116,6 +116,7 @@ export const ProductForm = () => {
      return state.user.user.token
  })
 
+ 
 const onSubmit = handleSubmit(
     async (data) => {
         console.log(data)
@@ -367,7 +368,56 @@ useEffect(() => {
                         "productType"
                     )}
 
-                />
+          />
+          {errors.productType &&
+                        errors.productType
+                            .message && (
+                            <span className="text-red">
+                                {errors.productType.message.toString()}
+                            </span>
+                        )}
+           {/* <ul className="flex flex-col sm:flex-row gap-4 justify-center mt-4 mb-4 w-full">
+        <li className="w-full">
+          <input
+            type="radio"
+            id="used"
+            name="productType"
+            value="used"
+            className="peer hidden"
+            required
+            {...register("productType")}
+            checked={selectedOption === 'used'}
+          onChange={handleOptionChange}
+          />
+          <label
+            htmlFor="used"
+            className="block text-center py-3 px-16 bg-transparent border border-eggPlant rounded-xl 
+              cursor-pointer peer-checked:bg-eggPlant peer-checked:text-white"
+          >
+            Вживане
+          </label>
+        </li>
+        <li className="w-full">
+          <input
+            {...register("productType")}
+            type="radio"
+            id="new"
+            name="productType"
+            value="new"
+            className="peer hidden"
+            checked={selectedOption === 'new'}
+          onChange={handleOptionChange}
+          />
+          <label
+            htmlFor="new"
+            className="py-3 px-16 text-center block bg-transparent border border-eggPlant 
+              rounded-xl cursor-pointer
+               peer-checked:bg-eggPlant peer-checked:text-white"
+          >
+            Нове
+          </label>
+        </li>
+      </ul> */}
 
                 <div>
                     <h3>Контактні дані</h3>
@@ -422,7 +472,7 @@ useEffect(() => {
                                     {errors.sellerEmail.message.toString()}
                                 </span>
                             )}
-                    </ProductLable>
+                    </ProductLable> 
                     <ProductLable
                         inputName="Місцезнаходження товару"
                         className="text-xs">
