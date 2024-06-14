@@ -180,6 +180,21 @@ html {
   .categories {
     background-color: transparent;
   }
+
+  .required {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .required::after{
+    content: "*";
+    color: #FF003D;
+    margin-left: 5px;
+    /* position: absolute;
+    left:14%;
+    top: 0;
+    transform: translateX(-15%); */
+  }
 }
 
 /* :root {

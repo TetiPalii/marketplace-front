@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import { useAppSelector } from "@/store/hooks";
+import { phoneNumberReduser } from "@/store/features/user/phoneNumberSlice";
 
 
 
@@ -49,8 +50,8 @@ const productSchema = z.object({
     sellerName: z.string().min(3).max(50),
     sellerPhoneNumber: z
         .string()
-        .min(13)
-        .max(13),
+        .min(13,{message:"Це поле є обовʼязковим"})
+        .max(17),
     sellerEmail: z
         .string()
         .email({
@@ -111,7 +112,8 @@ export const ProductForm = () => {
     trigger,
     control,
     formState: { errors, isSubmitting },
-  } = useForm({resolver: zodResolver(productSchema)});
+  } = useForm({ resolver: zodResolver(productSchema) });
+  
     const token:string = useAppSelector((state) => {
      return state.user.user.token
  })
@@ -119,7 +121,7 @@ export const ProductForm = () => {
  
 const onSubmit = handleSubmit(
     async (data) => {
-        console.log(data)
+        // console.log(data)
         const {
             productName,
             productPrice,
@@ -134,7 +136,9 @@ const onSubmit = handleSubmit(
             },
             files,
         } = data;
-
+    
+    const newPhoneNumber = sellerPhoneNumber.replace(/[^\d+]/g,"")
+    
         const productData = {
             productName,
             productPrice,
@@ -143,7 +147,7 @@ const onSubmit = handleSubmit(
             productType,
             sellerEmail,
             sellerName,
-            sellerPhoneNumber,
+            sellerPhoneNumber:newPhoneNumber,
             location,
         };
 
@@ -218,7 +222,8 @@ useEffect(() => {
     }, [selectedFiles]);
 
 
-    const handleFileChange = (e) => {
+  const handleFileChange = (e) => {
+      console.log(e)
         const newFiles = Array.from(
             e.target.files
         );
@@ -254,9 +259,11 @@ useEffect(() => {
                 className="flex flex-col gap-2">
                 <h1 className="text-center text-2xl font-medium">
                     Створи оголошення
-                </h1>
-                <ProductLable inputName="Назва товару">
-                    <ProductField
+          </h1>
+          <div className="flex flex-col">
+                <ProductLable inputName="Назва товару" className="required flex flex-row" htmlFor="productName" >    
+                 </ProductLable>
+                <ProductField
                         type="text"
                         id="productName"
                         register={register(
@@ -270,15 +277,26 @@ useEffect(() => {
                                 {errors.productName.message.toString()}
                             </span>
                         )}
-                </ProductLable>
-                <ProductLable inputName="Категорія товару">
-                    <Categories
-                        control={control}
-                        register={register('category')}
-                    />
-                </ProductLable>
-
-                <ProductLable inputName="Фото">
+          </div>
+          <div className="flex flex-col">
+          <ProductLable inputName="Категорія товару" className="required flex flex-row" htmlFor="category">
+            </ProductLable>
+            <Categories
+                control={control}
+                register={register('category')}
+                id="category"
+            />
+            {errors.category &&
+                        errors.category
+                            .message && (
+                            <span className="text-red">
+                                {errors.category.message.toString()}
+                            </span>
+                        )}
+          </div>
+               
+<div className="flex flex-col">
+                <ProductLable inputName="Фото" className="required felx flex-row"></ProductLable>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-4">
                         {previews.map(
                             (preview, index) => (
@@ -322,7 +340,8 @@ useEffect(() => {
                                         Додати
                                         фото
                                     </span>
-                                    <input
+                              <input
+                                
                                         className="opacity-0 w-full h-full absolute top-0 left-0"
                                         type="file"
                                         multiple
@@ -335,18 +354,36 @@ useEffect(() => {
                             </div>
                         ))}
                     </div>
-                </ProductLable>
-
-                <ProductLable inputName="Ціна за 1 одиницю товару">
-                    <ProductField
+                    {errors.files &&
+                        errors.files
+                            .message && (
+                            <span className="text-red">
+                                {errors.files.message.toString()}
+                            </span>
+                        )}
+          </div>
+          <div className="flex flex-col">
+                <ProductLable inputName="Ціна за 1 одиницю товару" htmlFor="productPrice" className="required flex flex-row"> </ProductLable>
+            <ProductField
+              id="productPrice"
                         type="number"
                         register={register(
                             "productPrice"
                         )}
-                    />
-                </ProductLable>
-                <ProductLable inputName="Опис товару">
-                    <textarea
+            />
+             {errors.productPrice &&
+                        errors.productPrice
+                            .message && (
+                            <span className="text-red">
+                                {errors.productPrice.message.toString()}
+                            </span>
+                        )}
+           
+          </div>
+          <div className="flex flex-col">
+            <ProductLable inputName="Опис товару" htmlFor="productDescription" className="required flex flex-row"></ProductLable>
+            <textarea
+              id="productDescription"
                         className="bg-transparent border border-formColor rounded-2xl px-2 py-3"
                         name="description"
                         placeholder="Опишіть у подробицях Ваш товар"
@@ -362,7 +399,8 @@ useEffect(() => {
                                 {errors.productDescription.message.toString()}
                             </span>
                         )}
-                </ProductLable>
+                </div>
+                
                 <Condition
                     register={register(
                         "productType"
@@ -376,51 +414,8 @@ useEffect(() => {
                                 {errors.productType.message.toString()}
                             </span>
                         )}
-           {/* <ul className="flex flex-col sm:flex-row gap-4 justify-center mt-4 mb-4 w-full">
-        <li className="w-full">
-          <input
-            type="radio"
-            id="used"
-            name="productType"
-            value="used"
-            className="peer hidden"
-            required
-            {...register("productType")}
-            checked={selectedOption === 'used'}
-          onChange={handleOptionChange}
-          />
-          <label
-            htmlFor="used"
-            className="block text-center py-3 px-16 bg-transparent border border-eggPlant rounded-xl 
-              cursor-pointer peer-checked:bg-eggPlant peer-checked:text-white"
-          >
-            Вживане
-          </label>
-        </li>
-        <li className="w-full">
-          <input
-            {...register("productType")}
-            type="radio"
-            id="new"
-            name="productType"
-            value="new"
-            className="peer hidden"
-            checked={selectedOption === 'new'}
-          onChange={handleOptionChange}
-          />
-          <label
-            htmlFor="new"
-            className="py-3 px-16 text-center block bg-transparent border border-eggPlant 
-              rounded-xl cursor-pointer
-               peer-checked:bg-eggPlant peer-checked:text-white"
-          >
-            Нове
-          </label>
-        </li>
-      </ul> */}
-
                 <div>
-                    <h3>Контактні дані</h3>
+                    <h3 className="required">Контактні дані</h3>
                     <ProductLable
                         inputName="Контактна особа"
                         className="text-xs">
@@ -430,8 +425,15 @@ useEffect(() => {
                                 "sellerName"
                             )}
                         />
-                    </ProductLable>
-                    {/* <Controller
+            </ProductLable>
+            {errors.sellerName &&
+                        errors.sellerName
+                            .message && (
+                            <span className="text-red">
+                                {errors.sellerName.message.toString()}
+                            </span>
+                        )}
+                    <Controller
                         name="sellerPhoneNumber"
                        
                         control={control}
@@ -439,7 +441,7 @@ useEffect(() => {
                         render={({ field }) => (
                             <ProductLable inputName="Номер телефону">
                                 <InputMask
-                                     {...register('sellerPhoneNumber')}
+                                   required  
                                     className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3"
                                     {...field}
                                     mask="+38(099)999-99-99"
@@ -447,10 +449,18 @@ useEffect(() => {
                                 />
                             </ProductLable>
                         )}
-                    /> */}
-                     <ProductLable inputName="Номер телефону" className="text-xs">
+            />
+            {errors.sellerPhoneNumber &&
+              errors.sellerPhoneNumber
+                  .message && (
+                  <span className="text-red">
+                      {errors.sellerPhoneNumber.message.toString()}
+                  </span>
+              )}
+            
+                     {/* <ProductLable inputName="Номер телефону" className="text-xs">
             <ProductField type="phone" register={register("sellerPhoneNumber")} />
-          </ProductLable> 
+          </ProductLable>  */}
                     <ProductLable
                         inputName="Ел. пошта"
                         className="text-xs">
@@ -482,7 +492,14 @@ useEffect(() => {
                                 "location"
                             )}
                         />
-                    </ProductLable>
+            </ProductLable>
+            {errors.location &&
+                        errors.location
+                            .message && (
+                            <span className="text-red">
+                                {errors.location.message.toString()}
+                            </span>
+                        )}
                 </div>
 
                 <button

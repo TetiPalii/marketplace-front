@@ -14,7 +14,7 @@ const selectStyles = {
   })
 }
 
-export const Categories = ({ control, register}) => {
+export const Categories = ({ control, register, id}) => {
   const [categoriesList, setCategoriesList] = useState(null);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export const Categories = ({ control, register}) => {
 
 
   return (
-    <Controller name='category' control={control} render={({ field })=>
+    <Controller  name='category' control={control} render={({ field })=>
       <Select
         {...field}
       styles={{

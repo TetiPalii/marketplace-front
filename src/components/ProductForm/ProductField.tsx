@@ -16,7 +16,8 @@ export const ProductField: React.FC<ComponentProps> = ({
   type,
   list,
   register,
-  onBlur
+  onBlur,
+  id
   
 }) => {
  
@@ -30,6 +31,7 @@ export const ProductField: React.FC<ComponentProps> = ({
   // },[])
   return (
     <input
+      id={id}
       type={type}
       className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3"
       {...register}
