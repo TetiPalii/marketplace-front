@@ -12,11 +12,10 @@ import { ProductField } from "./ProductField";
 import { ProductLable } from "./ProductLable";
 import { Condition } from "./Condition";
 import { createProduct } from "@/actions/createProduct";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useRouter } from "next/navigation";
-import Image from 'next/image';
 import { useAppSelector } from "@/store/hooks";
-import { phoneNumberReduser } from "@/store/features/user/phoneNumberSlice";
+import { AddFoto } from "./AddFoto";
 
 
 
@@ -96,12 +95,6 @@ export type ProductSchema = z.infer<
 >;
 
 export const ProductForm = () => {
-
-    const [selectedFiles, setSelectedFiles] =
-        useState([]);
-    const [previews, setPreviews] = useState<
-        string[]
-    >([]);
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const {
@@ -198,7 +191,7 @@ useEffect(() => {
   }
 }, [setValue]);
   
-  const watchedFields = watch();
+const watchedFields = watch();
   
   useEffect(() => {
     if (Object.values(watchedFields).some(field => field !== '')) {
@@ -206,51 +199,6 @@ useEffect(() => {
     }
    
   }, [watchedFields]);
-
-
-
-    useEffect(() => {
-        if (selectedFiles.length) {
-            const newPreviews = selectedFiles.map(
-                (file) =>
-                    URL.createObjectURL(file)
-            );
-            setPreviews(newPreviews);
-        } else {
-            setPreviews([]);
-        }
-    }, [selectedFiles]);
-
-
-  const handleFileChange = (e) => {
-      console.log(e)
-        const newFiles = Array.from(
-            e.target.files
-        );
-        if (
-            selectedFiles.length +
-                newFiles.length <=
-            8
-        ) {
-            const updatedFiles = [
-                ...selectedFiles,
-                ...newFiles,
-            ];
-            setSelectedFiles(updatedFiles);
-            setValue("files", updatedFiles);
-        } else {
-            alert("Максимум 8 фото!");
-        }
-    };
-
-    const handleDeletePhoto = (index) => {
-        const updatedFiles = [...selectedFiles];
-        updatedFiles.splice(index, 1);
-        setSelectedFiles(updatedFiles);
-        setPreviews(
-            previews.filter((_, i) => i !== index)
-        );
-    };
 
     return (
         <>
@@ -295,73 +243,8 @@ useEffect(() => {
                         )}
           </div>
                
-<div className="flex flex-col">
-                <ProductLable inputName="Фото" className="required felx flex-row"></ProductLable>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-4">
-                        {previews.map(
-                            (preview, index) => (
-                                <div
-                                    key={index}
-                                    className="relative w-full h-0 pb-[100%]">
-                                    <div className="absolute inset-0">
-                                        <Image
-                                            src={
-                                                preview
-                                            }
-                                            layout="fill"
-                                            objectFit="cover"
-                                            alt="Preview"
-                                            className="rounded-xl"
-                                        />
-                                        <button
-                                            className="absolute  top-2 right-2 bg-red-500 text-red rounded-full w-6 h-6 flex items-center justify-center"
-                                            onClick={
-                                                handleDeletePhoto
-                                            }>
-                                            <span className="text-2xl">
-                                                &times;
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            )
-                        )}
+          <AddFoto setValue={setValue} errors={errors} />
 
-                        {Array.from({
-                            length:
-                                8 -
-                                previews.length,
-                        }).map((_, index) => (
-                            <div
-                                key={index}
-                                className="relative w-full h-0 pb-[100%]">
-                                <div className="absolute inset-0 flex justify-center items-center text-center border border-darkBlue rounded-xl">
-                                    <span className="text-sm">
-                                        Додати
-                                        фото
-                                    </span>
-                              <input
-                                
-                                        className="opacity-0 w-full h-full absolute top-0 left-0"
-                                        type="file"
-                                        multiple
-                                        accept="image/*"
-                                        onChange={
-                                            handleFileChange
-                                        }
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    {errors.files &&
-                        errors.files
-                            .message && (
-                            <span className="text-red">
-                                {errors.files.message.toString()}
-                            </span>
-                        )}
-          </div>
           <div className="flex flex-col">
                 <ProductLable inputName="Ціна за 1 одиницю товару" htmlFor="productPrice" className="required flex flex-row"> </ProductLable>
             <ProductField
