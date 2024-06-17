@@ -16,6 +16,7 @@ import { useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
 import { AddFoto } from "./AddFoto";
+import TrendingSlider from "./TrendingSlider";
 
 
 
@@ -217,7 +218,8 @@ const watchedFields = watch();
                         register={register(
                             "productName"
                         )}
-                    />
+            />
+            <p className="text-xs">Максимум 30 символів</p>
                     {errors.productName &&
                         errors.productName
                             .message && (
@@ -242,9 +244,9 @@ const watchedFields = watch();
                             </span>
                         )}
           </div>
-               
+          
           <AddFoto setValue={setValue} errors={errors} />
-
+         
           <div className="flex flex-col">
                 <ProductLable inputName="Ціна за 1 одиницю товару" htmlFor="productPrice" className="required flex flex-row"> </ProductLable>
             <ProductField
@@ -274,7 +276,8 @@ const watchedFields = watch();
                         rows={10}
                         {...register(
                             "productDescription"
-                        )}></textarea>
+              )}></textarea>
+            <p className="text-xs">Максимум 200 символів</p>
                     {errors.productDescription &&
                         errors.productDescription
                             .message && (
@@ -383,8 +386,15 @@ const watchedFields = watch();
                                 {errors.location.message.toString()}
                             </span>
                         )}
-                </div>
-
+          </div>
+          <div className="mx-auto">
+          <p className="text-xs text-center">Ваше оголошення буде активне протягом 30 днів. Ви завжди можете його оновити в будь-який час.</p>
+          </div>
+          <div className="flex flex-col gap-3 w-[304px] mx-auto">
+          <button type='button' className="text-center text-white py-3 px-7 min-w-[140px] rounded-xl bg-eggPlant "
+          >
+            Попередній перегляд
+          </button>
                 <button
                     disabled={isSubmitting}
                     className={`text-center text-white py-3 px-7 min-w-[140px] rounded-xl  ${
@@ -395,7 +405,8 @@ const watchedFields = watch();
                     {isSubmitting
                         ? "Публікується"
                         : "Опублікувати"}
-                </button>
+            </button>
+            </div>
             </form>
         </>
     );
