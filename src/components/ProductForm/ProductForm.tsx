@@ -219,7 +219,7 @@ const watchedFields = watch();
                             "productName"
                         )}
             />
-            <p className="text-xs">Максимум 30 символів</p>
+            <p className="text-xs mt-1">Максимум 30 символів</p>
                     {errors.productName &&
                         errors.productName
                             .message && (
@@ -277,7 +277,7 @@ const watchedFields = watch();
                         {...register(
                             "productDescription"
               )}></textarea>
-            <p className="text-xs">Максимум 200 символів</p>
+            <p className="text-xs mt-1">Максимум 200 символів</p>
                     {errors.productDescription &&
                         errors.productDescription
                             .message && (
@@ -300,12 +300,12 @@ const watchedFields = watch();
                                 {errors.productType.message.toString()}
                             </span>
                         )}
-                <div>
+                <div className="flex flex-col gap-y-2">
                     <h3 className="required">Контактні дані</h3>
                     <ProductLable
                         inputName="Контактна особа"
                         className="text-xs">
-                        <ProductField
+                         <ProductField
                             type="text"
                             register={register(
                                 "sellerName"
@@ -325,7 +325,7 @@ const watchedFields = watch();
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <ProductLable inputName="Номер телефону">
+                            <ProductLable inputName="Номер телефону" className="text-xs">
                                 <InputMask
                                    required  
                                     className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3"
@@ -344,9 +344,6 @@ const watchedFields = watch();
                   </span>
               )}
             
-                     {/* <ProductLable inputName="Номер телефону" className="text-xs">
-            <ProductField type="phone" register={register("sellerPhoneNumber")} />
-          </ProductLable>  */}
                     <ProductLable
                         inputName="Ел. пошта"
                         className="text-xs">

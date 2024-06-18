@@ -138,7 +138,7 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
           </div>
         ))}
       </div>
-      <p className="text-xs">Перше фото буде на обкладинці оголошення</p>
+      <p className="text-xs mt-1">Перше фото буде на обкладинці оголошення</p>
 
       
       {errors.files && errors.files.message && (

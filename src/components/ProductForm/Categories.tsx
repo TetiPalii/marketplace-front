@@ -3,8 +3,6 @@
 import React, { useEffect, useState } from "react";
 import {Controller} from 'react-hook-form';
 import Select, { CSSObjectWithLabel } from "react-select";
-import { nanoid } from "nanoid";
-import { ProductField } from "./ProductField";
 import { getCategories } from "@/actions/getCategories";
 
 const selectStyles = {
@@ -24,7 +22,6 @@ export const Categories = ({ control, register, id}) => {
   }, []);
 
   const categoriesOptions = () => {
-    // console.log(categoriesList)
     if (categoriesList) {
       return categoriesList.map(({ categoryName, nameUkr }) => {
         return {
