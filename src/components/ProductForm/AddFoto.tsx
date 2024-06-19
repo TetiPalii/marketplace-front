@@ -101,9 +101,10 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
           ))}
         </Swiper>
       </div>
-      <div className="hidden lg:grid grid-cols-1 md:grid-cols-4 xl:grid-cols-8 gap-4">
+      <div className="hidden md:grid md:grid-cols-4 
+      md:h-[377px] md:gap-x-2 md:gap-y-4 lg:flex lg:h-[155px] lg:gap-x-2">
         {previews.map((preview, index) => (
-          <div key={index} className="relative w-full h-0 pb-[100%]">
+          <div key={index} className="relative w-full">
             <div className="absolute inset-0">
               <Image
                 src={preview}
@@ -124,7 +125,7 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
 
         {/* Контейнер для добавления новых фотографий */}
         {Array.from({ length: 8 - previews.length }).map((_, index) => (
-          <div key={index} className="relative w-full h-0 pb-[100%]">
+          <div key={index} className="relative w-full">
             <div className="absolute inset-0 flex justify-center items-center text-center border border-darkBlue rounded-xl">
               <span className="text-sm">Додати фото</span>
               <input
