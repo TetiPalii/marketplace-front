@@ -16,7 +16,7 @@ import { useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
 import { AddFoto } from "./AddFoto";
-import TrendingSlider from "./TrendingSlider";
+
 
 
 
@@ -205,11 +205,14 @@ const watchedFields = watch();
         <>
             <form
                 onSubmit={onSubmit}
-                className="flex flex-col gap-2">
+                className="flex flex-col gap-2 w-full">
                 <h1 className="text-center text-2xl font-medium">
                     Створи оголошення
-          </h1>
-          <div className="flex flex-col">
+                </h1>
+
+                <div className="flex flex-col gap-y-2 lg:flex-row w-full lg:gap-x-4">
+
+          <div className="flex flex-col w-full">
                 <ProductLable inputName="Назва товару" className="required flex flex-row" htmlFor="productName" >    
                  </ProductLable>
                 <ProductField
@@ -219,7 +222,7 @@ const watchedFields = watch();
                             "productName"
                         )}
             />
-            <p className="text-xs">Максимум 30 символів</p>
+            <p className="text-xs mt-1">Максимум 30 символів</p>
                     {errors.productName &&
                         errors.productName
                             .message && (
@@ -228,7 +231,7 @@ const watchedFields = watch();
                             </span>
                         )}
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
           <ProductLable inputName="Категорія товару" className="required flex flex-row" htmlFor="category">
             </ProductLable>
             <Categories
@@ -243,12 +246,36 @@ const watchedFields = watch();
                                 {errors.category.message.toString()}
                             </span>
                         )}
+                    </div>
+                    
           </div>
-          
           <AddFoto setValue={setValue} errors={errors} />
          
+         
           <div className="flex flex-col">
-                <ProductLable inputName="Ціна за 1 одиницю товару" htmlFor="productPrice" className="required flex flex-row"> </ProductLable>
+            <ProductLable inputName="Опис товару" htmlFor="productDescription" className="required flex flex-row"></ProductLable>
+            <textarea
+              id="productDescription"
+                        className="bg-transparent border border-formColor rounded-2xl px-2 py-3"
+                        name="description"
+                        placeholder="Опишіть у подробицях Ваш товар"
+                        cols={30}
+                        rows={10}
+                        {...register(
+                            "productDescription"
+              )}></textarea>
+            <p className="text-xs mt-1">Максимум 200 символів</p>
+                    {errors.productDescription &&
+                        errors.productDescription
+                            .message && (
+                            <span className="text-red">
+                                {errors.productDescription.message.toString()}
+                            </span>
+                        )}
+                </div>
+                <div className="lg:flex lg:w-full lg:items-end lg:gap-x-7">
+                <div className="flex flex-col lg:w-full">
+                <ProductLable inputName="Ціна за 1 одиницю товару" htmlFor="productPrice" className="required flex flex-row lg:w-full"> </ProductLable>
             <ProductField
               id="productPrice"
                         type="number"
@@ -264,29 +291,8 @@ const watchedFields = watch();
                             </span>
                         )}
            
-          </div>
-          <div className="flex flex-col">
-            <ProductLable inputName="Опис товару" htmlFor="productDescription" className="required flex flex-row"></ProductLable>
-            <textarea
-              id="productDescription"
-                        className="bg-transparent border border-formColor rounded-2xl px-2 py-3"
-                        name="description"
-                        placeholder="Опишіть у подробицях Ваш товар"
-                        cols={30}
-                        rows={10}
-                        {...register(
-                            "productDescription"
-              )}></textarea>
-            <p className="text-xs">Максимум 200 символів</p>
-                    {errors.productDescription &&
-                        errors.productDescription
-                            .message && (
-                            <span className="text-red">
-                                {errors.productDescription.message.toString()}
-                            </span>
-                        )}
-                </div>
-                
+                    </div>
+                    <div className="lg:w-full" >
                 <Condition
                     register={register(
                         "productType"
@@ -299,13 +305,16 @@ const watchedFields = watch();
                             <span className="text-red">
                                 {errors.productType.message.toString()}
                             </span>
-                        )}
-                <div>
-                    <h3 className="required">Контактні дані</h3>
+                            )}
+                        </div>
+                </div>
+                <h3 className="required">Контактні дані</h3>
+                <div className="flex flex-col gap-y-2 lg:grid lg:grid-cols-2 lg:gap-x-7">
+                   
                     <ProductLable
                         inputName="Контактна особа"
                         className="text-xs">
-                        <ProductField
+                         <ProductField
                             type="text"
                             register={register(
                                 "sellerName"
@@ -325,10 +334,10 @@ const watchedFields = watch();
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <ProductLable inputName="Номер телефону">
+                            <ProductLable inputName="Номер телефону" className="text-xs">
                                 <InputMask
                                    required  
-                                    className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3"
+                                    className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3 lg:h-[57px]"
                                     {...field}
                                     mask="+38(099)999-99-99"
                                     placeholder="+38(0__)___-__-__"
@@ -344,9 +353,6 @@ const watchedFields = watch();
                   </span>
               )}
             
-                     {/* <ProductLable inputName="Номер телефону" className="text-xs">
-            <ProductField type="phone" register={register("sellerPhoneNumber")} />
-          </ProductLable>  */}
                     <ProductLable
                         inputName="Ел. пошта"
                         className="text-xs">
@@ -387,10 +393,10 @@ const watchedFields = watch();
                             </span>
                         )}
           </div>
-          <div className="mx-auto">
-          <p className="text-xs text-center">Ваше оголошення буде активне протягом 30 днів. Ви завжди можете його оновити в будь-який час.</p>
+          <div className="mx-auto md:mx-0 my-4 md:my-10">
+          <p className="text-xs md:text-xl text-center md:text-start">Ваше оголошення буде активне протягом 30 днів. Ви завжди можете його оновити в будь-який час.</p>
           </div>
-          <div className="flex flex-col gap-3 w-[304px] mx-auto">
+          <div className="flex flex-col gap-3 w-[304px] mx-auto md:mx-0 lg:flex-row lg:w-full">
           <button type='button' className="text-center text-white py-3 px-7 min-w-[140px] rounded-xl bg-eggPlant "
           >
             Попередній перегляд
