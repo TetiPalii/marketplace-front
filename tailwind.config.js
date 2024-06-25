@@ -38,6 +38,10 @@ module.exports = {
         /*button */
         disabled:'#FF678B'
       },
+      backgroundImage: {
+        'diamond-gradient': 'conic-gradient(from 80deg at 100% 100%,#FF678B, #990078)',
+      },
+
     },
   },
   plugins: [],
