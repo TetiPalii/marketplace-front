@@ -5,7 +5,6 @@ import {
     useForm,
 } from "react-hook-form";
 import { InputMask } from "primereact/inputmask";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Categories } from "./Categories";
 import { ProductField } from "./ProductField";
@@ -14,86 +13,12 @@ import { Condition } from "./Condition";
 import { createProduct } from "@/actions/createProduct";
 import { useEffect} from "react";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { AddFoto } from "./AddFoto";
+import Link from "next/link";
+import { productSchema } from "./schema";
 
 
-
-
-const productSchema = z.object({
-    productName: z
-        .string()
-        .min(5, {
-            message:
-                "Назва товару має містити щонайменше 5 символів ",
-        })
-        .max(100, {
-            message:
-                "Назва товару має містити не більше 100 символів ",
-        }),
-    category: z.object({
-        label: z.string(),
-        value: z.string(),
-    }),
-    productType: z.string(),
-    productPrice: z.string().min(1),
-    productDescription: z
-        .string()
-        .min(5, {
-            message:
-                "Опис товару має містити щонайменше 5 символів",
-        })
-        .max(250, {
-            message:
-                "Опис товару має містити не більше 250 символів",
-        }),
-    sellerName: z.string().min(3).max(50),
-    sellerPhoneNumber: z
-        .string()
-        .min(13,{message:"Це поле є обовʼязковим"})
-        .max(17),
-    sellerEmail: z
-        .string()
-        .email({
-            message:
-                "Будь-ласка введіть валідний адрес електронної пошти",
-        })
-        .min(1, "Це поле є обовʼязковим"),
-    location: z.string().min(3).max(100),
-    files: z
-        .array(
-            z
-                .instanceof(File)
-                .refine(
-                    (file) =>
-                        file.size <=
-                        5 * 1024 * 1024,
-                    {
-                        message:
-                            "Размер файла должен быть не более 5MB",
-                    }
-                )
-                .refine(
-                    (file) =>
-                        [
-                            "image/jpeg",
-                            "image/png",
-                        ].includes(file.type),
-                    {
-                        message:
-                            "Файл должен бути изображением (JPEG/PNG)",
-                    }
-                )
-        )
-        .max(
-            8,
-            "Можна завантажити максимум 8 фото"
-        ),
-});
-
-export type ProductSchema = z.infer<
-    typeof productSchema
->;
 
 export const ProductForm = () => {
   const { mutate } = useSWRConfig();
@@ -107,7 +32,7 @@ export const ProductForm = () => {
     control,
     formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(productSchema) });
-  
+  const dispatch = useAppDispatch()
     const token:string = useAppSelector((state) => {
      return state.user.user.token
  })
@@ -167,15 +92,13 @@ const onSubmit = handleSubmit(
         }
 
         try {
-            const newProductData =
-                await createProduct(
+            await createProduct(
                     formData,
                     mutate,token
                 );
 
-            console.log(newProductData);
         } catch (error) {
-            console.log(error);
+            console.error(error.message);
         }
 
         router.push("/");
@@ -199,7 +122,7 @@ const watchedFields = watch();
       localStorage.setItem('productForm', JSON.stringify(watchedFields));
     }
    
-  }, [watchedFields]);
+  }, [watchedFields, dispatch]);
 
     return (
         <>
@@ -396,14 +319,14 @@ const watchedFields = watch();
           <div className="mx-auto md:mx-0 my-4 md:my-10">
           <p className="text-xs md:text-xl text-center md:text-start">Ваше оголошення буде активне протягом 30 днів. Ви завжди можете його оновити в будь-який час.</p>
           </div>
-          <div className="flex flex-col gap-3 w-[304px] mx-auto md:mx-0 lg:flex-row lg:w-full">
-          <button type='button' className="text-center text-white py-3 px-7 min-w-[140px] rounded-xl bg-eggPlant "
+          <div className="flex flex-col gap-3 w-[304px] mx-auto md:mx-0 lg:flex-row lg:w-full lg:justify-center">
+          <Link href={'/preview'} className="text-center text-white py-3 px-7 min-w-[140px] rounded-xl bg-diamond-gradient lg:w-[456px]"
           >
             Попередній перегляд
-          </button>
+          </Link>
                 <button
                     disabled={isSubmitting}
-                    className={`text-center text-white py-3 px-7 min-w-[140px] rounded-xl  ${
+                    className={`text-center text-white py-3 px-7 min-w-[140px] rounded-xl lg:w-[456px] ${
                         isSubmitting
                             ? "bg-disabled cursor-not-allowed"
                             : "bg-eggPlant"

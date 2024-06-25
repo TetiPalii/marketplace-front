@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
-import { ProductLable } from "./ProductLable";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
+import { useAppDispatch } from "@/store/hooks";
+import { addFile } from "@/store/features/product/productSlice";
+import { ProductLable } from "./ProductLable";
 
 interface AddFotoProps {
   errors: any; 
@@ -12,33 +14,62 @@ interface AddFotoProps {
 export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); 
   const [previews, setPreviews] = useState<string[]>([]);
+  const [imgUrl, setImgUrl] = useState<string[]>([]);
+  const dispatch = useAppDispatch();
 
-  
+  useEffect(() => {
+    const localFiles = localStorage.getItem('images');
+    if (localFiles) {
+      
+      const parsedFiles = JSON.parse(localFiles)
+     setPreviews(parsedFiles)
+   
+     }
+  },[])
+
+  /** adds previews` url */
   useEffect(() => {
     if (selectedFiles.length) {
       const newPreviews = selectedFiles.map((file) => URL.createObjectURL(file));
       setPreviews(newPreviews);
+     localStorage.setItem('images',JSON.stringify(newPreviews))
     } else {
       setPreviews([]);
     }
-
+    
     return () => {
       previews.forEach(preview => URL.revokeObjectURL(preview));
     };
   }, [selectedFiles]);
-
+  
  
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newFiles = Array.from(e.target.files || []); // 
-    if (selectedFiles.length + newFiles.length <= 8) { // 
+    const newFiles = Array.from(e.target.files || []); 
+    if (selectedFiles.length + newFiles.length <= 8) { 
       const updatedFiles = [...selectedFiles, ...newFiles];
       setSelectedFiles(updatedFiles); 
-      setValue("files", updatedFiles); 
+      setValue("files", updatedFiles);
     } else {
       alert("Максимум 8 фото!"); 
     }
   };
+/** creates an array of img url out of files */ 
+  useEffect(() => {
+    selectedFiles.map((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImgUrl(prevState => [...prevState, reader.result as string]);
+      }
+      reader.readAsDataURL(file)
+    })
+  }, [selectedFiles]);
 
+/**dispatches img url to redux state */
+  useEffect(() => {
+    if (imgUrl.length) {
+      dispatch(addFile(imgUrl))
+    }
+  }, [imgUrl]);
   
   const handleDeletePhoto = (index: number) => {
     const updatedFiles = [...selectedFiles];
@@ -50,8 +81,6 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
   return (
     <div className="flex flex-col z-auto">
       <ProductLable inputName="Фото" /> 
-      
-      
       <div className="w-full block md:hidden">
         <Swiper
           spaceBetween={6}
@@ -80,9 +109,8 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
               </div>
             </SwiperSlide>
           ))}
-                  
-
-          {/* Контейнер для добавления новых фотографий */}
+                
+          {/* container for new adding new fotos mobile screens */}
           {Array.from({ length: 8 - previews.length }).map((_, index) => (
             <SwiperSlide key={index}>
               <div className="relative w-full h-0 pb-[100%] z-auto">
@@ -101,6 +129,7 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
           ))}
         </Swiper>
       </div>
+
       <div className="hidden md:grid md:grid-cols-4 
       md:h-[377px] md:gap-x-2 md:gap-y-4 lg:flex lg:h-[155px] lg:gap-x-2">
         {previews.map((preview, index) => (
@@ -123,7 +152,7 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
           </div>
         ))}
 
-        {/* Контейнер для добавления новых фотографий */}
+        {/* Container for adding new fotos*/}
         {Array.from({ length: 8 - previews.length }).map((_, index) => (
           <div key={index} className="relative w-full z-auto">
             <div className="absolute inset-0 flex justify-center items-center text-center border border-darkBlue rounded-xl z-0">
