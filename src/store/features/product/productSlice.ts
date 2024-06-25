@@ -1,4 +1,4 @@
-import { ProductSchema } from '@/components/ProductForm/ProductForm';
+import { ProductSchema } from '@/components/ProductForm/schema';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type Product = {
