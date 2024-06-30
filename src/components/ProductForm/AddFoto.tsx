@@ -1,81 +1,88 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addFile } from "@/store/features/product/productSlice";
 import { ProductLable } from "./ProductLable";
 
 interface AddFotoProps {
   errors: any; 
   setValue: (name: string, value: any) => void; 
+};
+
+function base64ToFile(base64String: string, fileName: string, mimeType: string): File {
+  const base64Data = base64String.replace(/^data:.*;base64,/, '');
+  const byteCharacters = atob(base64Data);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: mimeType });
+  return new File([blob], fileName, { type: mimeType });
 }
 
 export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); 
-  const [previews, setPreviews] = useState<string[]>([]);
-  const [imgUrl, setImgUrl] = useState<string[]>([]);
+  const [imgDataUrl, setImgDataUrl] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const localFiles = localStorage.getItem('images');
-    if (localFiles) {
-      
-      const parsedFiles = JSON.parse(localFiles)
-     setPreviews(parsedFiles)
-   
-     }
-  },[])
-
-  /** adds previews` url */
-  useEffect(() => {
-    if (selectedFiles.length) {
-      const newPreviews = selectedFiles.map((file) => URL.createObjectURL(file));
-      setPreviews(newPreviews);
-     localStorage.setItem('images',JSON.stringify(newPreviews))
-    } else {
-      setPreviews([]);
-    }
-    
-    return () => {
-      previews.forEach(preview => URL.revokeObjectURL(preview));
-    };
-  }, [selectedFiles]);
-  
+  const storedUrl = useAppSelector(state => state.product.productFiles);
  
+//   useEffect(() => {
+//     console.log('useefect []')
+//     if (storedUrl) {
+      
+//       const files = storedUrl.map((url, index) => base64ToFile(url, `file-${index}.jpeg`, 'image/jpeg'));
+
+//       setSelectedFiles([...selectedFiles,...files]);
+//       setImgDataUrl([...imgDataUrl,...storedUrl])
+     
+//     }
+//   }, []);
+
+  useEffect(() => {
+    console.log('[selectedFiles]')
+    console.log(selectedFiles)
+    if (selectedFiles.length) {
+      // setValue('files', selectedFiles);
+      selectedFiles.map((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImgDataUrl(prevState => [...prevState, reader.result as string]);
+      }
+      reader.readAsDataURL(file)
+    });}
+    
+  }, [selectedFiles]);
+
+//  /**dispatches img url to redux state */
+//   useEffect(() => {
+//     if (imgDataUrl.length) {
+//       console.log('[imgDataUrl]',imgDataUrl);
+//       dispatch(addFile(imgDataUrl));
+//     }
+//   }, [imgDataUrl]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('onChange')
     const newFiles = Array.from(e.target.files || []); 
     if (selectedFiles.length + newFiles.length <= 8) { 
       const updatedFiles = [...selectedFiles, ...newFiles];
       setSelectedFiles(updatedFiles); 
-      setValue("files", updatedFiles);
+      setValue("files", selectedFiles);
     } else {
       alert("Максимум 8 фото!"); 
     }
   };
-/** creates an array of img url out of files */ 
-  useEffect(() => {
-    selectedFiles.map((file) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImgUrl(prevState => [...prevState, reader.result as string]);
-      }
-      reader.readAsDataURL(file)
-    })
-  }, [selectedFiles]);
 
-/**dispatches img url to redux state */
-  useEffect(() => {
-    if (imgUrl.length) {
-      dispatch(addFile(imgUrl))
-    }
-  }, [imgUrl]);
-  
   const handleDeletePhoto = (index: number) => {
+    console.log('onDelete')
     const updatedFiles = [...selectedFiles];
     updatedFiles.splice(index, 1); 
     setSelectedFiles(updatedFiles);
-    setPreviews(previews.filter((_, i) => i !== index)); 
+    setImgDataUrl(imgDataUrl.filter((_, i) => i !== index)); 
+    dispatch(addFile(imgDataUrl.filter((_, i) => i !== index)))
   };
 
   return (
@@ -88,12 +95,12 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
           pagination={{ clickable: true }}
           className="w-full z-auto"
         >
-          {previews.map((preview, index) => (
+          {imgDataUrl.map((url, index) => (
             <SwiperSlide key={index}>
               <div className="relative w-full h-0 pb-[100%]">
                 <div className="absolute inset-0 ">
                   <Image
-                    src={preview}
+                    src={url}
                     layout="fill"
                     objectFit="cover"
                     alt="Preview"
@@ -109,9 +116,7 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
               </div>
             </SwiperSlide>
           ))}
-                
-          {/* container for new adding new fotos mobile screens */}
-          {Array.from({ length: 8 - previews.length }).map((_, index) => (
+          {Array.from({ length: 8 - imgDataUrl.length }).map((_, index) => (
             <SwiperSlide key={index}>
               <div className="relative w-full h-0 pb-[100%] z-auto">
                 <div className="absolute inset-0 flex justify-center items-center text-center border border-darkBlue rounded-xl z-auto">
@@ -132,11 +137,11 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
 
       <div className="hidden md:grid md:grid-cols-4 
       md:h-[377px] md:gap-x-2 md:gap-y-4 lg:flex lg:h-[155px] lg:gap-x-2">
-        {previews.map((preview, index) => (
+        {imgDataUrl.map((url, index) => (
           <div key={index} className="relative w-full">
             <div className="absolute inset-0">
               <Image
-                src={preview}
+                src={url}
                 layout="fill"
                 objectFit="cover"
                 alt="Preview"
@@ -152,8 +157,7 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
           </div>
         ))}
 
-        {/* Container for adding new fotos*/}
-        {Array.from({ length: 8 - previews.length }).map((_, index) => (
+        {Array.from({ length: 8 - imgDataUrl.length }).map((_, index) => (
           <div key={index} className="relative w-full z-auto">
             <div className="absolute inset-0 flex justify-center items-center text-center border border-darkBlue rounded-xl z-0">
               <span className="text-sm ">Додати фото</span>
@@ -169,12 +173,9 @@ export const AddFoto: React.FC<AddFotoProps> = ({ errors, setValue }) => {
         ))}
       </div>
       <p className="text-xs mt-1">Перше фото буде на обкладинці оголошення</p>
-
-      
       {errors.files && errors.files.message && (
         <span className="text-red">{errors.files.message.toString()}</span>
       )}
     </div>
   );
 };
-

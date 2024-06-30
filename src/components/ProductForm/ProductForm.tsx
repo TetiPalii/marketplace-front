@@ -34,7 +34,7 @@ export const ProductForm = () => {
   } = useForm({ resolver: zodResolver(productSchema) });
   const dispatch = useAppDispatch()
     const token:string = useAppSelector((state) => {
-     return state.user.user.token
+     return state.user?.user?.token
  })
 
  

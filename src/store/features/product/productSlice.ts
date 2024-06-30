@@ -16,7 +16,8 @@ export type Product = {
     location: string;
 }
 
-const product: Product= { productName: "",
+const product: Product = {
+    productName: "",
     category: {
         label: "",
         value: ""
@@ -28,20 +29,20 @@ const product: Product= { productName: "",
     sellerEmail: "",
     sellerPhoneNumber: "",
     location: "",
-    
-    
+
+
 }
 const initialState = {
     product,
-    productFiles:null
-    
+    productFiles: null
+
 }
 export const productSlice = createSlice({
     name: 'product',
     initialState,
     reducers: {
-        saveProduct: (state, action:PayloadAction<Product>) => {
-          
+        saveProduct: (state, action: PayloadAction<Product>) => {
+
             state.product = action.payload;
         },
         addFile: (state, action) => {
