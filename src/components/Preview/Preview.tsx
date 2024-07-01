@@ -47,7 +47,7 @@ export const Preview = () => {
                           </div>
                       </SwiperSlide>
               }) : <p>
-                          'Додайте будь-ласка фото'
+                          Додайте будь-ласка фото
                   </p>}
               </Swiper>
               <button 
