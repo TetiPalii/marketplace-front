@@ -11,19 +11,20 @@ import {
 } from 'redux-persist';
 import { productReducer } from './features/product/productSlice';
 import { phoneNumberReduser } from './features/user/phoneNumberSlice';
-import {userProfileReduser} from './features/user/userProfileSlice';
+import { userProfileReduser } from './features/user/userProfileSlice';
 import { storage } from './storage';
 
 const rootReducer = combineReducers({
   user: userProfileReduser,
   phoneNumber: phoneNumberReduser,
-  product:productReducer
-  
+  product: productReducer
+
 });
 
 const persistConfig = {
   key: 'user',
   storage,
+
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

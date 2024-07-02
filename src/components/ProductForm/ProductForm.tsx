@@ -34,7 +34,7 @@ export const ProductForm = () => {
   } = useForm({ resolver: zodResolver(productSchema) });
   const dispatch = useAppDispatch()
     const token:string = useAppSelector((state) => {
-     return state.user.user.token
+     return state.user?.user?.token
  })
 
  
@@ -115,11 +115,21 @@ useEffect(() => {
   }
 }, [setValue]);
   
-const watchedFields = watch();
-  
-  useEffect(() => {
+const [productName, category, productPrice, productDescription, sellerName, sellerPhoneNumber, sellerEmail, location ] = watch(['productName', 'category', 'productPrice', 'productDescription', 'sellerName', 'sellerPhoneNumber', 'sellerEmail', 'location']);
+const watchedFields = {
+    productName,
+    category,
+    productPrice,
+    productDescription,
+    sellerName,
+    sellerPhoneNumber,
+    sellerEmail, 
+    location
+}
+    useEffect(() => {
+      
     if (Object.values(watchedFields).some(field => field !== '')) {
-      localStorage.setItem('productForm', JSON.stringify(watchedFields));
+        localStorage.setItem('productForm', JSON.stringify(watchedFields));
     }
    
   }, [watchedFields, dispatch]);
