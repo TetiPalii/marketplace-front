@@ -68,23 +68,23 @@ export const LoginModal = ({ onShow }) => {
       dispatch(savePhoneNumber(phoneNumber));
       router.push('/verification/?modal=true');
     } catch (error) {
-      let errorMessage = 'Помилка на сервері';
+      // let errorMessage = 'Помилка на сервері';
 
-      if (error.message) {
-        switch (parseInt(error.message)) {
-          case 404:
-            errorMessage =
-              'Користувач з таким номером телефона не зареєстрований';
-            break;
-          case 409:
-            errorMessage = 'Код можна ввести повторно лише через 1 хвилину';
-            break;
-          default:
-            break;
-        }
-      }
+      // if (error.message) {
+      //   switch (parseInt(error.message)) {
+      //     case 404:
+      //       errorMessage =
+      //         'Користувач з таким номером телефона не зареєстрований';
+      //       break;
+      //     case 409:
+      //       errorMessage = 'Код можна ввести повторно лише через 1 хвилину';
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // }
 
-      setError('phoneNumber', { message: errorMessage });
+      setError('phoneNumber', { message: error.message });
     }
   });
 

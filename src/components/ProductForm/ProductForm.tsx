@@ -1,4 +1,5 @@
 "use client";
+
 import { useSWRConfig } from 'swr';
 import { Controller, useForm } from "react-hook-form";
 import { InputMask } from 'primereact/inputmask';
@@ -104,13 +105,14 @@ export const ProductForm = () => {
     control,
     formState: { errors, isSubmitting }
   } = useForm({resolver: zodResolver(productSchema)});
+
     const token:string = useAppSelector((state) => {
-     return state.user.user.token
+     return state.user?.user?.token
  })
 
 const onSubmit = handleSubmit(
     async (data) => {
-        console.log(data)
+        // console.log(data)
         const {
             productName,
             productPrice,
@@ -125,7 +127,9 @@ const onSubmit = handleSubmit(
             },
             files,
         } = data;
-
+    
+    const newPhoneNumber = sellerPhoneNumber.replace(/[^\d+]/g,"")
+    
         const productData = {
             productName,
             productPrice,
@@ -134,7 +138,7 @@ const onSubmit = handleSubmit(
             productType,
             sellerEmail,
             sellerName,
-            sellerPhoneNumber,
+            sellerPhoneNumber:newPhoneNumber,
             location,
         };
 
@@ -148,8 +152,6 @@ const onSubmit = handleSubmit(
                 type: "application/json",
             })
         );
-
-        
     }
     
     const jsonProductData = JSON.stringify(productData);
@@ -198,13 +200,22 @@ useEffect(() => {
   }
 }, [setValue]);
   
-  const watchedFields = watch();
-  
-  useEffect(() => {
+const [productName, category, productPrice, productDescription, sellerName, sellerPhoneNumber, sellerEmail, location ] = watch(['productName', 'category', 'productPrice', 'productDescription', 'sellerName', 'sellerPhoneNumber', 'sellerEmail', 'location']);
+const watchedFields = {
+    productName,
+    category,
+    productPrice,
+    productDescription,
+    sellerName,
+    sellerPhoneNumber,
+    sellerEmail, 
+    location
+}
+    useEffect(() => {
+      
     if (Object.values(watchedFields).some(field => field !== '')) {
-      localStorage.setItem('productForm', JSON.stringify(watchedFields));
+        localStorage.setItem('productForm', JSON.stringify(watchedFields));
     }
-   
   }, [watchedFields]);
 
   return (

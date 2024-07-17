@@ -13,11 +13,14 @@
 	"prettier.requireConfig": false,
 	"prettier.printWidth": 50,
 	"[typescriptreact]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+		"editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
 	},
 	"prettier.endOfLine": "auto",
 	"prettier.insertPragma": true,
 	"[javascriptreact]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "vscode.typescript-language-features"
 	}
 }

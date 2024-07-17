@@ -189,22 +189,21 @@ html {
   .categories {
     background-color: transparent;
   }
-}
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  .required {
+    display: flex;
+    flex-direction: row;
   }
-} */
 
+  .required::after{
+    content: "*";
+    color: #FF003D;
+    margin-left: 5px;
+    /* position: absolute;
+    left:14%;
+    top: 0;
+    transform: translateX(-15%); */
+  }
 .swiper {
   width: 100%;
   height: 100%;
@@ -256,3 +255,4 @@ html {
 .swiper-pagination-bullets.swiper-pagination-horizontal {
   bottom: 19px !important;
 }
+
