@@ -3,6 +3,7 @@
 "use client";
 
 import { Banner } from "@/components/Baner";
+import { ProductForm } from "@/components/ProductForm/ProductForm";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
