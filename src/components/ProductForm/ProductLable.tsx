@@ -5,14 +5,16 @@ export const ProductLable = ({
   inputName,
   children,
   className,
+  htmlFor
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   inputName: string;
-  className?: string;
+    className?: string;
+  htmlFor?:string
 }) => {
   return (
     <label
-      htmlFor=""
+      htmlFor={htmlFor}
       className={cn("flex flex-col gap-y-2 text-formColor ", className)}
     >
       {inputName} {children}
