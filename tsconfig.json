@@ -27,7 +27,9 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/actions/logout.jsx"
+    "src/actions/logout.jsx",
+    "src/components/Baner/Banner.jsx",
+    "src/components/Baner/Banner.jsx"
   ],
   "exclude": ["node_modules"]
 }
