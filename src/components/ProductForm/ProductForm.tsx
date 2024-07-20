@@ -1,26 +1,106 @@
+/** @format */
+
 "use client";
 import { useSWRConfig } from "swr";
 import {
-    Controller,
-    useForm,
+  Controller,
+  useForm,
 } from "react-hook-form";
 import { InputMask } from "primereact/inputmask";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Categories } from "./Categories";
 import { ProductField } from "./ProductField";
 import { ProductLable } from "./ProductLable";
 import { Condition } from "./Condition";
 import { createProduct } from "@/actions/createProduct";
-import { useEffect} from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { AddFoto } from "./AddFoto";
-import Link from "next/link";
-import { productSchema } from "./schema";
+import Image from "next/image";
+import { useAppSelector } from "@/store/hooks";
 
+const productSchema = z.object({
+  productName: z
+    .string()
+    .min(5, {
+      message:
+        "Назва товару має містити щонайменше 5 символів ",
+    })
+    .max(100, {
+      message:
+        "Назва товару має містити не більше 100 символів ",
+    }),
+  category: z.object({
+    label: z.string(),
+    value: z.string(),
+  }),
+  productType: z.string(),
+  productPrice: z.string().min(1),
+  productDescription: z
+    .string()
+    .min(5, {
+      message:
+        "Опис товару має містити щонайменше 5 символів",
+    })
+    .max(250, {
+      message:
+        "Опис товару має містити не більше 250 символів",
+    }),
+  sellerName: z.string().min(3).max(50),
+  sellerPhoneNumber: z
+    .string()
+    .regex(/^\+380\d{9}$/, {
+      message:
+        "Телефон має містити +380 та 9 цифр",
+    })
+    .min(13)
+    .max(13),
+  sellerEmail: z
+    .string()
+    .email({
+      message:
+        "Будь-ласка введіть валідний адрес електронної пошти",
+    })
+    .min(1, "Це поле є обовʼязковим"),
+  location: z.string().min(3).max(100),
+  files: z
+    .array(
+      z
+        .instanceof(File)
+        .refine(
+          (file) => file.size <= 5 * 1024 * 1024,
+          {
+            message:
+              "Размер файла должен быть не более 5MB",
+          }
+        )
+        .refine(
+          (file) =>
+            ["image/jpeg", "image/png"].includes(
+              file.type
+            ),
+          {
+            message:
+              "Файл должен бути изображением (JPEG/PNG)",
+          }
+        )
+    )
+    .max(8, "Можна завантажити максимум 8 фото"),
+});
 
+export type ProductSchema = z.infer<
+  typeof productSchema
+>;
 
 export const ProductForm = () => {
+  const [selectedFile, setSelectedFile] =
+    useState<File | null>(null);
+  const [preview, setPreview] = useState<
+    string | null
+  >(null);
+  const token: string = useAppSelector(
+    (state) => state.user.user?.token
+  );
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const {
@@ -31,322 +111,289 @@ export const ProductForm = () => {
     trigger,
     control,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(productSchema) });
-  const dispatch = useAppDispatch()
-    const token:string = useAppSelector((state) => {
-     return state.user?.user?.token
- })
+  } = useForm({
+    resolver: zodResolver(productSchema),
+  });
 
- 
-const onSubmit = handleSubmit(
-    async (data) => {
-        // console.log(data)
-        const {
-            productName,
-            productPrice,
-            productDescription,
-            productType,
-            sellerName,
-            sellerPhoneNumber,
-            sellerEmail,
-            location,
-            category: {
-                value: productCategory,
-            },
-            files,
-        } = data;
-    
-    const newPhoneNumber = sellerPhoneNumber.replace(/[^\d+]/g,"")
-    
-        const productData = {
-            productName,
-            productPrice,
-            productDescription,
-            productCategory,
-            productType,
-            sellerEmail,
-            sellerName,
-            sellerPhoneNumber:newPhoneNumber,
-            location,
-        };
+  /*    const token:string = useAppSelector((state) => {
+    return state.user.user.token
+ }) */
 
-        const jsonProductData =
-            JSON.stringify(productData);
-        localStorage.setItem('productForm', jsonProductData);
-        const formData = new FormData();
-        formData.append(
-            "request",
-            new Blob([jsonProductData], {
-                type: "application/json",
-            })
-        );
-        
-        if (files.length) {
-            files.forEach((file) =>
-                formData.append(
-                    "files",
-                    file,
-                    file.name
-                )
-            );
-        }
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+    const {
+      productName,
+      productPrice,
+      productDescription,
+      productType,
+      sellerName,
+      sellerPhoneNumber,
+      sellerEmail,
+      location,
+      category: { value: productCategory },
+      files,
+    } = data;
 
-        try {
-            await createProduct(
-                    formData,
-                    mutate,token
-                );
+    const productData = {
+      productName,
+      productPrice,
+      productDescription,
+      productCategory,
+      productType,
+      sellerEmail,
+      sellerName,
+      sellerPhoneNumber,
+      location,
+    };
 
-        } catch (error) {
-            console.error(error.message);
-        }
-
-        router.push("/");
-    }
-);
-useEffect(() => {
-  const savedData = localStorage.getItem('productForm');
-  
-  if (savedData) {
-    const parsedData = JSON.parse(savedData);
-    for (const key in parsedData) {
-      setValue(key, parsedData[key]);
-    }
-  }
-}, [setValue]);
-  
-const [productName, category, productPrice, productDescription, sellerName, sellerPhoneNumber, sellerEmail, location ] = watch(['productName', 'category', 'productPrice', 'productDescription', 'sellerName', 'sellerPhoneNumber', 'sellerEmail', 'location']);
-const watchedFields = {
-    productName,
-    category,
-    productPrice,
-    productDescription,
-    sellerName,
-    sellerPhoneNumber,
-    sellerEmail, 
-    location
-}
-    useEffect(() => {
-      
-    if (Object.values(watchedFields).some(field => field !== '')) {
-        localStorage.setItem('productForm', JSON.stringify(watchedFields));
-    }
-   
-  }, [watchedFields, dispatch]);
-
-    return (
-        <>
-            <form
-                onSubmit={onSubmit}
-                className="flex flex-col gap-2 w-full">
-                <h1 className="text-center text-2xl font-medium">
-                    Створи оголошення
-                </h1>
-
-                <div className="flex flex-col gap-y-2 lg:flex-row w-full lg:gap-x-4">
-
-          <div className="flex flex-col w-full">
-                <ProductLable inputName="Назва товару" className="required flex flex-row" htmlFor="productName" >    
-                 </ProductLable>
-                <ProductField
-                        type="text"
-                        id="productName"
-                        register={register(
-                            "productName"
-                        )}
-            />
-            <p className="text-xs mt-1">Максимум 30 символів</p>
-                    {errors.productName &&
-                        errors.productName
-                            .message && (
-                            <span className="text-red">
-                                {errors.productName.message.toString()}
-                            </span>
-                        )}
-          </div>
-          <div className="flex flex-col w-full">
-          <ProductLable inputName="Категорія товару" className="required flex flex-row" htmlFor="category">
-            </ProductLable>
-            <Categories
-                control={control}
-                register={register('category')}
-                id="category"
-            />
-            {errors.category &&
-                        errors.category
-                            .message && (
-                            <span className="text-red">
-                                {errors.category.message.toString()}
-                            </span>
-                        )}
-                    </div>
-                    
-          </div>
-          <AddFoto setValue={setValue} errors={errors} />
-         
-         
-          <div className="flex flex-col">
-            <ProductLable inputName="Опис товару" htmlFor="productDescription" className="required flex flex-row"></ProductLable>
-            <textarea
-              id="productDescription"
-                        className="bg-transparent border border-formColor rounded-2xl px-2 py-3"
-                        name="description"
-                        placeholder="Опишіть у подробицях Ваш товар"
-                        cols={30}
-                        rows={10}
-                        {...register(
-                            "productDescription"
-              )}></textarea>
-            <p className="text-xs mt-1">Максимум 200 символів</p>
-                    {errors.productDescription &&
-                        errors.productDescription
-                            .message && (
-                            <span className="text-red">
-                                {errors.productDescription.message.toString()}
-                            </span>
-                        )}
-                </div>
-                <div className="lg:flex lg:w-full lg:items-end lg:gap-x-7">
-                <div className="flex flex-col lg:w-full">
-                <ProductLable inputName="Ціна за 1 одиницю товару" htmlFor="productPrice" className="required flex flex-row lg:w-full"> </ProductLable>
-            <ProductField
-              id="productPrice"
-                        type="number"
-                        register={register(
-                            "productPrice"
-                        )}
-            />
-             {errors.productPrice &&
-                        errors.productPrice
-                            .message && (
-                            <span className="text-red">
-                                {errors.productPrice.message.toString()}
-                            </span>
-                        )}
-           
-                    </div>
-                    <div className="lg:w-full" >
-                <Condition
-                    register={register(
-                        "productType"
-                    )}
-
-          />
-          {errors.productType &&
-                        errors.productType
-                            .message && (
-                            <span className="text-red">
-                                {errors.productType.message.toString()}
-                            </span>
-                            )}
-                        </div>
-                </div>
-                <h3 className="required">Контактні дані</h3>
-                <div className="flex flex-col gap-y-2 lg:grid lg:grid-cols-2 lg:gap-x-7">
-                   
-                    <ProductLable
-                        inputName="Контактна особа"
-                        className="text-xs">
-                         <ProductField
-                            type="text"
-                            register={register(
-                                "sellerName"
-                            )}
-                        />
-            </ProductLable>
-            {errors.sellerName &&
-                        errors.sellerName
-                            .message && (
-                            <span className="text-red">
-                                {errors.sellerName.message.toString()}
-                            </span>
-                        )}
-                    <Controller
-                        name="sellerPhoneNumber"
-                       
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <ProductLable inputName="Номер телефону" className="text-xs">
-                                <InputMask
-                                   required  
-                                    className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3 lg:h-[57px]"
-                                    {...field}
-                                    mask="+38(099)999-99-99"
-                                    placeholder="+38(0__)___-__-__"
-                                />
-                            </ProductLable>
-                        )}
-            />
-            {errors.sellerPhoneNumber &&
-              errors.sellerPhoneNumber
-                  .message && (
-                  <span className="text-red">
-                      {errors.sellerPhoneNumber.message.toString()}
-                  </span>
-              )}
-            
-                    <ProductLable
-                        inputName="Ел. пошта"
-                        className="text-xs">
-                        <ProductField
-                            type="mail"
-                            register={register(
-                                "sellerEmail"
-                            )}
-                            onBlur={() =>
-                                trigger(
-                                    "sellerEmail"
-                                )
-                            }
-                        />
-                        {errors.sellerEmail &&
-                            errors.sellerEmail
-                                .message && (
-                                <span className="text-red">
-                                    {errors.sellerEmail.message.toString()}
-                                </span>
-                            )}
-                    </ProductLable> 
-                    <ProductLable
-                        inputName="Місцезнаходження товару"
-                        className="text-xs">
-                        <ProductField
-                            type="text"
-                            register={register(
-                                "location"
-                            )}
-                        />
-            </ProductLable>
-            {errors.location &&
-                        errors.location
-                            .message && (
-                            <span className="text-red">
-                                {errors.location.message.toString()}
-                            </span>
-                        )}
-          </div>
-          <div className="mx-auto md:mx-0 my-4 md:my-10">
-          <p className="text-xs md:text-xl text-center md:text-start">Ваше оголошення буде активне протягом 30 днів. Ви завжди можете його оновити в будь-який час.</p>
-          </div>
-          <div className="flex flex-col gap-3 w-[304px] mx-auto md:mx-0 lg:flex-row lg:w-full lg:justify-center">
-          <Link href={'/preview'} className="text-center text-white py-3 px-7 min-w-[140px] rounded-xl bg-diamond-gradient lg:w-[456px]"
-          >
-            Попередній перегляд
-          </Link>
-                <button
-                    disabled={isSubmitting}
-                    className={`text-center text-white py-3 px-7 min-w-[140px] rounded-xl lg:w-[456px] ${
-                        isSubmitting
-                            ? "bg-disabled cursor-not-allowed"
-                            : "bg-eggPlant"
-                    }`}>
-                    {isSubmitting
-                        ? "Публікується"
-                        : "Опублікувати"}
-            </button>
-            </div>
-            </form>
-        </>
+    const jsonProductData =
+      JSON.stringify(productData);
+    localStorage.setItem(
+      "productForm",
+      jsonProductData
     );
+    const formData = new FormData();
+    formData.append(
+      "request",
+      new Blob([jsonProductData], {
+        type: "application/json",
+      })
+    );
+
+    if (files) {
+      formData.append("files", files, files.name);
+    }
+    try {
+      const newProductData = await createProduct(
+        formData,
+        token,
+        mutate
+      );
+
+      console.log(newProductData);
+    } catch (error) {
+      console.log(error);
+    }
+
+    router.push("/");
+  });
+
+  useEffect(() => {
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      setPreview(null);
+    }
+  }, [selectedFile]);
+
+  useEffect(() => {
+    const savedData = localStorage.getItem(
+      "productForm"
+    );
+
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      for (const key in parsedData) {
+        setValue(key, parsedData[key]);
+      }
+    }
+  }, [setValue]);
+
+  const watchedFields = watch();
+
+  useEffect(() => {
+    if (
+      Object.values(watchedFields).some(
+        (field) => field !== ""
+      )
+    ) {
+      localStorage.setItem(
+        "productForm",
+        JSON.stringify(watchedFields)
+      );
+    }
+  }, [watchedFields]);
+
+  return (
+    <>
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-2"
+      >
+        <h1 className="text-center text-2xl font-medium">
+          Створи оголошення
+        </h1>
+        <ProductLable inputName="Назва товару">
+          <ProductField
+            type="text"
+            id="productName"
+            register={register("productName")}
+          />
+          {errors.productName &&
+            errors.productName.message && (
+              <span className="text-red">
+                {errors.productName.message.toString()}
+              </span>
+            )}
+        </ProductLable>
+        <ProductLable inputName="Категорія товару">
+          <Categories
+            control={control}
+            register={register("category")}
+          />
+        </ProductLable>
+
+        <ProductLable inputName="Фото">
+          <Controller
+            name="file"
+            control={control}
+            render={({ field }) => (
+              <div className="text-center w-[136px] h-[124px] border border-darkBlue rounded-xl overflow-hidden">
+                {preview ? (
+                  <div className="w-[136px] h-[124px] ">
+                    <Image
+                      src={preview}
+                      width="136"
+                      height="124"
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <span className="text-sm my-auto">
+                    Додати фото
+                  </span>
+                )}
+                <input
+                  className="opacity-0 w-[150px] h-[130px] absolute top-80 left-1"
+                  type="file"
+                  onChange={(e) => {
+                    const file =
+                      e.target.files &&
+                      e.target.files[0];
+                    field.onChange(
+                      file ?? undefined
+                    );
+                    setSelectedFile(file);
+                  }}
+                />
+              </div>
+            )}
+          />
+          {errors.file && errors.file.message && (
+            <span className="text-red">
+              {errors.file.message.toString()}
+            </span>
+          )}
+        </ProductLable>
+
+        <ProductLable inputName="Ціна за 1 одиницю товару">
+          <ProductField
+            type="number"
+            register={register("productPrice")}
+          />
+        </ProductLable>
+        <ProductLable inputName="Опис товару">
+          <textarea
+            className="bg-transparent border border-formColor rounded-2xl px-2 py-3"
+            name="description"
+            placeholder="Опишіть у подробицях Ваш товар"
+            cols={30}
+            rows={10}
+            {...register("productDescription")}
+          ></textarea>
+          {errors.productDescription &&
+            errors.productDescription.message && (
+              <span className="text-red">
+                {errors.productDescription.message.toString()}
+              </span>
+            )}
+        </ProductLable>
+        <Condition
+          register={register("productType")}
+        />
+
+        <div>
+          <h3>Контактні дані</h3>
+          <ProductLable
+            inputName="Контактна особа"
+            className="text-xs"
+          >
+            <ProductField
+              type="text"
+              register={register("sellerName")}
+            />
+          </ProductLable>
+          {/* <ProductLable inputName="Номер телефону" className="text-xs">
+            <ProductField type="phone" register={register("sellerPhoneNumber")} />
+          </ProductLable> */}
+          <Controller
+            name="phoneNumber"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <ProductLable inputName="Номер телефону">
+                <InputMask
+                  className="bg-transparent border border-formColor rounded-2xl h-[36px] px-2 py-3"
+                  {...field}
+                  mask="+38(099)999-99-99"
+                  placeholder="+38(0__)___-__-__"
+                />
+              </ProductLable>
+            )}
+          />
+          <ProductLable
+            inputName="Ел. пошта"
+            className="text-xs"
+          >
+            <ProductField
+              type="mail"
+              register={register("sellerEmail")}
+              onBlur={() =>
+                trigger("sellerEmail")
+              }
+            />
+            {errors.sellerEmail &&
+              errors.sellerEmail.message && (
+                <span className="text-red">
+                  {errors.sellerEmail.message.toString()}
+                </span>
+              )}
+          </ProductLable>
+          <ProductLable
+            inputName="Місцезнаходження товару"
+            className="text-xs"
+          >
+            <ProductField
+              type="text"
+              register={register("location")}
+            />
+          </ProductLable>
+        </div>
+
+        <button
+          disabled={isSubmitting}
+          className={`text-center text-white py-3 px-7 min-w-[140px] rounded-xl  ${
+            isSubmitting
+              ? "bg-disabled cursor-not-allowed"
+              : "bg-eggPlant"
+          }`}
+        >
+          {isSubmitting
+            ? "Публікується"
+            : "Опублікувати"}
+        </button>
+      </form>
+    </>
+  );
 };
+
+//const jsonProductData = JSON.stringify(productData);
+// localStorage.setItem('productForm', jsonProductData);
+// const formData = new FormData();
+//   formData.append('request', new Blob([jsonProductData], { type: 'application/json' }));
+// formData.append('files', file, file.name)

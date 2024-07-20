@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useMediaQuery } from 'react-responsive';
+import { useMediaQuery } from 'react-responsive'
 import {Controller} from 'react-hook-form';
 import Select, {components, CSSObjectWithLabel, GroupBase, StylesConfig } from "react-select";
 import { getCategories } from "@/actions/getCategories";
@@ -61,7 +61,7 @@ const DropdownIndicator = (props) => {
      </components.DropdownIndicator>
    )
  }
-export const Categories = ({ control, register, id}) => {
+export const Categories = ({ control, register}) => {
   const [categoriesList, setCategoriesList] = useState(null);
   const isDesktopScreen = useMediaQuery({
     query: '(min-width:1024px'

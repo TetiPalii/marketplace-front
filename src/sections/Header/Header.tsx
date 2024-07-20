@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 import React, { useState } from "react";
 import BurgerIcon from "@/public/icons/BurgerIcon";
@@ -13,19 +15,20 @@ import { NavBar } from "../../components/NavBar/NavBar";
 import { useAppSelector } from "../../store/hooks";
 import { User } from "@/store/features/user/userProfileSlice";
 
-
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isLoggedIn = useAppSelector((state):Boolean => 
-    state.user.isLoggedin
+  const isLoggedIn = useAppSelector(
+    (state): Boolean => state.user.isLoggedin
   );
-  
-  const firstName = useAppSelector((state):string => state.user?.user?.firstName);
+
+  const firstName = useAppSelector(
+    (state): string => state.user?.user?.firstName
+  );
 
   return (
     <>
-      <header className="fixed z-20 w-full bg-darkBlue text-lightPink p-4 md:py-4 md:px-36">
+      <header className="fixed w-full bg-darkBlue text-lightPink p-4 md:py-4 md:px-36 z-[999]">
         <nav className="flex justify-between h-full items-center">
           <IconWrapper
             setMenuOpen={() => {
@@ -33,35 +36,58 @@ export const Header = () => {
             }}
             className={"md:hidden"}
           >
-            <BurgerIcon width="24" height="24" fill="#fff" />
+            <BurgerIcon
+              width="24"
+              height="24"
+              fill="#fff"
+            />
           </IconWrapper>
 
           <Link href="/" className="md:hidden">
             <LogoMobile />
           </Link>
 
-          <Link href="/" className={"hidden md:block"}>
+          <Link
+            href="/"
+            className={"hidden md:block"}
+          >
             <LogoDesktop />
           </Link>
 
-          <FlexContainer className={"justify-around md:gap-x-5"}>
+          <FlexContainer
+            className={
+              "justify-around md:gap-x-5"
+            }
+          >
             <Link
-              href={isLoggedIn ? "/profile" : "/login/?modal=true"}
+              href={
+                isLoggedIn
+                  ? "/profile"
+                  : "/login/?modal=true"
+              }
               className=" hidden md:block"
             >
               <CabinetIcon />
             </Link>
             {isLoggedIn && firstName && (
-              <p className="hidden md:block">{`Вітаю, ${firstName||'Name'}`}</p>
+              <p className="hidden md:block">{`Вітаю, ${
+                firstName || "Name"
+              }`}</p>
             )}
             <Link href={"/cart"}>
               <CartIcon />
             </Link>
-            <Link href={"/whishlist"} className="hidden md:block">
+            <Link
+              href={"/whishlist"}
+              className="hidden md:block"
+            >
               <LikeIcon fill={"#fff"} />
             </Link>
           </FlexContainer>
-          <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+          <NavBar
+            menuOpen={menuOpen}
+            setMenuOpen={setMenuOpen}
+          />
         </nav>
       </header>
     </>

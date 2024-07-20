@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutOperation } from "@/store/features/user/userProfileSlice";
 
 export const Logout = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const loading = useAppSelector(state=>state.user.loading)
 
   const dispatch = useAppDispatch();
   return (
@@ -15,13 +16,9 @@ export const Logout = () => {
           dispatch(logoutOperation());
         } catch (error) {
           console.log(error);
-        } finally {
-          setLoading(false);
-          // dispatch(setIsLoggedIn(false));
-        }
+        } 
       }}
     >
-      {" "}
       {loading ? (
         "Loading..."
       ) : (
